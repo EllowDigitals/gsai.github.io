@@ -1,0 +1,356 @@
+/* ====================================
+   CSS Variables & Global Styles
+==================================== */
+:root {
+    --black: #000;
+    --dark-gray: #1a1a1a;
+    --orange: #ff6f00;
+    --light: #f5f5f5;
+    --transition: 0.3s;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: var(--dark-gray);
+    color: var(--light);
+    line-height: 1.6;
+}
+
+/* ====================================
+       Navbar / Header
+  ==================================== */
+header {
+    background-color: var(--black);
+}
+
+.navbar {
+    padding: 1rem 0;
+}
+
+.navbar-brand {
+    color: var(--orange) !important;
+    font-size: 1.5rem;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+}
+
+.navbar-brand .logo {
+    width: 40px;
+    margin-right: 10px;
+}
+
+.nav-link {
+    color: var(--light) !important;
+    margin-left: 1rem;
+    transition: color var(--transition);
+}
+
+.nav-link:hover,
+.nav-link.active {
+    color: var(--orange) !important;
+}
+
+/* ====================================
+       Hero Section & Slider
+  ==================================== */
+.hero-section {
+    position: relative;
+    height: 100vh;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    /* Initial background image; will be updated by script.js */
+    background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('assets/images/hero1.jpg');
+    transition: background-image 1s ease-in-out;
+}
+
+.hero-content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+}
+
+.hero-content h1 {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+}
+
+.hero-content p {
+    font-size: 1.25rem;
+    margin-bottom: 2rem;
+}
+
+.btn-primary {
+    background-color: var(--orange);
+    border: none;
+    padding: 0.75rem 1.5rem;
+    font-size: 1.125rem;
+    border-radius: 5px;
+    transition: background-color var(--transition), transform var(--transition);
+}
+
+.btn-primary:hover {
+    background-color: #e65c00;
+    transform: scale(1.05);
+}
+
+/* Fade–in animation for slider */
+.fade-in {
+    animation: fadeInAnimation 1s ease-in-out;
+}
+
+@keyframes fadeInAnimation {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+/* ====================================
+       Section Styles
+  ==================================== */
+.section {
+    padding: 60px 0;
+    text-align: center;
+}
+
+.section h2 {
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+    position: relative;
+}
+
+.section p {
+    max-width: 800px;
+    margin: 0 auto;
+    font-size: 1.1rem;
+}
+
+/* ====================================
+       Card Styles (Classes, Events)
+  ==================================== */
+.card-custom {
+    background-color: var(--black);
+    border: none;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    transition: transform var(--transition), box-shadow var(--transition);
+}
+
+.card-custom:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4);
+}
+
+.card-custom .card-body {
+    padding: 20px;
+}
+
+.card-custom h3 {
+    margin-bottom: 15px;
+    color: var(--orange);
+}
+
+/* ====================================
+       Founder Section (New)
+  ==================================== */
+#founder .founder-photo {
+    border-radius: 10px;
+    max-width: 100%;
+    height: auto;
+}
+
+/* ====================================
+       Gallery
+  ==================================== */
+.gallery-img {
+    width: 100%;
+    height: auto;
+    border-radius: 10px;
+    transition: transform var(--transition);
+}
+
+.gallery-img:hover {
+    transform: scale(1.05);
+}
+
+/* ====================================
+       Testimonials
+  ==================================== */
+.testimonial {
+    background-color: var(--black);
+    padding: 30px;
+    border-radius: 10px;
+    font-style: italic;
+    margin-bottom: 20px;
+    transition: transform var(--transition);
+}
+
+.testimonial:hover {
+    transform: translateY(-5px);
+}
+
+/* ====================================
+       FAQ Items
+  ==================================== */
+.faq-item {
+    background-color: var(--black);
+    padding: 20px;
+    border-radius: 10px;
+    margin-bottom: 15px;
+    transition: background-color var(--transition);
+}
+
+.faq-item:hover {
+    background-color: #2a2a40;
+}
+
+.faq-item h5 {
+    margin-bottom: 10px;
+    color: var(--orange);
+}
+
+/* ====================================
+       Contact Form
+  ==================================== */
+.contact-form input,
+.contact-form textarea {
+    border: 1px solid #444;
+    border-radius: 5px;
+    padding: 10px;
+    width: 100%;
+    background-color: var(--dark-gray);
+    color: var(--light);
+    transition: box-shadow var(--transition);
+}
+
+.contact-form input:focus,
+.contact-form textarea:focus {
+    border-color: var(--orange);
+    outline: none;
+    box-shadow: 0 0 5px var(--orange);
+}
+
+.contact-form button {
+    background-color: var(--orange);
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    color: var(--light);
+    font-size: 1rem;
+    transition: background-color var(--transition), transform var(--transition);
+}
+
+.contact-form button:hover {
+    background-color: #e65c00;
+    transform: scale(1.05);
+}
+
+/* ====================================
+       Map Container
+  ==================================== */
+.map-container {
+    border: 2px solid var(--orange);
+    border-radius: 10px;
+    overflow: hidden;
+    height: 300px;
+}
+
+.map-container iframe {
+    width: 100%;
+    height: 100%;
+    border: 0;
+}
+
+
+/* ====================================
+       Footer (Dark Black & Orange)
+  ==================================== */
+.site-footer {
+    background-color: var(--black);
+    color: var(--light);
+    padding: 40px 0;
+}
+
+.footer-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+.footer-column {
+    flex: 1;
+    min-width: 250px;
+}
+
+.footer-column h5 {
+    color: var(--orange);
+    margin-bottom: 20px;
+    font-size: 1.5rem;
+}
+
+.footer-column ul {
+    list-style: none;
+    padding: 0;
+}
+
+.footer-column ul li {
+    margin-bottom: 10px;
+}
+
+.footer-column ul li a {
+    color: var(--light);
+    text-decoration: none;
+    transition: color var(--transition);
+}
+
+.footer-column ul li a:hover {
+    color: var(--orange);
+}
+
+.footer-bottom {
+    text-align: center;
+    padding: 10px;
+    border-top: 1px solid #333;
+    margin-top: 20px;
+    font-size: 0.9rem;
+}
+
+/* ====================================
+       Responsive Adjustments
+  ==================================== */
+@media (max-width: 767px) {
+    .hero-content h1 {
+        font-size: 2.5rem;
+    }
+
+    .hero-content p {
+        font-size: 1rem;
+    }
+
+    .section {
+        padding: 40px 0;
+    }
+
+    .footer-container {
+        flex-direction: column;
+        align-items: center;
+    }
+}
