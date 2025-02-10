@@ -5,22 +5,23 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Ghatak Sport Academy - Modern Martial Arts</title>
-    <!-- Bootstrap CSS (for grid and basic components) -->
+    <!-- Latest Bootstrap CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" />
     <!-- Custom CSS -->
     <link rel="stylesheet" href="assets/styles.css" />
 </head>
 
 <body>
-    <!-- Header / Navbar with Logo -->
-    <header>
-        <nav class="navbar navbar-expand-lg">
+    <!-- Header / Navbar -->
+    <header class="sticky-top">
+        <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
             <div class="container">
-                <a class="navbar-brand" href="#">
-                    <img src="assets/images/logo.png" alt="Ghatak Sport Academy Logo" class="logo" />
+                <a class="navbar-brand d-flex align-items-center" href="#">
+                    <img src="assets/images/logo.png" alt="Ghatak Sport Academy Logo" class="logo me-2" />
                     Ghatak Sport Academy
                 </a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                    aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse" id="navbarNav">
@@ -28,13 +29,15 @@
                         <li class="nav-item"><a class="nav-link active" href="#home">Home</a></li>
                         <li class="nav-item"><a class="nav-link" href="#about">About</a></li>
                         <li class="nav-item"><a class="nav-link" href="#philosophy">Philosophy</a></li>
-                        <li class="nav-item"><a class="nav-link" href="#classes">Classes</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#programs">Programs</a></li>
                         <li class="nav-item"><a class="nav-link" href="#events">Events</a></li>
-                        <!-- NEW: Founder Section Navigation -->
-                        <li class="nav-item"><a class="nav-link" href="#founder">Founder</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#achievements">Achievements</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#instructors">Instructors</a></li>
                         <li class="nav-item"><a class="nav-link" href="#gallery">Gallery</a></li>
                         <li class="nav-item"><a class="nav-link" href="#testimonials">Testimonials</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#blog">Blog</a></li>
                         <li class="nav-item"><a class="nav-link" href="#faq">FAQ</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#membership">Membership</a></li>
                         <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
                     </ul>
                 </div>
@@ -42,63 +45,110 @@
         </nav>
     </header>
 
-    <!-- Hero Section with Auto‑Cycling Slider -->
-    <section id="home" class="hero-section">
-        <div class="hero-content container text-center">
-            <h1>Welcome to Ghatak Sport Academy</h1>
-            <p>
-                Modern martial arts training for the ultimate transformation.
-            </p>
-            <a href="#contact" class="btn btn-primary">Join Now</a>
+    <!-- Hero Section with Slider -->
+    <section id="home" class="hero-section position-relative">
+        <div class="hero-overlay"></div>
+        <div class="hero-content container text-center position-absolute top-50 start-50 translate-middle">
+            <h1 class="display-4 fw-bold">Welcome to Ghatak Sport Academy</h1>
+            <p class="lead my-4">Master modern martial arts with world-class training.</p>
+            <a href="#contact" class="btn btn-orange btn-lg">Join Now</a>
+        </div>
+        <!-- Slider Controls -->
+        <div class="slider-controls">
+            <button class="slider-btn prev-btn">&laquo;</button>
+            <button class="slider-btn next-btn">&raquo;</button>
         </div>
     </section>
 
     <!-- About Section -->
-    <section id="about" class="section">
-        <div class="container">
-            <h2>About Us</h2>
+    <section id="about" class="section py-5">
+        <div class="container text-center">
+            <h2 class="mb-4 text-orange">About Us</h2>
             <p>
-                We provide state‑of‑the‑art martial arts training combining tradition with modern techniques to empower
-                you.
-                Join us and unlock your full potential.
+                Ghatak Sport Academy combines traditional martial arts with modern techniques to transform your training
+                experience. Our mission is to empower individuals through discipline, skill, and physical excellence.
             </p>
         </div>
     </section>
 
-    <!-- Our Philosophy Section -->
-    <section id="philosophy" class="section">
-        <div class="container">
-            <h2>Our Philosophy</h2>
+    <!-- Philosophy Section -->
+    <section id="philosophy" class="section py-5 bg-white">
+        <div class="container text-center">
+            <h2 class="mb-4 text-orange">Our Philosophy</h2>
             <p>
-                At Ghatak Sport Academy, we believe that martial arts is more than physical training—it’s a journey of
-                discipline, respect, and inner strength. Our approach focuses on holistic development to foster
-                confidence and mental clarity.
+                We believe in a holistic approach to martial arts—one that builds physical strength, mental clarity, and
+                character. Our training nurtures discipline, respect, and resilience.
             </p>
         </div>
     </section>
 
-    <!-- Classes Section -->
-    <section id="classes" class="section">
-        <div class="container">
-            <h2>Our Classes</h2>
-            <p>
-                Explore our range of classes designed for all skill levels—from beginner sessions to advanced combat
-                techniques.
-            </p>
+    <!-- Programs Section -->
+    <section id="programs" class="section py-5 bg-white">
+        <div class="container text-center">
+            <h2 class="mb-4 text-orange">Our Programs</h2>
+            <p class="mb-5">Choose from a wide range of classes suited for all ages and skill levels.</p>
+            <div class="row g-4 justify-content-center">
+                <!-- Program Cards -->
+                <div class="col-sm-6 col-md-4 col-lg-3">
+                    <div class="class-card p-3 border rounded">
+                        <h3 class="h5">Karate</h3>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-md-4 col-lg-3">
+                    <div class="class-card p-3 border rounded">
+                        <h3 class="h5">Taekwondo</h3>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-md-4 col-lg-3">
+                    <div class="class-card p-3 border rounded">
+                        <h3 class="h5">Boxing</h3>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-md-4 col-lg-3">
+                    <div class="class-card p-3 border rounded">
+                        <h3 class="h5">Kickboxing</h3>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-md-4 col-lg-3">
+                    <div class="class-card p-3 border rounded">
+                        <h3 class="h5">Grappling</h3>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-md-4 col-lg-3">
+                    <div class="class-card p-3 border rounded">
+                        <h3 class="h5">MMA</h3>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-md-4 col-lg-3">
+                    <div class="class-card p-3 border rounded">
+                        <h3 class="h5">Kalaripayattu</h3>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-md-4 col-lg-3">
+                    <div class="class-card p-3 border rounded">
+                        <h3 class="h5">Self Defense</h3>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-md-4 col-lg-3">
+                    <div class="class-card p-3 border rounded">
+                        <h3 class="h5">Fat Loss</h3>
+                    </div>
+                </div>
+            </div>
         </div>
     </section>
 
-    <!-- Upcoming Events Section -->
-    <section id="events" class="section">
-        <div class="container">
-            <h2>Upcoming Events</h2>
+    <!-- Events Section -->
+    <section id="events" class="section py-5 bg-white">
+        <div class="container text-center">
+            <h2 class="mb-4 text-orange">Upcoming Events</h2>
             <div class="row g-4">
                 <div class="col-md-4">
                     <div class="card card-custom h-100">
                         <div class="card-body">
                             <h3 class="card-title">Seminar on Self-Defense</h3>
                             <p class="card-text">
-                                Join us for an exclusive seminar on self‑defense techniques with live demonstrations.
+                                Join us for an exclusive seminar featuring advanced self-defense techniques.
                             </p>
                             <p><strong>Date:</strong> July 15, 2025</p>
                         </div>
@@ -109,8 +159,7 @@
                         <div class="card-body">
                             <h3 class="card-title">Martial Arts Championship</h3>
                             <p class="card-text">
-                                Compete with fellow martial artists in our annual championship event and showcase your
-                                skills.
+                                Compete in our annual championship and showcase your skills on the global stage.
                             </p>
                             <p><strong>Date:</strong> August 10, 2025</p>
                         </div>
@@ -121,8 +170,7 @@
                         <div class="card-body">
                             <h3 class="card-title">Beginner’s Workshop</h3>
                             <p class="card-text">
-                                New to martial arts? Attend our workshop tailored for beginners and learn the
-                                fundamentals.
+                                Perfect for newcomers—learn the fundamentals in a supportive environment.
                             </p>
                             <p><strong>Date:</strong> September 5, 2025</p>
                         </div>
@@ -132,106 +180,277 @@
         </div>
     </section>
 
-    <!-- Founder Section (New: Replacing Trainers Section) -->
-    <section id="founder" class="section">
-        <div class="container">
-            <h2>Founder</h2>
-            <div class="row align-items-center g-4">
-                <div class="col-md-5">
-                    <img src="assets/images/founder.jpg" alt="Founder Photo" class="img-fluid founder-photo" />
+    <!-- Achievements Section -->
+    <section id="achievements" class="section py-5 bg-white">
+        <div class="container text-center">
+            <h2 class="mb-4 text-orange">Our Achievements</h2>
+            <p class="mb-5">Celebrating our milestones and awards.</p>
+            <div class="row">
+                <div class="col-md-3 col-6 mb-4">
+                    <div class="counter">
+                        <h3 class="display-5">150+</h3>
+                        <p>Championship Titles</p>
+                    </div>
                 </div>
-                <div class="col-md-7">
-                    <h3>John Doe</h3>
-                    <p>
-                        As the visionary behind Ghatak Sport Academy, John Doe has dedicated his life to mastering
-                        martial arts.
-                        With decades of experience, he now serves as the lead instructor and mentor, imparting his
-                        wisdom and expertise to every student.
-                    </p>
+                <div class="col-md-3 col-6 mb-4">
+                    <div class="counter">
+                        <h3 class="display-5">2000+</h3>
+                        <p>Students Trained</p>
+                    </div>
+                </div>
+                <div class="col-md-3 col-6 mb-4">
+                    <div class="counter">
+                        <h3 class="display-5">50+</h3>
+                        <p>International Wins</p>
+                    </div>
+                </div>
+                <div class="col-md-3 col-6 mb-4">
+                    <div class="counter">
+                        <h3 class="display-5">30+</h3>
+                        <p>National Awards</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Instructors Section -->
+    <section id="instructors" class="section py-5 bg-white">
+        <div class="container">
+            <h2 class="mb-4 text-orange text-center">Our Instructors</h2>
+            <div class="row g-4">
+                <!-- Founder / Lead Instructor -->
+                <div class="col-md-6">
+                    <div class="instructor-card d-flex align-items-center">
+                        <div class="instructor-img me-3">
+                            <img src="assets/images/founder.jpg" alt="Founder Photo" class="img-fluid rounded-circle">
+                        </div>
+                        <div class="instructor-info">
+                            <h3>Nitesh Yadav</h3>
+                            <p>
+                                A world-renowned martial artist with multiple international and national titles, Nitesh
+                                Yadav leads our
+                                academy with passion and expertise.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <!-- Additional Instructor -->
+                <div class="col-md-6">
+                    <div class="instructor-card d-flex align-items-center">
+                        <div class="instructor-img me-3">
+                            <img src="assets/images/instructor2.jpg" alt="Instructor Photo"
+                                class="img-fluid rounded-circle">
+                        </div>
+                        <div class="instructor-info">
+                            <h3>Anita Sharma</h3>
+                            <p>
+                                With dynamic training techniques and inspiring leadership, Anita Sharma brings modern
+                                discipline and skill
+                                to our team.
+                            </p>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </section>
 
     <!-- Gallery Section -->
-    <section id="gallery" class="section">
-        <div class="container">
-            <h2>Gallery</h2>
+    <section id="gallery" class="section py-5 bg-white">
+        <div class="container text-center">
+            <h2 class="mb-4 text-orange">Gallery</h2>
             <div class="row g-4">
                 <div class="col-md-4">
-                    <img src="assets/images/gallery1.jpg" alt="Training Session" class="gallery-img" />
+                    <img src="assets/images/gallery1.jpg" alt="Gallery Image 1" class="gallery-img rounded">
                 </div>
                 <div class="col-md-4">
-                    <img src="assets/images/gallery2.jpg" alt="Martial Arts Demo" class="gallery-img" />
+                    <img src="assets/images/gallery2.jpg" alt="Gallery Image 2" class="gallery-img rounded">
                 </div>
                 <div class="col-md-4">
-                    <img src="assets/images/gallery3.jpg" alt="Class in Action" class="gallery-img" />
+                    <img src="assets/images/gallery3.jpg" alt="Gallery Image 3" class="gallery-img rounded">
                 </div>
             </div>
         </div>
     </section>
 
     <!-- Testimonials Section -->
-    <section id="testimonials" class="section">
-        <div class="container">
-            <h2>Testimonials</h2>
-            <div class="testimonial">
-                <p>
-                    "Ghatak Sport Academy has completely transformed my training experience. The instructors are
-                    inspiring and supportive." – Student A
-                </p>
+    <section id="testimonials" class="section py-5 bg-white">
+        <div class="container text-center">
+            <h2 class="mb-4 text-orange">Testimonials</h2>
+            <div class="row g-4">
+                <div class="col-md-6">
+                    <div class="testimonial p-4 border rounded">
+                        <p>
+                            "Ghatak Sport Academy has revolutionized my training. The coaches are phenomenal and the
+                            atmosphere is
+                            truly inspiring." <br>– Student A
+                        </p>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="testimonial p-4 border rounded">
+                        <p>
+                            "The blend of tradition and modern techniques here is unmatched. I feel empowered and
+                            confident every day." <br>– Student B
+                        </p>
+                    </div>
+                </div>
             </div>
-            <div class="testimonial">
-                <p>
-                    "The modern approach to traditional martial arts is exactly what I needed. Highly recommend!" –
-                    Student B
-                </p>
+        </div>
+    </section>
+
+    <!-- Blog/News Section -->
+    <section id="blog" class="section py-5 bg-white">
+        <div class="container">
+            <h2 class="mb-4 text-orange text-center">Latest News</h2>
+            <div class="row g-4">
+                <div class="col-md-4">
+                    <div class="card h-100 card-custom">
+                        <img src="assets/images/blog1.jpg" class="card-img-top" alt="Blog Image 1">
+                        <div class="card-body">
+                            <h5 class="card-title">New Training Programs Launched</h5>
+                            <p class="card-text">Discover our latest training programs designed to maximize performance.
+                            </p>
+                            <a href="#" class="btn btn-link text-orange">Read More</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card h-100 card-custom">
+                        <img src="assets/images/blog2.jpg" class="card-img-top" alt="Blog Image 2">
+                        <div class="card-body">
+                            <h5 class="card-title">Championship Highlights</h5>
+                            <p class="card-text">Catch up on the thrilling moments from our recent championship events.
+                            </p>
+                            <a href="#" class="btn btn-link text-orange">Read More</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card h-100 card-custom">
+                        <img src="assets/images/blog3.jpg" class="card-img-top" alt="Blog Image 3">
+                        <div class="card-body">
+                            <h5 class="card-title">Expert Training Tips</h5>
+                            <p class="card-text">Learn from the best with our expert tips on training and technique.</p>
+                            <a href="#" class="btn btn-link text-orange">Read More</a>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
 
     <!-- FAQ Section -->
-    <section id="faq" class="section">
+    <section id="faq" class="section py-5 bg-white">
         <div class="container">
-            <h2>FAQ</h2>
-            <div class="faq-item">
-                <h5>What age groups do you accept?</h5>
-                <p>We welcome students of all ages starting from 5 years old.</p>
+            <h2 class="mb-4 text-orange text-center">FAQ</h2>
+            <div class="row justify-content-center g-4">
+                <div class="col-md-6">
+                    <div class="faq-item p-4 border rounded">
+                        <h5>What age groups do you accept?</h5>
+                        <p>We welcome students from 5 years old and above.</p>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="faq-item p-4 border rounded">
+                        <h5>Do you offer certification?</h5>
+                        <p>Yes, certification is provided upon successful completion of our training programs.</p>
+                    </div>
+                </div>
             </div>
-            <div class="faq-item">
-                <h5>Do you offer certification?</h5>
-                <p>
-                    Yes, upon successful completion of our training programs, you will receive a certification.
-                </p>
+        </div>
+    </section>
+
+    <!-- Membership Plans Section -->
+    <section id="membership" class="section py-5 bg-white">
+        <div class="container text-center">
+            <h2 class="mb-4 text-orange">Membership Plans</h2>
+            <p class="mb-5">Choose a plan that suits your training needs and start your martial arts journey today.</p>
+            <div class="row g-4">
+                <div class="col-md-4">
+                    <div class="card h-100 membership-card">
+                        <div class="card-header">
+                            <h4>Basic</h4>
+                        </div>
+                        <div class="card-body">
+                            <h2>$29/month</h2>
+                            <ul class="list-unstyled">
+                                <li>Access to beginner classes</li>
+                                <li>Free trial session</li>
+                                <li>Basic training plan</li>
+                            </ul>
+                            <a href="#" class="btn btn-orange">Join Now</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card h-100 membership-card">
+                        <div class="card-header">
+                            <h4>Pro</h4>
+                        </div>
+                        <div class="card-body">
+                            <h2>$49/month</h2>
+                            <ul class="list-unstyled">
+                                <li>Access to all classes</li>
+                                <li>Advanced training plan</li>
+                                <li>Personal coaching</li>
+                            </ul>
+                            <a href="#" class="btn btn-orange">Join Now</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card h-100 membership-card">
+                        <div class="card-header">
+                            <h4>Elite</h4>
+                        </div>
+                        <div class="card-body">
+                            <h2>$79/month</h2>
+                            <ul class="list-unstyled">
+                                <li>All Pro benefits</li>
+                                <li>Exclusive training sessions</li>
+                                <li>Priority support</li>
+                            </ul>
+                            <a href="#" class="btn btn-orange">Join Now</a>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
 
     <!-- Contact Section -->
-    <section id="contact" class="section">
+    <section id="contact" class="section py-5 bg-white">
         <div class="container">
-            <h2>Contact Us</h2>
-            <form class="contact-form mx-auto">
-                <div class="mb-3">
-                    <input type="text" name="name" class="form-control" placeholder="Your Name" required />
+            <h2 class="mb-4 text-orange text-center">Contact Us</h2>
+            <div class="row justify-content-center">
+                <div class="col-md-8">
+                    <form class="contact-form">
+                        <div class="mb-3">
+                            <input type="text" name="name" class="form-control" placeholder="Your Name" required />
+                        </div>
+                        <div class="mb-3">
+                            <input type="email" name="email" class="form-control" placeholder="Your Email" required />
+                        </div>
+                        <div class="mb-3">
+                            <textarea name="message" rows="5" class="form-control" placeholder="Your Message"
+                                required></textarea>
+                        </div>
+                        <div class="text-center">
+                            <button type="submit" class="btn btn-orange">Send Message</button>
+                        </div>
+                    </form>
                 </div>
-                <div class="mb-3">
-                    <input type="email" name="email" class="form-control" placeholder="Your Email" required />
-                </div>
-                <div class="mb-3">
-                    <textarea name="message" rows="5" class="form-control" placeholder="Your Message"
-                        required></textarea>
-                </div>
-                <button type="submit" class="btn btn-primary">Send Message</button>
-            </form>
+            </div>
         </div>
     </section>
 
     <!-- Map Section -->
-    <section id="map" class="section">
-        <div class="container">
-            <h2>Find Us</h2>
-            <div class="map-container">
+    <section id="map" class="section py-5 bg-white">
+        <div class="container text-center">
+            <h2 class="mb-4 text-orange">Find Us</h2>
+            <div class="map-container mx-auto">
                 <iframe
                     src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2115.432787588276!2d81.02566494812476!3d26.912389673545032!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3999596def6ea9c7%3A0x23d2ceb539bff92!2sGhatak%20Sports%20Academy%20India!5e0!3m2!1sen!2sin!4v1739209713971!5m2!1sen!2sin"
                     allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
@@ -239,41 +458,42 @@
         </div>
     </section>
 
-    <!-- Redesigned Footer (Dark Black & Orange) -->
-    <footer class="site-footer">
-        <div class="footer-container container">
-            <div class="footer-column">
-                <h5>About</h5>
-                <p>
-                    Ghatak Sport Academy offers modern martial arts training for all ages.
-                    Transform your life with expert guidance and innovative techniques.
-                </p>
+    <!-- Footer -->
+    <footer class="site-footer bg-white">
+        <div class="container">
+            <div class="row">
+                <div class="footer-column col-md-4 mb-3">
+                    <h5>About</h5>
+                    <p>
+                        Ghatak Sport Academy offers professional martial arts training that combines modern techniques
+                        with traditional values.
+                    </p>
+                </div>
+                <div class="footer-column col-md-4 mb-3">
+                    <h5>Quick Links</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="#home" class="text-black text-decoration-none">Home</a></li>
+                        <li><a href="#about" class="text-black text-decoration-none">About</a></li>
+                        <li><a href="#programs" class="text-black text-decoration-none">Programs</a></li>
+                        <li><a href="#contact" class="text-black text-decoration-none">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column col-md-4 mb-3">
+                    <h5>Contact</h5>
+                    <ul class="list-unstyled">
+                        <li>Naubasta Pulia, Takrohi Road, Amrai Gaon, Indira Nagar, Lucknow, U.P. - 226028</li>
+                        <li>📞 6394135988, 8355062424</li>
+                        <li>📧 ghatakgsai@gmail.com</li>
+                    </ul>
+                </div>
             </div>
-            <div class="footer-column">
-                <h5>Quick Links</h5>
-                <ul>
-                    <li><a href="#home">Home</a></li>
-                    <li><a href="#about">About</a></li>
-                    <li><a href="#classes">Classes</a></li>
-                    <li><a href="#contact">Contact</a></li>
-                </ul>
+            <div class="footer-bottom text-center border-top pt-3 mt-3">
+                <p>&copy; 2025 Ghatak Sport Academy. All Rights Reserved.</p>
             </div>
-            <div class="footer-column">
-                <h5>Contact</h5>
-                <ul>
-                    <li>123 Main Street, City, Country</li>
-                    <li>(123) 456-7890</li>
-                    <li>info@ghataksportacademy.com</li>
-                </ul>
-            </div>
-        </div>
-        <div class="footer-bottom">
-            <p>&copy; 2025 Ghatak Sport Academy. All Rights Reserved.</p>
         </div>
     </footer>
 
-
-    <!-- Bootstrap JS Bundle (optional) -->
+    <!-- Bootstrap JS Bundle -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <!-- Custom JavaScript -->
     <script src="assets/script.js"></script>

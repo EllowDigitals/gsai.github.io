@@ -9,17 +9,44 @@ document.addEventListener("DOMContentLoaded", function () {
     const heroSection = document.querySelector(".hero-section");
 
     // Function to change the hero background image with fade-in effect
-    function changeHeroImage() {
-        currentImageIndex = (currentImageIndex + 1) % heroImages.length;
-        heroSection.style.backgroundImage = `linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('${heroImages[currentImageIndex]}')`;
+    function changeHeroImage(index) {
+        currentImageIndex = index;
+        if (currentImageIndex < 0) {
+            currentImageIndex = heroImages.length - 1;
+        } else if (currentImageIndex >= heroImages.length) {
+            currentImageIndex = 0;
+        }
+        heroSection.style.backgroundImage = `linear-gradient(rgba(255,255,255,0.7), rgba(255,255,255,0.7)), url('${heroImages[currentImageIndex]}')`;
         // Restart fade-in animation by forcing reflow
         heroSection.classList.remove("fade-in");
         void heroSection.offsetWidth;
         heroSection.classList.add("fade-in");
     }
 
-    // Change hero image every 5 seconds
-    setInterval(changeHeroImage, 5000);
+    function nextHeroImage() {
+        changeHeroImage(currentImageIndex + 1);
+    }
 
-    // Additional animations or scroll-triggered code can be added here
+    function prevHeroImage() {
+        changeHeroImage(currentImageIndex - 1);
+    }
+
+    // Automatic slider: change every 5 seconds
+    let sliderInterval = setInterval(nextHeroImage, 5000);
+
+    // Slider control buttons
+    const nextBtn = document.querySelector(".next-btn");
+    const prevBtn = document.querySelector(".prev-btn");
+
+    nextBtn.addEventListener("click", function () {
+        clearInterval(sliderInterval);
+        nextHeroImage();
+        sliderInterval = setInterval(nextHeroImage, 5000);
+    });
+
+    prevBtn.addEventListener("click", function () {
+        clearInterval(sliderInterval);
+        prevHeroImage();
+        sliderInterval = setInterval(nextHeroImage, 5000);
+    });
 });

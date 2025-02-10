@@ -1,11 +1,11 @@
 /* ====================================
    CSS Variables & Global Styles
+   (Using only Orange, Black, and White)
 ==================================== */
 :root {
-    --black: #000;
-    --dark-gray: #1a1a1a;
+    --black: #000000;
     --orange: #ff6f00;
-    --light: #f5f5f5;
+    --white: #ffffff;
     --transition: 0.3s;
 }
 
@@ -21,16 +21,16 @@ html {
 
 body {
     font-family: 'Poppins', sans-serif;
-    background-color: var(--dark-gray);
-    color: var(--light);
+    background-color: var(--white);
+    color: var(--black);
     line-height: 1.6;
 }
 
 /* ====================================
-       Navbar / Header
+           Navbar / Header
   ==================================== */
 header {
-    background-color: var(--black);
+    background-color: var(--white);
 }
 
 .navbar {
@@ -41,17 +41,14 @@ header {
     color: var(--orange) !important;
     font-size: 1.5rem;
     font-weight: bold;
-    display: flex;
-    align-items: center;
 }
 
 .navbar-brand .logo {
     width: 40px;
-    margin-right: 10px;
 }
 
 .nav-link {
-    color: var(--light) !important;
+    color: var(--black) !important;
     margin-left: 1rem;
     transition: color var(--transition);
 }
@@ -62,52 +59,77 @@ header {
 }
 
 /* ====================================
-       Hero Section & Slider
+           Hero Section & Slider
   ==================================== */
 .hero-section {
     position: relative;
     height: 100vh;
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    /* Initial background image; will be updated by script.js */
-    background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('assets/images/hero1.jpg');
+    background: linear-gradient(rgba(255, 255, 255, 0.7), rgba(255, 255, 255, 0.7)),
+        url('assets/images/slider1.jpg') no-repeat center center/cover;
     transition: background-image 1s ease-in-out;
 }
 
-.hero-content {
+.hero-overlay {
     position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    text-align: center;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.hero-content {
+    z-index: 1;
+    color: var(--black);
 }
 
 .hero-content h1 {
     font-size: 3rem;
-    margin-bottom: 1rem;
 }
 
 .hero-content p {
     font-size: 1.25rem;
-    margin-bottom: 2rem;
 }
 
-.btn-primary {
+.btn-orange {
     background-color: var(--orange);
+    color: var(--white);
     border: none;
-    padding: 0.75rem 1.5rem;
-    font-size: 1.125rem;
-    border-radius: 5px;
     transition: background-color var(--transition), transform var(--transition);
 }
 
-.btn-primary:hover {
+.btn-orange:hover {
     background-color: #e65c00;
     transform: scale(1.05);
 }
 
-/* Fade–in animation for slider */
+/* Slider Controls */
+.slider-controls {
+    position: absolute;
+    top: 50%;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    transform: translateY(-50%);
+    padding: 0 20px;
+    z-index: 2;
+}
+
+.slider-btn {
+    background-color: rgba(0, 0, 0, 0.1);
+    border: none;
+    color: var(--orange);
+    font-size: 2rem;
+    padding: 10px 15px;
+    cursor: pointer;
+    transition: background-color var(--transition), transform var(--transition);
+}
+
+.slider-btn:hover {
+    background-color: rgba(0, 0, 0, 0.2);
+    transform: scale(1.1);
+}
+
+/* Fade-in Animation for Hero Slider */
 .fade-in {
     animation: fadeInAnimation 1s ease-in-out;
 }
@@ -123,7 +145,7 @@ header {
 }
 
 /* ====================================
-       Section Styles
+           Section Styles
   ==================================== */
 .section {
     padding: 60px 0;
@@ -133,29 +155,22 @@ header {
 .section h2 {
     font-size: 2.5rem;
     margin-bottom: 20px;
-    position: relative;
-}
-
-.section p {
-    max-width: 800px;
-    margin: 0 auto;
-    font-size: 1.1rem;
 }
 
 /* ====================================
-       Card Styles (Classes, Events)
+           Card Styles (Events, Blog, etc.)
   ==================================== */
 .card-custom {
-    background-color: var(--black);
-    border: none;
+    background-color: var(--white);
+    border: 1px solid var(--black);
     border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     transition: transform var(--transition), box-shadow var(--transition);
 }
 
 .card-custom:hover {
-    transform: translateY(-10px);
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4);
+    transform: translateY(-5px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
 }
 
 .card-custom .card-body {
@@ -168,16 +183,72 @@ header {
 }
 
 /* ====================================
-       Founder Section (New)
+           Program Cards (Classes)
   ==================================== */
-#founder .founder-photo {
+.class-card {
+    background-color: var(--white);
+    border: 2px solid var(--orange);
     border-radius: 10px;
-    max-width: 100%;
-    height: auto;
+    padding: 20px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.class-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+}
+
+.class-card h3 {
+    color: var(--orange);
 }
 
 /* ====================================
-       Gallery
+           Achievements Section
+  ==================================== */
+.counter h3 {
+    color: var(--orange);
+    font-size: 2.5rem;
+    margin-bottom: 10px;
+}
+
+.counter p {
+    font-size: 1rem;
+}
+
+/* ====================================
+           Instructors Section
+  ==================================== */
+.instructor-card {
+    background-color: var(--white);
+    padding: 20px;
+    border: 1px solid var(--orange);
+    border-radius: 10px;
+    transition: transform var(--transition);
+    display: flex;
+    align-items: center;
+}
+
+.instructor-card:hover {
+    transform: translateY(-5px);
+}
+
+.instructor-img img {
+    width: 120px;
+    height: 120px;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 2px solid var(--orange);
+}
+
+.instructor-info h3 {
+    color: var(--orange);
+}
+
+/* ====================================
+           Gallery
   ==================================== */
 .gallery-img {
     width: 100%;
@@ -191,14 +262,14 @@ header {
 }
 
 /* ====================================
-       Testimonials
+           Testimonials
   ==================================== */
 .testimonial {
-    background-color: var(--black);
+    background-color: var(--white);
     padding: 30px;
+    border: 1px solid var(--black);
     border-radius: 10px;
     font-style: italic;
-    margin-bottom: 20px;
     transition: transform var(--transition);
 }
 
@@ -207,18 +278,19 @@ header {
 }
 
 /* ====================================
-       FAQ Items
+           FAQ Items
   ==================================== */
 .faq-item {
-    background-color: var(--black);
+    background-color: var(--white);
     padding: 20px;
+    border: 1px solid var(--black);
     border-radius: 10px;
-    margin-bottom: 15px;
     transition: background-color var(--transition);
 }
 
 .faq-item:hover {
-    background-color: #2a2a40;
+    background-color: var(--orange);
+    color: var(--white);
 }
 
 .faq-item h5 {
@@ -227,16 +299,16 @@ header {
 }
 
 /* ====================================
-       Contact Form
+           Contact Form
   ==================================== */
 .contact-form input,
 .contact-form textarea {
-    border: 1px solid #444;
+    border: 1px solid var(--orange);
     border-radius: 5px;
     padding: 10px;
     width: 100%;
-    background-color: var(--dark-gray);
-    color: var(--light);
+    background-color: var(--white);
+    color: var(--black);
     transition: box-shadow var(--transition);
 }
 
@@ -252,7 +324,7 @@ header {
     border: none;
     padding: 10px 20px;
     border-radius: 5px;
-    color: var(--light);
+    color: var(--white);
     font-size: 1rem;
     transition: background-color var(--transition), transform var(--transition);
 }
@@ -263,10 +335,10 @@ header {
 }
 
 /* ====================================
-       Map Container
+           Map Container
   ==================================== */
 .map-container {
-    border: 2px solid var(--orange);
+    border: 1px solid var(--black);
     border-radius: 10px;
     overflow: hidden;
     height: 300px;
@@ -278,26 +350,24 @@ header {
     border: 0;
 }
 
+/* ====================================
+           Membership Cards
+  ==================================== */
+.membership-card .card-header {
+    background-color: var(--orange);
+    color: var(--white);
+}
+
+.membership-card .card-body h2 {
+    color: var(--orange);
+}
 
 /* ====================================
-       Footer (Dark Black & Orange)
+           Footer
   ==================================== */
 .site-footer {
-    background-color: var(--black);
-    color: var(--light);
-    padding: 40px 0;
-}
-
-.footer-container {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    gap: 20px;
-}
-
-.footer-column {
-    flex: 1;
-    min-width: 250px;
+    background-color: var(--white);
+    color: var(--black);
 }
 
 .footer-column h5 {
@@ -316,7 +386,7 @@ header {
 }
 
 .footer-column ul li a {
-    color: var(--light);
+    color: var(--black);
     text-decoration: none;
     transition: color var(--transition);
 }
@@ -327,14 +397,14 @@ header {
 
 .footer-bottom {
     text-align: center;
-    padding: 10px;
-    border-top: 1px solid #333;
+    padding: 10px 0;
+    border-top: 1px solid var(--orange);
     margin-top: 20px;
     font-size: 0.9rem;
 }
 
 /* ====================================
-       Responsive Adjustments
+           Responsive Adjustments
   ==================================== */
 @media (max-width: 767px) {
     .hero-content h1 {
@@ -349,8 +419,11 @@ header {
         padding: 40px 0;
     }
 
-    .footer-container {
-        flex-direction: column;
-        align-items: center;
+    .navbar-nav .nav-link {
+        margin-left: 0.5rem;
+    }
+
+    .footer-column {
+        text-align: center;
     }
 }
