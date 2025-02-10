@@ -8,7 +8,13 @@ document.addEventListener("DOMContentLoaded", function () {
     let currentImageIndex = 0;
     const heroSection = document.querySelector(".hero-section");
 
-    // Function to change the hero background image with fade-in effect
+    // Preload slider images for faster reload
+    heroImages.forEach(src => {
+        const img = new Image();
+        img.src = src;
+    });
+
+    // Function to change the hero background image without a fade overlay
     function changeHeroImage(index) {
         currentImageIndex = index;
         if (currentImageIndex < 0) {
@@ -16,7 +22,7 @@ document.addEventListener("DOMContentLoaded", function () {
         } else if (currentImageIndex >= heroImages.length) {
             currentImageIndex = 0;
         }
-        heroSection.style.backgroundImage = `linear-gradient(rgba(255,255,255,0.7), rgba(255,255,255,0.7)), url('${heroImages[currentImageIndex]}')`;
+        heroSection.style.backgroundImage = `url('${heroImages[currentImageIndex]}')`;
         // Restart fade-in animation by forcing reflow
         heroSection.classList.remove("fade-in");
         void heroSection.offsetWidth;

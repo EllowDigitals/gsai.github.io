@@ -20,17 +20,18 @@ html {
 }
 
 body {
-    font-family: 'Poppins', sans-serif;
+    font-family: "Poppins", sans-serif;
     background-color: var(--white);
     color: var(--black);
     line-height: 1.6;
 }
 
 /* ====================================
-           Navbar / Header
-  ==================================== */
+              Navbar / Header
+==================================== */
 header {
     background-color: var(--white);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .navbar {
@@ -59,42 +60,52 @@ header {
 }
 
 /* ====================================
-           Hero Section & Slider
-  ==================================== */
+             Hero Section & Slider
+==================================== */
 .hero-section {
     position: relative;
     height: 100vh;
-    background: linear-gradient(rgba(255, 255, 255, 0.7), rgba(255, 255, 255, 0.7)),
-        url('assets/images/slider1.jpg') no-repeat center center/cover;
-    transition: background-image 1s ease-in-out;
+    background: url("assets/images/slider1.jpg") no-repeat center center/cover;
 }
 
-.hero-overlay {
+/* Dark overlay for improved text visibility */
+.hero-section::before {
+    content: "";
     position: absolute;
     top: 0;
     left: 0;
-    width: 100%;
-    height: 100%;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1;
 }
 
 .hero-content {
-    z-index: 1;
-    color: var(--black);
+    position: relative;
+    z-index: 2;
+    color: var(--white);
+    text-align: center;
+    padding: 0 20px;
 }
 
 .hero-content h1 {
     font-size: 3rem;
+    margin-bottom: 20px;
 }
 
 .hero-content p {
     font-size: 1.25rem;
+    margin-bottom: 30px;
 }
 
 .btn-orange {
     background-color: var(--orange);
     color: var(--white);
     border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
     transition: background-color var(--transition), transform var(--transition);
+    cursor: pointer;
 }
 
 .btn-orange:hover {
@@ -145,8 +156,8 @@ header {
 }
 
 /* ====================================
-           Section Styles
-  ==================================== */
+              Section Styles
+==================================== */
 .section {
     padding: 60px 0;
     text-align: center;
@@ -155,11 +166,12 @@ header {
 .section h2 {
     font-size: 2.5rem;
     margin-bottom: 20px;
+    color: var(--orange);
 }
 
 /* ====================================
-           Card Styles (Events, Blog, etc.)
-  ==================================== */
+             Card Styles (Events, Blog, etc.)
+==================================== */
 .card-custom {
     background-color: var(--white);
     border: 1px solid var(--black);
@@ -184,7 +196,7 @@ header {
 
 /* ====================================
            Program Cards (Classes)
-  ==================================== */
+==================================== */
 .class-card {
     background-color: var(--white);
     border: 2px solid var(--orange);
@@ -207,7 +219,7 @@ header {
 
 /* ====================================
            Achievements Section
-  ==================================== */
+==================================== */
 .counter h3 {
     color: var(--orange);
     font-size: 2.5rem;
@@ -219,37 +231,22 @@ header {
 }
 
 /* ====================================
-           Instructors Section
-  ==================================== */
-.instructor-card {
-    background-color: var(--white);
-    padding: 20px;
-    border: 1px solid var(--orange);
-    border-radius: 10px;
-    transition: transform var(--transition);
-    display: flex;
+           Founder Section
+==================================== */
+#founder .row {
     align-items: center;
 }
 
-.instructor-card:hover {
-    transform: translateY(-5px);
-}
-
-.instructor-img img {
-    width: 120px;
-    height: 120px;
-    object-fit: cover;
+#founder img {
+    max-width: 100%;
+    height: auto;
     border-radius: 50%;
-    border: 2px solid var(--orange);
-}
-
-.instructor-info h3 {
-    color: var(--orange);
+    border: 3px solid var(--orange);
 }
 
 /* ====================================
-           Gallery
-  ==================================== */
+                 Gallery
+==================================== */
 .gallery-img {
     width: 100%;
     height: auto;
@@ -262,8 +259,8 @@ header {
 }
 
 /* ====================================
-           Testimonials
-  ==================================== */
+              Testimonials
+==================================== */
 .testimonial {
     background-color: var(--white);
     padding: 30px;
@@ -278,14 +275,14 @@ header {
 }
 
 /* ====================================
-           FAQ Items
-  ==================================== */
+                FAQ Items
+==================================== */
 .faq-item {
     background-color: var(--white);
     padding: 20px;
     border: 1px solid var(--black);
     border-radius: 10px;
-    transition: background-color var(--transition);
+    transition: background-color var(--transition), color var(--transition);
 }
 
 .faq-item:hover {
@@ -293,14 +290,20 @@ header {
     color: var(--white);
 }
 
+/* Remove fixed color from h5 so it can change on hover */
 .faq-item h5 {
     margin-bottom: 10px;
     color: var(--orange);
+    transition: color var(--transition);
+}
+
+.faq-item:hover h5 {
+    color: var(--white);
 }
 
 /* ====================================
-           Contact Form
-  ==================================== */
+             Contact Form
+==================================== */
 .contact-form input,
 .contact-form textarea {
     border: 1px solid var(--orange);
@@ -327,6 +330,7 @@ header {
     color: var(--white);
     font-size: 1rem;
     transition: background-color var(--transition), transform var(--transition);
+    cursor: pointer;
 }
 
 .contact-form button:hover {
@@ -335,8 +339,8 @@ header {
 }
 
 /* ====================================
-           Map Container
-  ==================================== */
+              Map Container
+==================================== */
 .map-container {
     border: 1px solid var(--black);
     border-radius: 10px;
@@ -351,23 +355,25 @@ header {
 }
 
 /* ====================================
-           Membership Cards
-  ==================================== */
+            Membership Cards
+==================================== */
 .membership-card .card-header {
     background-color: var(--orange);
     color: var(--white);
 }
 
-.membership-card .card-body h2 {
+.membership-card .card-body h2,
+.membership-card .card-body p {
     color: var(--orange);
 }
 
 /* ====================================
-           Footer
-  ==================================== */
+                 Footer
+==================================== */
 .site-footer {
-    background-color: var(--white);
-    color: var(--black);
+    background-color: var(--black);
+    color: var(--white);
+    padding: 40px 0;
 }
 
 .footer-column h5 {
@@ -386,7 +392,7 @@ header {
 }
 
 .footer-column ul li a {
-    color: var(--black);
+    color: var(--white);
     text-decoration: none;
     transition: color var(--transition);
 }
@@ -405,7 +411,7 @@ header {
 
 /* ====================================
            Responsive Adjustments
-  ==================================== */
+==================================== */
 @media (max-width: 767px) {
     .hero-content h1 {
         font-size: 2.5rem;
