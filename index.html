@@ -9,32 +9,77 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" />
     <!-- Custom CSS -->
     <style>
+        /* ====================================
+       Global Variables & Settings
+       (Using Black, White & Primary Orange)
+    =================================== */
+        :root {
+            --primary-orange: #fd7e14;
+            --black: #000000;
+            --white: #ffffff;
+            --light-gray: #f8f9fa;
+            --transition: 0.3s;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
         /* Global Body & Font Settings */
         body {
             font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
             line-height: 1.6;
-            background-color: #fff;
-            color: #333;
+            background-color: var(--black);
+            color: var(--white);
         }
 
-        /* Logo sizing */
+        /* ====================================
+                   Navbar / Header
+    =================================== */
+        header {
+            background-color: var(--black);
+        }
+
+        .navbar {
+            padding: 1rem 0;
+        }
+
+        .navbar-brand {
+            color: var(--primary-orange) !important;
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
         .logo {
             height: 50px;
             width: auto;
         }
 
-        /* Consistent orange color */
-        :root {
-            --primary-orange: #fd7e14;
-            --light-gray: #f8f9fa;
+        .nav-link {
+            color: var(--white) !important;
+            margin-left: 1rem;
+            transition: color var(--transition);
         }
 
-        /* Hero Section */
+        .nav-link:hover,
+        .nav-link.active {
+            color: var(--primary-orange) !important;
+        }
+
+        /* ====================================
+                     Hero Section
+    =================================== */
         .hero-section {
             position: relative;
             background: url('assets/images/slider1.jpg') no-repeat center center/cover;
             height: 100vh;
-            color: #fff;
+            color: var(--white);
         }
 
         .hero-overlay {
@@ -43,15 +88,55 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background-color: rgba(0, 0, 0, 0.5);
+            background-color: rgba(0, 0, 0, 0.7);
         }
 
         .hero-content {
             position: relative;
             z-index: 2;
+            text-align: center;
         }
 
-        /* Slider Controls */
+        .hero-content h1 {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            color: var(--primary-orange);
+        }
+
+        .hero-content p {
+            font-size: 1.25rem;
+            margin-bottom: 30px;
+        }
+
+        /* Primary Orange Button and Text */
+        .btn-orange,
+        .text-orange,
+        .border-orange {
+            color: var(--white);
+            background-color: var(--primary-orange) !important;
+            border-color: var(--primary-orange) !important;
+        }
+
+        .text-orange {
+            background: none !important;
+        }
+
+        .btn-orange {
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            transition: background-color var(--transition), transform var(--transition);
+            cursor: pointer;
+        }
+
+        .btn-orange:hover {
+            background-color: #e65c00;
+            transform: scale(1.05);
+        }
+
+        /* ====================================
+                   Slider Controls
+    =================================== */
         .slider-controls {
             position: absolute;
             bottom: 20px;
@@ -68,90 +153,239 @@
             font-size: 1.2rem;
             border-radius: 50%;
             cursor: pointer;
+            transition: background-color var(--transition), transform var(--transition);
         }
 
-        /* Primary Orange Button and Text */
-        .btn-orange,
-        .text-orange,
-        .border-orange {
-            color: #fff;
-            background-color: var(--primary-orange) !important;
-            border-color: var(--primary-orange) !important;
+        .slider-btn:hover {
+            background: rgba(255, 255, 255, 0.9);
+            transform: scale(1.1);
         }
 
-        /* For text-only orange elements */
-        .text-orange {
-            background: none !important;
+        /* ====================================
+              Section Styles
+    =================================== */
+        section {
+            padding-top: 60px;
+            padding-bottom: 60px;
+            background-color: var(--black);
+            color: var(--white);
+            text-align: center;
         }
 
-        /* Program Card Hover Effect */
+        section h2 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            color: var(--primary-orange) !important;
+        }
+
+        .container {
+            max-width: 1140px;
+            margin: auto;
+            padding: 0 15px;
+        }
+
+        /* ====================================
+              Program Cards (Classes)
+    =================================== */
         .class-card {
             transition: transform 0.3s;
-            border: 1px solid #ddd;
-            background: #fff;
+            border: 1px solid #444;
+            background: var(--black);
             min-height: 150px;
             display: flex;
             justify-content: center;
             align-items: center;
+            margin-bottom: 15px;
         }
 
         .class-card:hover {
             transform: scale(1.05);
         }
 
-        /* Custom Card Border for Events */
+        .class-card h3 {
+            color: var(--primary-orange);
+        }
+
+        /* ====================================
+         Custom Card Border for Events
+    =================================== */
         .card-custom {
             border: 2px solid var(--primary-orange);
+            background: var(--black);
+            color: var(--white);
+            margin-bottom: 15px;
         }
 
-        /* Counter Styling */
+        .card-custom .card-body {
+            padding: 20px;
+        }
+
+        .card-custom .card-title {
+            color: var(--primary-orange);
+        }
+
+        /* ====================================
+               Counter Styling
+    =================================== */
         .counter h3 {
             font-weight: bold;
+            color: var(--primary-orange);
         }
 
-        /* Founder Section Image */
+        .counter p {
+            color: var(--white);
+        }
+
+        /* ====================================
+              Founder Section Image
+    =================================== */
         .founder-card img {
             width: 100px;
             height: 100px;
             object-fit: cover;
+            border-radius: 50%;
+            border: 2px solid var(--primary-orange);
         }
 
-        /* Gallery Images (fixed height, object-fit cover for uniformity) */
+        /* ====================================
+               Gallery Images
+    =================================== */
         .gallery-img {
             width: 100%;
             height: 250px;
             object-fit: cover;
+            border-radius: 5px;
+            transition: transform var(--transition);
         }
 
-        /* Testimonials */
+        .gallery-img:hover {
+            transform: scale(1.05);
+        }
+
+        /* ====================================
+                Testimonials
+    =================================== */
         .testimonial {
             font-style: italic;
-            background: #f1f1f1;
+            background: #222;
             padding: 20px;
             border-radius: 5px;
+            color: var(--white);
+            margin-bottom: 15px;
         }
 
-        /* Map Styling */
+        .testimonial:hover {
+            transform: translateY(-3px);
+            transition: transform var(--transition);
+        }
+
+        /* ====================================
+                     FAQ
+    =================================== */
+        .faq-item {
+            padding: 20px;
+            border: 1px solid #444;
+            border-radius: 5px;
+            margin-bottom: 15px;
+            background: var(--black);
+            color: var(--white);
+        }
+
+        .faq-item h5 {
+            color: var(--primary-orange);
+            margin-bottom: 10px;
+        }
+
+        /* ====================================
+              Contact Form
+    =================================== */
+        .contact-form input,
+        .contact-form textarea {
+            border: 1px solid var(--primary-orange);
+            border-radius: 5px;
+            padding: 10px;
+            width: 100%;
+            background: var(--black);
+            color: var(--white);
+        }
+
+        .contact-form input:focus,
+        .contact-form textarea:focus {
+            border-color: var(--primary-orange);
+            outline: none;
+            box-shadow: 0 0 5px var(--primary-orange);
+        }
+
+        .contact-form button {
+            background: var(--primary-orange);
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            color: var(--white);
+            transition: background-color var(--transition), transform var(--transition);
+            cursor: pointer;
+        }
+
+        .contact-form button:hover {
+            background: #e65c00;
+            transform: scale(1.05);
+        }
+
+        /* ====================================
+                 Map Styling
+    =================================== */
         .map-container iframe {
             width: 100%;
             height: 400px;
             border: 0;
         }
 
-        /* Footer Styling */
+        /* ====================================
+                Footer Styling
+    =================================== */
         .site-footer {
             background: var(--light-gray);
             padding: 40px 0;
+            color: var(--black);
         }
 
         .site-footer a {
-            color: #333;
+            color: var(--black);
+            text-decoration: none;
+            transition: color var(--transition);
         }
 
-        /* Responsive spacing for sections */
-        section {
-            padding-top: 60px;
-            padding-bottom: 60px;
+        .site-footer a:hover {
+            color: var(--primary-orange);
+        }
+
+        .footer-bottom {
+            text-align: center;
+            border-top: 1px solid var(--primary-orange);
+            padding-top: 10px;
+            margin-top: 20px;
+            font-size: 0.9rem;
+        }
+
+        /* ====================================
+              Responsive Adjustments
+    =================================== */
+        @media (max-width: 767px) {
+            .hero-content h1 {
+                font-size: 2.5rem;
+            }
+
+            .hero-content p {
+                font-size: 1rem;
+            }
+
+            section {
+                padding: 40px 0;
+            }
+
+            .navbar-nav .nav-link {
+                margin-left: 0.5rem;
+            }
         }
     </style>
 </head>
@@ -159,7 +393,7 @@
 <body>
     <!-- Header / Navbar -->
     <header class="sticky-top">
-        <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
+        <nav class="navbar navbar-expand-lg navbar-light">
             <div class="container">
                 <a class="navbar-brand d-flex align-items-center" href="#">
                     <img src="assets/images/logo.png" alt="Ghatak Sport Academy Logo" class="logo me-2" />
@@ -192,10 +426,8 @@
     <section id="home" class="hero-section">
         <div class="hero-overlay"></div>
         <div class="container text-center hero-content position-absolute top-50 start-50 translate-middle">
-            <h1 class="display-4 fw-bold">Welcome to Ghatak Sport
-                Academy</h1>
-            <p class="lead my-4">Master modern martial arts with world-class
-                training.</p>
+            <h1 class="display-4 fw-bold">Welcome to Ghatak Sport Academy</h1>
+            <p class="lead my-4">Master modern martial arts with world-class training.</p>
             <a href="#contact" class="btn btn-orange btn-lg">Join Now</a>
         </div>
         <!-- Slider Controls -->
@@ -210,36 +442,31 @@
         <div class="container text-center">
             <h2 class="mb-4 text-orange">About Us</h2>
             <p>
-                Ghatak Sport Academy combines traditional martial arts with
-                modern techniques to
-                transform your training experience. Our mission is to
-                empower individuals through
-                discipline, skill, and physical excellence.
+                Ghatak Sport Academy combines traditional martial arts with modern techniques to transform your training
+                experience.
+                Our mission is to empower individuals through discipline, skill, and physical excellence.
             </p>
         </div>
     </section>
 
     <!-- Philosophy Section -->
-    <section id="philosophy" class="bg-white">
+    <section id="philosophy">
         <div class="container text-center">
             <h2 class="mb-4 text-orange">Our Philosophy</h2>
             <p>
-                We believe in a holistic approach to martial arts—one that
-                builds physical strength,
-                mental clarity, and character. Our training nurtures
-                discipline, respect, and
-                resilience.
+                We believe in a holistic approach to martial arts—one that builds physical strength, mental clarity, and
+                character.
+                Our training nurtures discipline, respect, and resilience.
             </p>
         </div>
     </section>
 
     <!-- Programs Section -->
-    <section id="programs" class="bg-white">
+    <section id="programs">
         <div class="container text-center">
             <h2 class="mb-4 text-orange">Our Programs</h2>
             <p class="mb-5">
-                Choose from a wide range of classes suited for all ages and
-                skill levels.
+                Choose from a wide range of classes suited for all ages and skill levels.
             </p>
             <div class="row g-4 justify-content-center">
                 <!-- Program Cards -->
@@ -293,18 +520,16 @@
     </section>
 
     <!-- Events Section -->
-    <section id="events" class="bg-white">
+    <section id="events">
         <div class="container text-center">
             <h2 class="mb-4 text-orange">Upcoming Events</h2>
             <div class="row g-4">
                 <div class="col-md-4">
                     <div class="card card-custom h-100">
                         <div class="card-body">
-                            <h3 class="card-title">Seminar on
-                                Self-Defense</h3>
+                            <h3 class="card-title">Seminar on Self-Defense</h3>
                             <p class="card-text">
-                                Join us for an exclusive seminar featuring
-                                advanced self-defense techniques.
+                                Join us for an exclusive seminar featuring advanced self-defense techniques.
                             </p>
                             <p><strong>Date:</strong> July 15, 2025</p>
                         </div>
@@ -313,11 +538,9 @@
                 <div class="col-md-4">
                     <div class="card card-custom h-100">
                         <div class="card-body">
-                            <h3 class="card-title">Martial Arts
-                                Championship</h3>
+                            <h3 class="card-title">Martial Arts Championship</h3>
                             <p class="card-text">
-                                Compete in our annual championship and
-                                showcase your skills on the global stage.
+                                Compete in our annual championship and showcase your skills on the global stage.
                             </p>
                             <p><strong>Date:</strong> August 10, 2025</p>
                         </div>
@@ -328,8 +551,7 @@
                         <div class="card-body">
                             <h3 class="card-title">Beginner’s Workshop</h3>
                             <p class="card-text">
-                                Perfect for newcomers—learn the fundamentals
-                                in a supportive environment.
+                                Perfect for newcomers—learn the fundamentals in a supportive environment.
                             </p>
                             <p><strong>Date:</strong> September 5, 2025</p>
                         </div>
@@ -340,7 +562,7 @@
     </section>
 
     <!-- Achievements Section -->
-    <section id="achievements" class="bg-white">
+    <section id="achievements">
         <div class="container text-center">
             <h2 class="mb-4 text-orange">Our Achievements</h2>
             <p class="mb-5">Celebrating our milestones and awards.</p>
@@ -374,23 +596,20 @@
     </section>
 
     <!-- Founder Section -->
-    <section id="founder" class="bg-white">
+    <section id="founder">
         <div class="container">
             <h2 class="mb-4 text-orange text-center">Our Founder</h2>
             <div class="row justify-content-center">
                 <div class="col-md-6">
                     <div class="founder-card d-flex align-items-center">
                         <div class="founder-img me-3">
-                            <img src="assets/images/founder.jpg" alt="Founder Photo" class="img-fluid rounded-circle" />
+                            <img src="assets/images/founder.jpg" alt="Founder Photo" class="img-fluid rounded-circle">
                         </div>
                         <div class="founder-info">
                             <h3>Nitesh Yadav</h3>
                             <p>
-                                A world-renowned martial artist with
-                                multiple international and national titles,
-                                Nitesh
-                                Yadav leads our academy with passion and
-                                expertise.
+                                A world-renowned martial artist with multiple international and national titles, Nitesh
+                                Yadav leads our academy with passion and expertise.
                             </p>
                         </div>
                     </div>
@@ -400,54 +619,50 @@
     </section>
 
     <!-- Gallery Section -->
-    <section id="gallery" class="bg-white">
+    <section id="gallery">
         <div class="container text-center">
             <h2 class="mb-4 text-orange">Gallery</h2>
             <div class="row g-4">
                 <div class="col-md-4">
-                    <img src="assets/images/slider1.jpg" alt="Gallery Image 1" class="gallery-img rounded" />
+                    <img src="assets/images/slider1.jpg" alt="Gallery Image 1" class="gallery-img rounded">
                 </div>
                 <div class="col-md-4">
-                    <img src="assets/images/slider2.jpg" alt="Gallery Image 2" class="gallery-img rounded" />
+                    <img src="assets/images/slider2.jpg" alt="Gallery Image 2" class="gallery-img rounded">
                 </div>
                 <div class="col-md-4">
-                    <img src="assets/images/slider3.jpg" alt="Gallery Image 3" class="gallery-img rounded" />
+                    <img src="assets/images/slider3.jpg" alt="Gallery Image 3" class="gallery-img rounded">
                 </div>
                 <div class="col-md-4">
-                    <img src="assets/images/slider4.jpg" alt="Gallery Image 4" class="gallery-img rounded" />
+                    <img src="assets/images/slider4.jpg" alt="Gallery Image 4" class="gallery-img rounded">
                 </div>
                 <div class="col-md-4">
-                    <img src="assets/images/slider5.jpg" alt="Gallery Image 5" class="gallery-img rounded" />
+                    <img src="assets/images/slider5.jpg" alt="Gallery Image 5" class="gallery-img rounded">
                 </div>
                 <div class="col-md-4">
-                    <img src="assets/images/slider6.jpg" alt="Gallery Image 6" class="gallery-img rounded" />
+                    <img src="assets/images/slider6.jpg" alt="Gallery Image 6" class="gallery-img rounded">
                 </div>
             </div>
         </div>
     </section>
 
     <!-- Testimonials Section -->
-    <section id="testimonials" class="bg-white">
+    <section id="testimonials">
         <div class="container text-center">
             <h2 class="mb-4 text-orange">Testimonials</h2>
             <div class="row g-4">
                 <div class="col-md-6">
                     <div class="testimonial p-4 border rounded">
                         <p>
-                            "Ghatak Sport Academy has revolutionized my
-                            training. The coaches are phenomenal and the
-                            atmosphere is truly inspiring."
-                            <br />– Student A
+                            "Ghatak Sport Academy has revolutionized my training. The coaches are phenomenal and the
+                            atmosphere is truly inspiring."<br>– Student A
                         </p>
                     </div>
                 </div>
                 <div class="col-md-6">
                     <div class="testimonial p-4 border rounded">
                         <p>
-                            "The blend of tradition and modern techniques
-                            here is unmatched. I feel empowered and
-                            confident every day."
-                            <br />– Student B
+                            "The blend of tradition and modern techniques here is unmatched. I feel empowered and
+                            confident every day."<br>– Student B
                         </p>
                     </div>
                 </div>
@@ -456,24 +671,20 @@
     </section>
 
     <!-- FAQ Section -->
-    <section id="faq" class="bg-white">
+    <section id="faq">
         <div class="container">
             <h2 class="mb-4 text-orange text-center">FAQ</h2>
             <div class="row justify-content-center g-4">
                 <div class="col-md-6">
                     <div class="faq-item p-4 border rounded">
                         <h5>What age groups do you accept?</h5>
-                        <p>We welcome students from 5 years old and
-                            above.</p>
+                        <p>We welcome students from 5 years old and above.</p>
                     </div>
                 </div>
                 <div class="col-md-6">
                     <div class="faq-item p-4 border rounded">
                         <h5>Do you offer certification?</h5>
-                        <p>
-                            Yes, certification is provided upon successful
-                            completion of our training programs.
-                        </p>
+                        <p>Yes, certification is provided upon successful completion of our training programs.</p>
                     </div>
                 </div>
             </div>
@@ -481,17 +692,17 @@
     </section>
 
     <!-- Contact Section -->
-    <section id="contact" class="bg-white">
+    <section id="contact">
         <div class="container">
             <h2 class="mb-4 text-orange text-center">Contact Us</h2>
             <div class="row justify-content-center">
                 <div class="col-md-8">
                     <form class="contact-form">
                         <div class="mb-3">
-                            <input type="text" name="name" class="form-control" placeholder="Your Name" required />
+                            <input type="text" name="name" class="form-control" placeholder="Your Name" required>
                         </div>
                         <div class="mb-3">
-                            <input type="email" name="email" class="form-control" placeholder="Your Email" required />
+                            <input type="email" name="email" class="form-control" placeholder="Your Email" required>
                         </div>
                         <div class="mb-3">
                             <textarea name="message" rows="5" class="form-control" placeholder="Your Message"
@@ -507,7 +718,7 @@
     </section>
 
     <!-- Map Section -->
-    <section id="map" class="bg-white">
+    <section id="map">
         <div class="container text-center">
             <h2 class="mb-4 text-orange">Find Us</h2>
             <div class="map-container mx-auto">
@@ -525,33 +736,30 @@
                 <div class="footer-column col-md-4 mb-3">
                     <h5>About</h5>
                     <p>
-                        Ghatak Sport Academy offers professional martial
-                        arts training that combines modern techniques
+                        Ghatak Sport Academy offers professional martial arts training that combines modern techniques
                         with traditional values.
                     </p>
                 </div>
                 <div class="footer-column col-md-4 mb-3">
                     <h5>Quick Links</h5>
                     <ul class="list-unstyled">
-                        <li><a href="#home" class="text-decoration-none">Home</a></li>
-                        <li><a href="#about" class="text-decoration-none">About</a></li>
-                        <li><a href="#programs" class="text-decoration-none">Programs</a></li>
-                        <li><a href="#contact" class="text-decoration-none">Contact</a></li>
+                        <li><a href="#home">Home</a></li>
+                        <li><a href="#about">About</a></li>
+                        <li><a href="#programs">Programs</a></li>
+                        <li><a href="#contact">Contact</a></li>
                     </ul>
                 </div>
                 <div class="footer-column col-md-4 mb-3">
                     <h5>Contact</h5>
                     <ul class="list-unstyled">
-                        <li>Naubasta Pulia, Takrohi Road, Amrai Gaon, Indira
-                            Nagar, Lucknow, U.P. - 226028</li>
+                        <li>Naubasta Pulia, Takrohi Road, Amrai Gaon, Indira Nagar, Lucknow, U.P. - 226028</li>
                         <li>📞 6394135988, 8355062424</li>
                         <li>📧 ghatakgsai@gmail.com</li>
                     </ul>
                 </div>
             </div>
             <div class="footer-bottom text-center border-top pt-3 mt-3">
-                <p>&copy; 2025 Ghatak Sport Academy. All Rights
-                    Reserved.</p>
+                <p>&copy; 2025 Ghatak Sport Academy. All Rights Reserved.</p>
             </div>
         </div>
     </footer>
