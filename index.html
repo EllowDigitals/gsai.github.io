@@ -38,84 +38,42 @@
     <!-- Header & Navigation -->
     <header>
         <div class="container header-container">
+            <!-- Logo Section -->
             <div class="logo">
                 <a href="#home">
                     <img src="assets/images/logo.png" alt="GSAI Logo" />
-                    <span>Ghatak Sports Academy India</span>
+                    <span class="logo-text">
+                        <span class="logo-line1">Ghatak Sports</span>
+                        <span class="logo-line2">Academy India</span>
+                    </span>
                 </a>
             </div>
+
+            <!-- Navigation Menu (visible on desktop) -->
             <nav role="navigation" aria-label="Main Navigation">
-                <button class="menu-toggle" aria-label="Toggle Menu">&#9776;</button>
                 <ul class="nav-list">
-                    <li>
-                        <a href="#home" class="nav-link">
-                            <i class="fas fa-home" aria-hidden="true"></i> Home
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#about" class="nav-link">
-                            <i class="fas fa-info-circle" aria-hidden="true"></i> About Us
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#founder" class="nav-link">
-                            <i class="fas fa-user-tie" aria-hidden="true"></i> Founder’s Message
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#programs" class="nav-link">
-                            <i class="fas fa-running" aria-hidden="true"></i> Programs
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#gallery" class="nav-link">
-                            <i class="fas fa-images" aria-hidden="true"></i> Gallery
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#testimonials" class="nav-link">
-                            <i class="fas fa-quote-left" aria-hidden="true"></i> Testimonials
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#achievements" class="nav-link">
-                            <i class="fas fa-trophy" aria-hidden="true"></i> Achievements
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#blog" class="nav-link">
-                            <i class="fas fa-newspaper" aria-hidden="true"></i> Blog/News
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#faq" class="nav-link">
-                            <i class="fas fa-question-circle" aria-hidden="true"></i> FAQ
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#enroll" class="nav-link">
-                            <i class="fas fa-user-plus" aria-hidden="true"></i> Enroll
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#legal" class="nav-link">
-                            <i class="fas fa-file-alt" aria-hidden="true"></i> Legal
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#contact" class="nav-link">
-                            <i class="fas fa-envelope" aria-hidden="true"></i> Contact
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#map" class="nav-link">
-                            <i class="fas fa-map-marker-alt" aria-hidden="true"></i> Map
-                        </a>
-                    </li>
+                    <li><a href="#home" class="nav-link">Home</a></li>
+                    <li><a href="#about" class="nav-link">About Us</a></li>
+                    <li><a href="#programs" class="nav-link">Programs</a></li>
+                    <li><a href="#contact" class="nav-link">Contact</a></li>
                 </ul>
             </nav>
+
+            <!-- Hamburger Button (visible on mobile only) -->
+            <button class="menu-toggle" aria-label="Toggle Menu">&#9776;</button>
         </div>
+
+        <!-- Mobile Navigation (will slide down) -->
+        <nav class="mobile-nav" role="navigation" aria-label="Mobile Navigation">
+            <ul class="nav-list">
+                <li><a href="#home" class="nav-link">Home</a></li>
+                <li><a href="#about" class="nav-link">About Us</a></li>
+                <li><a href="#programs" class="nav-link">Programs</a></li>
+                <li><a href="#contact" class="nav-link">Contact</a></li>
+            </ul>
+        </nav>
     </header>
+
 
 
     <!-- Main Content -->
@@ -509,21 +467,33 @@
         </section>
 
         <!-- Contact Section -->
-        <section id="contact">
+        <section id="contact-us">
             <div class="container">
                 <h2>Contact Us</h2>
-                <p>
+                <p class="section-intro">
                     Ready to transform your life? Get in touch with us today and take the first step toward mastering
                     martial arts.
                 </p>
-                <p>
-                    <i class="fas fa-envelope" aria-hidden="true"></i>
-                    Email: <a href="mailto:info@gsai.com">ghatakgsai@gmail.com</a> &nbsp;|&nbsp;
-                    <i class="fas fa-phone" aria-hidden="true"></i>
-                    Phone: <a href="tel:+911234567890">+91-639-413-5988, +91-835-506-2424</a>
-                    <i class="fas fa-address" aria-hidden="true">Address: Naubasta Pulia, Takrohi Road, Amrai Gaon,
-                        Indira Nagar, Lucknow, U.P. - 226028</i>
-                </p>
+                <div class="contact-details">
+                    <p>
+                        <i class="fas fa-envelope" aria-hidden="true"></i>
+                        Email: <a href="mailto:ghatakgsai@gmail.com">ghatakgsai@gmail.com</a>
+                    </p>
+                    <p>
+                        <i class="fas fa-phone" aria-hidden="true"></i>
+                        Phone:
+                        <a href="tel:+916394135988">+91-639-413-5988</a>,
+                        <a href="tel:+918355062424">+91-835-506-2424</a>
+                    </p>
+                    <p>
+                        <i class="fas fa-map-marker-alt" aria-hidden="true"></i>
+                        Address: Naubasta Pulia, Takrohi Road, Amrai Gaon, Indira Nagar, Lucknow, U.P. - 226028
+                    </p>
+                </div>
+                <!-- Optionally add social links here -->
+                <div class="social-links">
+                    <!-- Social icons and links -->
+                </div>
             </div>
         </section>
 
