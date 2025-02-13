@@ -8,6 +8,8 @@
     <meta name="description"
         content="Ghatak Sports Academy India (GSAI) offers world-class martial arts and self-defense training to empower you physically and mentally." />
     <meta name="author" content="GSAI Team" />
+    <meta name="robots" content="index, follow" />
+    <link rel="canonical" href="https://www.yourgsaiwebsite.com" />
 
     <!-- Open Graph Meta Tags for Social Sharing -->
     <meta property="og:title" content="Ghatak Sports Academy India (GSAI)" />
@@ -34,10 +36,23 @@
 <body>
     <!-- Preloader -->
     <div id="preloader">
-        <div class="animation-container" style="text-align: center;">
-            <!-- Inline SVG Ninja Star -->
-            <svg viewBox="0 0 100 100" class="ninja-star">
-                <polygon points="50,5 61,39 98,39 68,59 79,93 50,72 21,93 32,59 2,39 39,39" fill="#f1c40f" />
+        <div class="animation-container">
+            <!-- Inline SVG: Martial Arts Figure (Stick-figure performing a kick) -->
+            <svg viewBox="0 0 100 100" class="martial-arts-kick">
+                <!-- Head -->
+                <circle cx="50" cy="20" r="5" fill="#f1c40f" />
+                <!-- Body -->
+                <line x1="50" y1="25" x2="50" y2="45" stroke="#f1c40f" stroke-width="2" />
+                <!-- Left Arm -->
+                <line x1="50" y1="30" x2="40" y2="35" stroke="#f1c40f" stroke-width="2" />
+                <!-- Right Arm -->
+                <line x1="50" y1="30" x2="60" y2="35" stroke="#f1c40f" stroke-width="2" />
+                <!-- Left Leg (stationary) -->
+                <line x1="50" y1="45" x2="40" y2="60" stroke="#f1c40f" stroke-width="2" />
+                <!-- Right Leg (kicking leg) wrapped in a group for animation -->
+                <g id="kicking-leg-group">
+                    <line x1="50" y1="45" x2="70" y2="40" stroke="#f1c40f" stroke-width="2" />
+                </g>
             </svg>
             <!-- Optional Loading Text -->
             <div class="loading-text">Loading...</div>
@@ -48,7 +63,7 @@
     <a href="#main-content" class="skip-link">Skip to Content</a>
 
     <!-- Header & Navigation -->
-    <header id="content" style="display: none;">
+    <header id="content">
         <div class="container header-container">
             <!-- Logo Section -->
             <div class="logo">
@@ -67,12 +82,12 @@
                     <li><a href="#home" class="nav-link">Home</a></li>
                     <li><a href="#about" class="nav-link">About Us</a></li>
                     <li><a href="#programs" class="nav-link">Programs</a></li>
-                    <li><a href="#contact" class="nav-link">Contact</a></li>
+                    <li><a href="#contact-us" class="nav-link">Contact</a></li>
                 </ul>
             </nav>
 
             <!-- Hamburger Button (visible on mobile only) -->
-            <button class="menu-toggle" aria-label="Toggle Menu">&#9776;</button>
+            <button class="menu-toggle" aria-label="Toggle Menu" aria-expanded="false">&#9776;</button>
         </div>
 
         <!-- Mobile Navigation (will slide down) -->
@@ -81,12 +96,10 @@
                 <li><a href="#home" class="nav-link">Home</a></li>
                 <li><a href="#about" class="nav-link">About Us</a></li>
                 <li><a href="#programs" class="nav-link">Programs</a></li>
-                <li><a href="#contact" class="nav-link">Contact</a></li>
+                <li><a href="#contact-us" class="nav-link">Contact</a></li>
             </ul>
         </nav>
     </header>
-
-
 
     <!-- Main Content -->
     <main id="main-content">
@@ -97,7 +110,8 @@
                 <h1 class="fadeInBox">Welcome to GSAI</h1>
                 <p class="fadeInBox">
                     Experience world-class martial arts and self-defense training designed to empower you both
-                    physically and mentally.
+                    physically
+                    and mentally.
                 </p>
                 <a href="#enroll" class="btn fadeInBox">Join Now</a>
             </div>
@@ -110,27 +124,30 @@
                 <h2>About Us</h2>
                 <p class="about-intro">
                     At Ghatak Sports Academy India (GSAI), we are dedicated to nurturing excellence in martial arts and
-                    self-defense.
-                    Our training programs merge traditional techniques with modern methodologies to ensure that each
-                    student reaches their full potential.
+                    self-defense. Our training programs merge traditional techniques with modern methodologies to ensure
+                    that
+                    each student reaches their full potential.
                 </p>
                 <p class="about-intro">
                     Our state-of-the-art facilities and expert instructors foster an environment where discipline,
-                    respect, and strength are paramount.
+                    respect,
+                    and strength are paramount.
                 </p>
                 <div class="card-grid">
                     <div class="card">
                         <h3><i class="fas fa-bullseye" aria-hidden="true"></i> Our Mission</h3>
                         <p>
                             To empower individuals through comprehensive training that enhances physical fitness, mental
-                            agility, and self-confidence.
+                            agility,
+                            and self-confidence.
                         </p>
                     </div>
                     <div class="card">
                         <h3><i class="fas fa-eye" aria-hidden="true"></i> Our Vision</h3>
                         <p>
                             To cultivate a community of resilient individuals, equipped to face challenges with honor
-                            and determination.
+                            and
+                            determination.
                         </p>
                     </div>
                 </div>
@@ -143,7 +160,7 @@
                 <h2>Founder’s Message</h2>
                 <div class="founder-card">
                     <figure class="founder-image">
-                        <img src="assets/images/slider6.jpg" alt="Founder Mr. Nitesh Yadav" />
+                        <img src="assets/images/slider6.jpg" alt="Founder Mr. Nitesh Yadav" loading="lazy" />
                         <figcaption>
                             Mr. Nitesh Yadav <br />
                             Founder / Director
@@ -164,8 +181,9 @@
                         </div>
                         <p>
                             With decades of experience in martial arts, Mr. Nitesh Yadav has dedicated his life to
-                            mastering the discipline
-                            and mentoring the next generation. His journey embodies perseverance, passion, and the
+                            mastering
+                            the discipline and mentoring the next generation. His journey embodies perseverance,
+                            passion, and the
                             relentless pursuit of excellence.
                         </p>
                     </div>
@@ -232,19 +250,19 @@
                 <div class="gallery-grid">
                     <!-- Gallery Items -->
                     <div class="gallery-item">
-                        <img src="assets/images/slider1.jpg" alt="Training Session" />
+                        <img src="assets/images/slider1.jpg" alt="Training Session" loading="lazy" />
                     </div>
                     <div class="gallery-item">
-                        <img src="assets/images/slider2.jpg" alt="Event Highlights" />
+                        <img src="assets/images/slider2.jpg" alt="Event Highlights" loading="lazy" />
                     </div>
                     <div class="gallery-item">
-                        <img src="assets/images/slider3.jpg" alt="Competition Moment" />
+                        <img src="assets/images/slider3.jpg" alt="Competition Moment" loading="lazy" />
                     </div>
                     <div class="gallery-item">
-                        <img src="assets/images/slider4.jpg" alt="Training Session" />
+                        <img src="assets/images/slider4.jpg" alt="Training Session" loading="lazy" />
                     </div>
                     <div class="gallery-item">
-                        <img src="assets/images/slider5.jpg" alt="Event" />
+                        <img src="assets/images/slider5.jpg" alt="Event" loading="lazy" />
                     </div>
                     <!-- Gallery Video -->
                     <div class="gallery-item video">
@@ -318,7 +336,8 @@
                         <h3>National Championship Gold Medal</h3>
                         <p>
                             Alice secured the gold medal in the National Martial Arts Championship, showcasing
-                            exceptional skill and discipline.
+                            exceptional skill and
+                            discipline.
                         </p>
                     </div>
                     <div class="achievement-card">
@@ -338,7 +357,8 @@
                         <h3>International Recognition</h3>
                         <p>
                             Charlie received international acclaim for outstanding achievements in martial arts,
-                            inspiring future generations.
+                            inspiring future
+                            generations.
                         </p>
                     </div>
                 </div>
@@ -354,19 +374,20 @@
                 </p>
                 <div class="blog-grid">
                     <div class="blog-card">
-                        <img src="assets/images/blog1.jpg" alt="Tournament Announcement" />
+                        <img src="assets/images/blog1.jpg" alt="Tournament Announcement" loading="lazy" />
                         <div class="blog-content">
                             <h3>Upcoming Tournament Announcement</h3>
                             <span class="blog-date">October 10, 2023</span>
                             <p>
                                 Join us for the annual martial arts tournament, where elite talent and inspiring
-                                competition come together.
+                                competition come
+                                together.
                             </p>
                             <a href="#" class="btn">Read More</a>
                         </div>
                     </div>
                     <div class="blog-card">
-                        <img src="assets/images/blog2.jpg" alt="Self-Defense Workshop" />
+                        <img src="assets/images/blog2.jpg" alt="Self-Defense Workshop" loading="lazy" />
                         <div class="blog-content">
                             <h3>Workshop on Self-Defense Techniques</h3>
                             <span class="blog-date">November 05, 2023</span>
@@ -378,7 +399,7 @@
                         </div>
                     </div>
                     <div class="blog-card">
-                        <img src="assets/images/blog3.jpg" alt="New Classes Launched" />
+                        <img src="assets/images/blog3.jpg" alt="New Classes Launched" loading="lazy" />
                         <div class="blog-content">
                             <h3>Academy News: New Classes Launched</h3>
                             <span class="blog-date">December 01, 2023</span>
@@ -405,7 +426,8 @@
                         <h3>What are the enrollment fees?</h3>
                         <p>
                             The enrollment fees vary based on the program and level. Please contact our office for
-                            detailed information.
+                            detailed
+                            information.
                         </p>
                     </div>
                     <div class="faq-item">
@@ -469,11 +491,12 @@
                 <h2>Privacy Policy &amp; Terms</h2>
                 <p class="section-intro">
                     Review our privacy policy and terms to understand your rights and responsibilities as a website
-                    visitor and student.
+                    visitor
+                    and student.
                 </p>
                 <div class="legal-links">
-                    <a href="assets\pages\privacy.html" class="btn">Privacy Policy</a>
-                    <a href="assets\pages\terms.html" class="btn">Terms &amp; Conditions</a>
+                    <a href="assets/pages/privacy.html" class="btn">Privacy Policy</a>
+                    <a href="assets/pages/terms.html" class="btn">Terms &amp; Conditions</a>
                 </div>
             </div>
         </section>
@@ -484,7 +507,8 @@
                 <h2>Contact Us</h2>
                 <p class="section-intro">
                     Ready to transform your life? Get in touch with us today and take the first step toward mastering
-                    martial arts.
+                    martial
+                    arts.
                 </p>
                 <div class="contact-details">
                     <p>
@@ -517,7 +541,8 @@
                     <!-- Replace the src URL with your academy's location -->
                     <iframe
                         src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3557.7127555156358!2d81.02444217597154!3d26.912609860094033!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3999596def6ea9c7%3A0x23d2ceb539bff92!2sGhatak%20Sports%20Academy%20India!5e0!3m2!1sen!2sin!4v1739461937485!5m2!1sen!2sin"
-                        width="100%" height="450" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+                        width="100%" height="450" style="border:0;" allowfullscreen="" loading="lazy"
+                        title="Ghatak Sports Academy India Location"></iframe>
                 </div>
             </div>
         </section>
@@ -540,11 +565,11 @@
         window.addEventListener('load', function () {
             const preloader = document.getElementById('preloader');
             preloader.style.opacity = '0';
-            // After the fade-out transition, hide the preloader and show the content
+            // After the fade-out, hide the preloader and display the main content
             setTimeout(function () {
                 preloader.style.display = 'none';
                 document.getElementById('content').style.display = 'block';
-            }, 500); // matches the CSS transition duration
+            }, 500); // duration matches the CSS transition
         });
     </script>
 </body>
