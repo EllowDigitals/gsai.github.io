@@ -494,29 +494,37 @@
                 <p class="section-intro">
                     Register now to start your journey in martial arts and self-defense training.
                 </p>
-                <form class="enroll-form">
+                <form class="enroll-form" action="https://formsubmit.co/ellowdigitals@gmail.com" method="POST">
                     <div class="form-group">
                         <label for="enroll-name">Full Name</label>
-                        <input type="text" id="enroll-name" name="enroll-name" placeholder="Your Name" required />
+                        <!-- Change name attribute to "name" for FormSubmit -->
+                        <input type="text" id="enroll-name" name="name" placeholder="Your Name" required />
                     </div>
                     <div class="form-group">
                         <label for="enroll-email">Email</label>
-                        <input type="email" id="enroll-email" name="enroll-email" placeholder="Your Email" required />
+                        <!-- Change name attribute to "email" -->
+                        <input type="email" id="enroll-email" name="email" placeholder="Your Email" required />
                     </div>
                     <div class="form-group">
                         <label for="enroll-phone">Phone Number</label>
-                        <input type="tel" id="enroll-phone" name="enroll-phone" placeholder="Your Phone Number"
-                            required />
+                        <!-- Adding phone field with a standard name -->
+                        <input type="tel" id="enroll-phone" name="phone" placeholder="Your Phone Number" required />
                     </div>
                     <div class="form-group">
                         <label for="enroll-message">Message</label>
-                        <textarea id="enroll-message" name="enroll-message" placeholder="Your Message"
-                            rows="4"></textarea>
+                        <!-- Change name attribute to "message" -->
+                        <textarea id="enroll-message" name="message" placeholder="Your Message" rows="4"></textarea>
                     </div>
+                    <!-- Hidden fields for FormSubmit -->
+                    <input type="hidden" name="_template" value="table">
+                    <input type="hidden" name="_subject" value="TypeBlitz: New Submission!">
+                    <input type="hidden" name="_captcha" value="false">
+                    <input type="hidden" name="_next" value="https://typeblitz.netlify.app/assets/success.html">
                     <button type="submit" class="btn">Submit</button>
                 </form>
             </div>
         </section>
+
 
         <!-- Privacy Policy & Terms Section -->
         <section id="legal">
