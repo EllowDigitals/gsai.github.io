@@ -46,6 +46,71 @@ body {
     color: var(--text-color);
 }
 
+/* Preloader Container */
+#preloader {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: #111;
+    /* Dark background for a dramatic look */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    transition: opacity 0.5s ease;
+}
+
+/* Spinning Ninja Star (Martial Arts Icon) */
+.ninja-star {
+    width: 80px;
+    height: 80px;
+    animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+/* Optional Loading Text */
+.loading-text {
+    margin-top: 20px;
+    color: #f1c40f;
+    font-family: 'Arial', sans-serif;
+    letter-spacing: 2px;
+    animation: fadeIn 1.5s ease-in-out infinite alternate;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0.5;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+/* Responsive adjustments */
+@media (max-width: 600px) {
+    .ninja-star {
+        width: 60px;
+        height: 60px;
+    }
+
+    .loading-text {
+        font-size: 0.9rem;
+    }
+}
+
+
 img {
     max-width: 100%;
     display: block;

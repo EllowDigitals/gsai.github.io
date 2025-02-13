@@ -32,11 +32,23 @@
 </head>
 
 <body>
+    <!-- Preloader -->
+    <div id="preloader">
+        <div class="animation-container" style="text-align: center;">
+            <!-- Inline SVG Ninja Star -->
+            <svg viewBox="0 0 100 100" class="ninja-star">
+                <polygon points="50,5 61,39 98,39 68,59 79,93 50,72 21,93 32,59 2,39 39,39" fill="#f1c40f" />
+            </svg>
+            <!-- Optional Loading Text -->
+            <div class="loading-text">Loading...</div>
+        </div>
+    </div>
+
     <!-- Skip to Content Link for Accessibility -->
     <a href="#main-content" class="skip-link">Skip to Content</a>
 
     <!-- Header & Navigation -->
-    <header>
+    <header id="content" style="display: none;">
         <div class="container header-container">
             <!-- Logo Section -->
             <div class="logo">
@@ -523,6 +535,18 @@
 
     <!-- Main Script -->
     <script src="assets/script.js" defer></script>
+    <!-- JavaScript to Remove Preloader -->
+    <script>
+        window.addEventListener('load', function () {
+            const preloader = document.getElementById('preloader');
+            preloader.style.opacity = '0';
+            // After the fade-out transition, hide the preloader and show the content
+            setTimeout(function () {
+                preloader.style.display = 'none';
+                document.getElementById('content').style.display = 'block';
+            }, 500); // matches the CSS transition duration
+        });
+    </script>
 </body>
 
 </html>
