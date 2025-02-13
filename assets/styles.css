@@ -1,58 +1,83 @@
 /* ============================================
    RESET & GLOBAL STYLES
 ============================================ */
-* {
+*,
+*::before,
+*::after {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 
 :root {
-    /* Light Theme (Default) */
-    --primary-color: #FF4500;
-    /* Vibrant Orange */
-    --primary-color-hover: #E04E00;
-    /* Darker variant for hover states */
-    --bg-primary: #ffffff;
-    /* Main background */
+    /* Colors & Theme Variables */
+    --primary-color: #ff4500;
+    --primary-color-hover: #e04e00;
+    --bg-primary: #fcfcfc;
     --bg-secondary: #f9f9f9;
-    /* Secondary background */
-    --card-bg: #f5f5f5;
-    /* Updated card background for better contrast */
+    --card-bg: #FFF;
     --text-color: #333333;
-    /* Dark text */
     --header-bg: rgba(255, 255, 255, 0.95);
-    /* Light header background */
-    --nav-hover: #FF4500;
-    /* Navigation hover color */
+    --nav-hover: #ff4500;
     --transition-speed: 0.8s;
+    --slider-overlay: rgba(0, 0, 0, 0.068);
 }
 
 @media (prefers-color-scheme: dark) {
     :root {
-        /* Dark Theme Overrides */
-        --primary-color: #FF4500;
-        --primary-color-hover: #E04E00;
         --bg-primary: #141414;
-        --bg-secondary: #1C1C1C;
+        --bg-secondary: #1c1c1c;
         --card-bg: #242424;
-        --text-color: #F5F5F5;
+        --text-color: #f5f5f5;
         --header-bg: rgba(20, 20, 20, 0.95);
-        --nav-hover: #FF4500;
+        --slider-overlay: rgba(0, 0, 0, 0.514)
     }
 }
 
-body {
-    font-family: 'Montserrat', sans-serif;
-    line-height: 1.6;
-    color: var(--text-color);
-    background: var(--bg-primary);
+/* Base & Utility Styles */
+html {
+    scroll-behavior: smooth;
 }
 
+body {
+    font-family: "Montserrat", sans-serif;
+    line-height: 1.6;
+    background: var(--bg-primary);
+    color: var(--text-color);
+}
+
+img {
+    max-width: 100%;
+    display: block;
+}
+
+/* Global focus style for accessibility */
+a:focus,
+button:focus,
+input:focus,
+textarea:focus,
+:focus {
+    outline: 2px dashed var(--primary-color);
+    outline-offset: 4px;
+}
+
+/* Utility classes */
 .container {
     max-width: 1200px;
     margin: 0 auto;
     padding: 0 20px;
+}
+
+.text-center {
+    text-align: center;
+}
+
+.mt-20 {
+    margin-top: 20px;
+}
+
+.mb-20 {
+    margin-bottom: 20px;
 }
 
 /* ============================================
@@ -98,12 +123,7 @@ header {
     line-height: 1.2;
 }
 
-.logo-text .logo-line1,
-.logo-text .logo-line2 {
-    display: inline;
-}
-
-header>nav {
+header nav {
     display: flex;
 }
 
@@ -124,7 +144,7 @@ header>nav {
     color: var(--nav-hover);
 }
 
-/* Hamburger Button (hidden on desktop) */
+/* Hamburger Button (Mobile) */
 .menu-toggle {
     font-size: 1.8rem;
     border: none;
@@ -132,14 +152,13 @@ header>nav {
     color: var(--text-color);
     cursor: pointer;
     display: none;
-    transition: color 0.3s ease;
 }
 
 .menu-toggle:hover {
     color: var(--nav-hover);
 }
 
-/* Mobile Navigation (hidden by default) */
+/* Mobile Navigation */
 .mobile-nav {
     background: var(--header-bg);
     overflow: hidden;
@@ -160,29 +179,19 @@ header>nav {
 }
 
 /* ============================================
-     Responsive Styles (Mobile)
+     RESPONSIVE STYLES (Mobile)
   ============================================ */
 @media (max-width: 768px) {
-    header>nav {
-        display: none;
-    }
+    /* Remove or comment out the following line */
+    /* header > nav { display: none; } */
 
     .menu-toggle {
         display: block;
     }
 
-    .header-container {
-        flex-direction: row;
-        justify-content: space-between;
-    }
-
-    .logo-text .logo-line1,
-    .logo-text .logo-line2 {
-        display: block;
-    }
-
-    /* Updated mobile nav-list background using variable */
     .nav-list {
+        display: none;
+        /* Hide the nav list by default */
         flex-direction: column;
         background: var(--header-bg);
         position: absolute;
@@ -190,34 +199,36 @@ header>nav {
         right: 0;
         width: 200px;
         border-radius: 5px;
-        display: none;
     }
 
     .nav-list.active {
         display: flex;
     }
+}
 
-    .overlay h1 {
-        font-size: 2.5rem;
-    }
 
-    .overlay p {
-        font-size: 1rem;
-    }
+/* ============================================
+     SECTION BASE STYLES
+  ============================================ */
+section {
+    padding: 80px 20px;
+    text-align: center;
+}
 
-    .founder-card {
-        flex-direction: column;
-        text-align: center;
-        padding: 20px;
-    }
+section h2 {
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+    color: var(--primary-color);
+}
 
-    .founder-info {
-        margin-top: 20px;
-    }
+section p {
+    font-size: 1.1rem;
+    max-width: 800px;
+    margin: 0 auto 20px;
 }
 
 /* ============================================
-      HOME SECTION & SLIDER
+     HOME SECTION & SLIDER
   ============================================ */
 #home {
     position: relative;
@@ -242,6 +253,7 @@ header>nav {
     background-position: center;
     opacity: 0;
     transition: opacity var(--transition-speed) ease-in-out;
+    will-change: opacity;
 }
 
 .slide.active {
@@ -254,7 +266,7 @@ header>nav {
     left: 0;
     right: 0;
     bottom: 0;
-    background: rgba(0, 0, 0, 0.35);
+    background: var(--slider-overlay);
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -266,7 +278,6 @@ header>nav {
 .overlay h1,
 .overlay p,
 .btn {
-    background: rgba(0, 0, 0, 0.5);
     padding: 10px 20px;
     border-radius: 5px;
     opacity: 0;
@@ -280,10 +291,11 @@ header>nav {
     font-weight: 900;
     margin-bottom: 20px;
     animation-delay: 0.2s;
+    background: rgba(0, 0, 0, 0.5);
 }
 
 .overlay p {
-    color: #FFF;
+    color: #fff;
     font-size: 1.2rem;
     max-width: 700px;
     margin-bottom: 30px;
@@ -328,56 +340,7 @@ header>nav {
 }
 
 /* ============================================
-      CONTENT SECTIONS (Common)
-  ============================================ */
-section {
-    padding: 80px 20px;
-    text-align: center;
-}
-
-section h2 {
-    font-size: 2.5rem;
-    margin-bottom: 20px;
-    color: var(--primary-color);
-}
-
-section p {
-    font-size: 1.1rem;
-    margin-bottom: 20px;
-    max-width: 800px;
-    margin: 0 auto;
-}
-
-/* ============================================
-      ABOUT SECTION
-  ============================================ */
-#about {
-    background: var(--bg-secondary);
-    padding: 80px 20px;
-}
-
-#about .container {
-    max-width: 1000px;
-    margin: 0 auto;
-}
-
-#about h2 {
-    font-size: 2.5rem;
-    text-align: center;
-    margin-bottom: 20px;
-    color: var(--primary-color);
-}
-
-.about-intro {
-    font-size: 1.1rem;
-    text-align: center;
-    margin-bottom: 30px;
-    color: var(--text-color);
-    line-height: 1.6;
-}
-
-/* ============================================
-      SHARED GRID & CARD STYLES
+     CARD & GRID STYLES
   ============================================ */
 .card-grid,
 .gallery-grid,
@@ -426,23 +389,34 @@ section p {
 }
 
 /* ============================================
-      FOUNDER SECTION
+     ABOUT SECTION
+  ============================================ */
+#about {
+    background: var(--bg-secondary);
+}
+
+#about .container {
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.about-intro {
+    font-size: 1.1rem;
+    margin-bottom: 30px;
+    line-height: 1.6;
+    color: var(--text-color);
+}
+
+/* ============================================
+     FOUNDER SECTION
   ============================================ */
 #founder {
     background: var(--bg-secondary);
-    padding: 80px 20px;
 }
 
 .founder-container {
     max-width: 1000px;
     margin: 0 auto;
-}
-
-#founder h2 {
-    font-size: 2.5rem;
-    text-align: center;
-    margin-bottom: 40px;
-    color: var(--primary-color);
 }
 
 .founder-card {
@@ -472,7 +446,6 @@ section p {
 
 .founder-image figcaption {
     font-size: 1rem;
-    color: var(--text-color);
 }
 
 .founder-info {
@@ -491,7 +464,6 @@ section p {
     display: flex;
     gap: 20px;
     justify-content: center;
-    align-items: center;
 }
 
 .founder-icons .icon {
@@ -505,51 +477,24 @@ section p {
 }
 
 /* ============================================
-      PROGRAMS & TRAINING SECTION
+     PROGRAMS & TRAINING
   ============================================ */
 #programs {
     background: var(--bg-secondary);
-    padding: 80px 20px;
-}
-
-#programs h2 {
-    font-size: 2.5rem;
-    text-align: center;
-    margin-bottom: 20px;
-    color: var(--primary-color);
 }
 
 .section-intro {
-    font-size: 1.1rem;
-    text-align: center;
-    margin: 0 auto 30px;
     max-width: 800px;
+    margin: 0 auto 30px;
     color: var(--text-color);
     line-height: 1.6;
 }
 
 /* ============================================
-      GALLERY SECTION
+     GALLERY
   ============================================ */
 #gallery {
     background: var(--bg-secondary);
-    padding: 80px 20px;
-}
-
-#gallery h2 {
-    font-size: 2.5rem;
-    text-align: center;
-    margin-bottom: 20px;
-    color: var(--primary-color);
-}
-
-#gallery .section-intro {
-    font-size: 1.1rem;
-    text-align: center;
-    margin: 0 auto 30px;
-    max-width: 800px;
-    color: var(--text-color);
-    line-height: 1.6;
 }
 
 .gallery-item {
@@ -574,75 +519,28 @@ section p {
 }
 
 /* ============================================
-      TESTIMONIALS SECTION
+     TESTIMONIALS
   ============================================ */
 #testimonials {
     background: var(--bg-secondary);
-    padding: 80px 20px;
 }
 
-#testimonials h2 {
-    font-size: 2.5rem;
-    text-align: center;
-    margin-bottom: 20px;
-    color: var(--primary-color);
-}
-
-#testimonials .section-intro {
-    font-size: 1.1rem;
-    text-align: center;
-    margin: 0 auto 30px;
-    max-width: 800px;
-    color: var(--text-color);
-    line-height: 1.6;
+.testimonial-grid {
+    padding: 0 20px;
 }
 
 /* ============================================
-      ACHIEVEMENTS SECTION
+     ACHIEVEMENTS
   ============================================ */
 #achievements {
     background: var(--bg-secondary);
-    padding: 80px 20px;
-}
-
-#achievements h2 {
-    font-size: 2.5rem;
-    text-align: center;
-    margin-bottom: 20px;
-    color: var(--primary-color);
-}
-
-#achievements .section-intro {
-    font-size: 1.1rem;
-    text-align: center;
-    margin: 0 auto 30px;
-    max-width: 800px;
-    color: var(--text-color);
-    line-height: 1.6;
 }
 
 /* ============================================
-      BLOG / NEWS & EVENTS SECTION
+     BLOG / NEWS & EVENTS
   ============================================ */
 #blog {
     background: var(--bg-secondary);
-    padding: 80px 20px;
-}
-
-#blog h2 {
-    font-size: 2.5rem;
-    text-align: center;
-    margin-bottom: 20px;
-    color: var(--primary-color);
-}
-
-#blog .section-intro {
-    font-size: 1.1rem;
-    text-align: center;
-    margin: 0 auto 30px;
-    max-width: 800px;
-    color: var(--text-color);
-    line-height: 1.6;
 }
 
 .blog-card img {
@@ -658,35 +556,14 @@ section p {
 
 .blog-date {
     font-size: 0.9rem;
-    color: var(--text-color);
     margin-bottom: 10px;
 }
 
-.blog-content .btn {
-    background: var(--primary-color);
-    color: #fff;
-    padding: 10px 20px;
-    border-radius: 5px;
-    text-decoration: none;
-    transition: background 0.3s ease;
-}
-
-.blog-content .btn:hover {
-    background: var(--primary-color-hover);
-}
-
 /* ============================================
-      GOOGLE MAPS SECTION
+     GOOGLE MAPS
   ============================================ */
 #map {
-    padding: 80px 20px;
-}
-
-#map h2 {
-    font-size: 2.5rem;
-    text-align: center;
-    margin-bottom: 20px;
-    color: var(--primary-color);
+    /* Map section container if needed */
 }
 
 .map-container {
@@ -696,26 +573,10 @@ section p {
 }
 
 /* ============================================
-      FAQ SECTION
+     FAQ
   ============================================ */
 #faq {
     background: var(--bg-secondary);
-    padding: 80px 20px;
-}
-
-#faq h2 {
-    font-size: 2.5rem;
-    text-align: center;
-    margin-bottom: 20px;
-    color: var(--primary-color);
-}
-
-#faq .section-intro {
-    font-size: 1.1rem;
-    text-align: center;
-    margin-bottom: 30px;
-    max-width: 800px;
-    color: var(--text-color);
 }
 
 .faq-list {
@@ -739,26 +600,10 @@ section p {
 }
 
 /* ============================================
-      ENROLL / JOIN US SECTION
+     ENROLL / JOIN US
   ============================================ */
 #enroll {
     background: var(--bg-secondary);
-    padding: 80px 20px;
-}
-
-#enroll h2 {
-    font-size: 2.5rem;
-    text-align: center;
-    margin-bottom: 20px;
-    color: var(--primary-color);
-}
-
-#enroll .section-intro {
-    font-size: 1.1rem;
-    text-align: center;
-    margin-bottom: 30px;
-    max-width: 800px;
-    color: var(--text-color);
 }
 
 .enroll-form {
@@ -789,12 +634,10 @@ section p {
 
 .enroll-form input:focus,
 .enroll-form textarea:focus {
-    outline: none;
     box-shadow: 0 0 5px var(--primary-color);
 }
 
 .enroll-form button {
-    display: block;
     width: 100%;
     padding: 12px;
     background: var(--primary-color);
@@ -811,26 +654,10 @@ section p {
 }
 
 /* ============================================
-      LEGAL SECTION (PRIVACY POLICY & TERMS)
+     LEGAL (Privacy Policy & Terms)
   ============================================ */
 #legal {
     background: var(--bg-secondary);
-    padding: 80px 20px;
-}
-
-#legal h2 {
-    font-size: 2.5rem;
-    text-align: center;
-    margin-bottom: 20px;
-    color: var(--primary-color);
-}
-
-#legal .section-intro {
-    font-size: 1.1rem;
-    text-align: center;
-    margin-bottom: 30px;
-    max-width: 800px;
-    color: var(--text-color);
 }
 
 .legal-links {
@@ -839,12 +666,11 @@ section p {
 
 .legal-links a {
     margin: 0 10px;
-    display: inline-block;
     background: var(--primary-color);
     color: #fff;
     padding: 10px 20px;
     border-radius: 5px;
-    text-decoration: none;
+    display: inline-block;
     transition: background 0.3s ease;
 }
 
@@ -853,7 +679,7 @@ section p {
 }
 
 /* ============================================
-      FOOTER
+     FOOTER
   ============================================ */
 footer {
     background: var(--bg-secondary);
@@ -862,13 +688,11 @@ footer {
 }
 
 footer p {
-    color: var(--text-color);
     font-size: 1rem;
 }
 
 footer a {
     color: var(--primary-color);
-    text-decoration: none;
     transition: color 0.3s ease;
 }
 
@@ -876,8 +700,20 @@ footer a:hover {
     color: var(--primary-color-hover);
 }
 
+.fadeInBox {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+.fadeInBox.in-view {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+
 /* ============================================
-      ANIMATIONS
+     ANIMATIONS
   ============================================ */
 @keyframes fadeInUp {
     from {
@@ -888,5 +724,18 @@ footer a:hover {
     to {
         opacity: 1;
         transform: translateY(0);
+    }
+}
+
+/* ============================================
+     RESPONSIVE TYPOGRAPHY (Extra Small Devices)
+  ============================================ */
+@media (max-width: 480px) {
+    section h2 {
+        font-size: 2rem;
+    }
+
+    .overlay h1 {
+        font-size: 2.5rem;
     }
 }

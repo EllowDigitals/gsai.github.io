@@ -1,9 +1,9 @@
 document.addEventListener("DOMContentLoaded", function () {
     "use strict";
 
-    /* ======================
+    /* ======================================
          Slider Functionality
-      ====================== */
+    ====================================== */
     try {
         const sliderImages = [
             "assets/images/slider1.jpg",
@@ -24,7 +24,7 @@ document.addEventListener("DOMContentLoaded", function () {
         let currentIndex = 0;
         const slideInterval = 5000; // 5 seconds
 
-        // Create slider slides and corresponding navigation buttons
+        // Create slides and navigation buttons
         sliderImages.forEach((image, index) => {
             // Create slide element
             const slide = document.createElement("div");
@@ -64,7 +64,7 @@ document.addEventListener("DOMContentLoaded", function () {
         sliderButtons.forEach((button) => {
             button.addEventListener("click", () => {
                 clearInterval(sliderTimer);
-                let index = parseInt(button.getAttribute("data-index"), 10);
+                const index = parseInt(button.getAttribute("data-index"), 10);
                 if (isNaN(index)) return;
                 showSlide(index);
                 // Restart the timer after manual navigation
@@ -78,26 +78,27 @@ document.addEventListener("DOMContentLoaded", function () {
         console.error("Error in slider functionality:", err);
     }
 
-    /* ======================
+    /* ======================================
          Mobile Navigation
-      ====================== */
+    ====================================== */
     try {
+        // Use a more specific selector for mobile nav list to avoid selecting the desktop nav list
         const menuToggle = document.querySelector(".menu-toggle");
-        const navList = document.querySelector(".nav-list");
+        const mobileNavList = document.querySelector(".mobile-nav .nav-list");
 
-        if (!menuToggle || !navList) {
+        if (!menuToggle || !mobileNavList) {
             console.warn("Mobile navigation elements not found.");
         } else {
             menuToggle.addEventListener("click", () => {
-                navList.classList.toggle("active");
+                mobileNavList.classList.toggle("active");
             });
 
             // Close the mobile menu when a navigation link is clicked
-            const navLinks = document.querySelectorAll(".nav-list li a");
-            navLinks.forEach((link) => {
+            const mobileNavLinks = document.querySelectorAll(".mobile-nav .nav-list li a");
+            mobileNavLinks.forEach((link) => {
                 link.addEventListener("click", () => {
-                    if (navList.classList.contains("active")) {
-                        navList.classList.remove("active");
+                    if (mobileNavList.classList.contains("active")) {
+                        mobileNavList.classList.remove("active");
                     }
                 });
             });
@@ -106,9 +107,9 @@ document.addEventListener("DOMContentLoaded", function () {
         console.error("Error in mobile navigation:", err);
     }
 
-    /* ======================
-         Smooth Scrolling
-      ====================== */
+    /* ======================================
+         Smooth Scrolling for Anchor Links
+    ====================================== */
     try {
         const anchorLinks = document.querySelectorAll('a[href^="#"]');
         anchorLinks.forEach((link) => {
@@ -126,9 +127,9 @@ document.addEventListener("DOMContentLoaded", function () {
         console.error("Error in smooth scrolling:", err);
     }
 
-    /* ======================
+    /* ======================================
          Enrollment Form Handling
-      ====================== */
+    ====================================== */
     try {
         const enrollForm = document.querySelector(".enroll-form");
         if (enrollForm) {
@@ -144,7 +145,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     return;
                 }
 
-                // Simulate AJAX call (you can replace this with an actual call)
+                // Simulate AJAX call (replace with actual call if needed)
                 setTimeout(() => {
                     alert("Thank you for enrolling! We will contact you soon.");
                     enrollForm.reset();
@@ -155,22 +156,50 @@ document.addEventListener("DOMContentLoaded", function () {
         console.error("Error in enrollment form handling:", err);
     }
 
-    /* ======================
-         Global Error Handling & Performance Improvements
-      ====================== */
-    // Global error listener to catch uncaught errors
+    /* ======================================
+         Animate on Scroll (Section Animations)
+    ====================================== */
+    try {
+        // Elements you want to animate on scroll should have the class .fadeInBox
+        const animateElements = document.querySelectorAll(".fadeInBox");
+
+        if (animateElements.length > 0) {
+            const observerOptions = {
+                threshold: 0.2, // Trigger when 20% of the element is visible
+            };
+
+            const animateOnScroll = (entries, observer) => {
+                entries.forEach((entry) => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add("in-view");
+                        // Optionally unobserve the element if you want the animation to run only once
+                        observer.unobserve(entry.target);
+                    }
+                });
+            };
+
+            const observer = new IntersectionObserver(animateOnScroll, observerOptions);
+            animateElements.forEach((el) => observer.observe(el));
+        }
+    } catch (err) {
+        console.error("Error in animate on scroll:", err);
+    }
+
+    /* ======================================
+         Global Error Handling
+    ====================================== */
     window.addEventListener("error", function (event) {
         console.error("Global error caught:", event.error);
     });
 
-    // Check for native lazy-loading support
+    /* ======================================
+         Lazy Loading Check
+    ====================================== */
     if ("loading" in HTMLImageElement.prototype) {
-        document
-            .querySelectorAll('img[loading="lazy"]')
-            .forEach((img) => console.log("Lazy loading supported for:", img.src));
+        document.querySelectorAll('img[loading="lazy"]').forEach((img) => {
+            console.log("Lazy loading supported for:", img.src);
+        });
     } else {
-        console.log(
-            "Native lazy loading not supported. Consider adding a polyfill."
-        );
+        console.log("Native lazy loading not supported. Consider adding a polyfill.");
     }
 });
