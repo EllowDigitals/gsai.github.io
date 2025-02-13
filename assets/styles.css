@@ -262,6 +262,16 @@ header nav {
     /* 12px 20px */
 }
 
+/* Default: Show full name, hide short name */
+.logo-full {
+    display: inline;
+}
+
+.logo-short {
+    display: none;
+}
+
+
 /* ============================================
    RESPONSIVE STYLES (Mobile)
 ============================================ */
@@ -286,6 +296,14 @@ header nav {
 
     .nav-list.active {
         display: flex;
+    }
+
+    .logo-full {
+        display: none;
+    }
+
+    .logo-short {
+        display: inline;
     }
 }
 
@@ -502,6 +520,7 @@ section p {
 ============================================ */
 #founder {
     background: var(--bg-secondary);
+    padding: 2rem 0;
 }
 
 .founder-container {
@@ -522,10 +541,14 @@ section p {
     flex-wrap: wrap;
 }
 
+/* Ensure image is centered */
 .founder-image {
     flex: 1 1 15.625rem;
     /* 250px */
     text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .founder-image img {
@@ -540,6 +563,7 @@ section p {
 
 .founder-image figcaption {
     font-size: 1rem;
+    text-align: center;
 }
 
 .founder-info {
@@ -550,10 +574,7 @@ section p {
     color: var(--text-color);
 }
 
-.founder-info p {
-    margin-bottom: 1.25rem;
-}
-
+/* Icons styling */
 .founder-icons {
     margin: 1.25rem 0;
     display: flex;
@@ -569,6 +590,20 @@ section p {
 
 .founder-icons .icon:hover {
     transform: scale(1.1);
+}
+
+/* Responsive Fix for Small Screens */
+@media (max-width: 768px) {
+    .founder-card {
+        flex-direction: column;
+        /* Stack image and text */
+        text-align: center;
+    }
+
+    .founder-info {
+        text-align: center;
+        /* Center text */
+    }
 }
 
 /* ============================================
@@ -758,25 +793,48 @@ section p {
 ============================================ */
 #legal {
     background: var(--bg-secondary);
+    padding: 2rem 0;
 }
 
 .legal-links {
     text-align: center;
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    /* Spacing between buttons */
 }
 
+/* Style for buttons */
 .legal-links a {
-    margin: 0 0.625rem;
     background: var(--primary-color);
     color: #fff;
     padding: 0.625rem 1.25rem;
     border-radius: 0.313rem;
     display: inline-block;
     transition: background 0.3s ease;
+    text-decoration: none;
 }
 
+/* Hover effect */
 .legal-links a:hover {
     background: var(--primary-color-hover);
 }
+
+/* Responsive Fix for Small Screens */
+@media (max-width: 768px) {
+    .legal-links {
+        flex-direction: column;
+        /* Stack buttons */
+        align-items: center;
+    }
+
+    .legal-links a {
+        width: 80%;
+        /* Make buttons wider */
+        text-align: center;
+    }
+}
+
 
 /* ============================================
    FOOTER
