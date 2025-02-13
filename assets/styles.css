@@ -787,10 +787,13 @@ footer {
     text-align: center;
 }
 
+/* General Footer Text */
 footer p {
     font-size: 1rem;
+    margin: 0;
 }
 
+/* Links */
 footer a {
     color: var(--primary-color);
     transition: color 0.3s ease;
@@ -798,6 +801,42 @@ footer a {
 
 footer a:hover {
     color: var(--primary-color-hover);
+}
+
+/* Indian Flag */
+.footer-flag {
+    margin-bottom: 1rem;
+}
+
+.footer-flag .indian-flag {
+    max-width: 50px;
+    /* Adjust size as needed */
+    display: block;
+    margin: 0 auto;
+}
+
+/* Reserved Rights */
+.footer-reserved {
+    margin-bottom: 1rem;
+}
+
+/* Social Media Links */
+.footer-social .social-media {
+    list-style: none;
+    padding: 0;
+    margin: 1rem 0;
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+}
+
+.footer-social .social-media li {
+    display: inline-block;
+}
+
+/* Made by Section */
+.footer-made-by {
+    margin-top: 1rem;
 }
 
 /* ============================================
