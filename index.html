@@ -3,771 +3,556 @@
 
 <head>
     <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Ghatak Sport Academy - Modern Martial Arts</title>
-    <!-- Bootstrap 5.3 CSS -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" />
-    <!-- Custom CSS -->
-    <style>
-        /* ====================================
-       Global Variables & Settings
-       (Using Black, White & Primary Orange)
-    =================================== */
-        :root {
-            --primary-orange: #fd7e14;
-            --black: #000000;
-            --white: #ffffff;
-            --light-gray: #f8f9fa;
-            --transition: 0.3s;
-        }
+    <meta name="description"
+        content="Ghatak Sports Academy India (GSAI) offers world-class martial arts and self-defense training to empower you physically and mentally." />
+    <meta name="author" content="GSAI Team" />
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+    <!-- Open Graph Meta Tags for Social Sharing -->
+    <meta property="og:title" content="Ghatak Sports Academy India (GSAI)" />
+    <meta property="og:description"
+        content="Experience world-class martial arts and self-defense training designed to empower you both physically and mentally." />
+    <meta property="og:image" content="assets/images/logo.png" />
+    <meta property="og:url" content="https://www.yourgsaiwebsite.com" />
+    <meta property="og:type" content="website" />
 
-        html {
-            scroll-behavior: smooth;
-        }
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="assets/favicon.png" />
 
-        /* Global Body & Font Settings */
-        body {
-            font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-            line-height: 1.6;
-            background-color: var(--black);
-            color: var(--white);
-        }
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+        integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
 
-        /* ====================================
-                   Navbar / Header
-    =================================== */
-        header {
-            background-color: var(--black);
-        }
+    <!-- Main Stylesheet -->
+    <link rel="stylesheet" href="assets/styles.css" />
 
-        .navbar {
-            padding: 1rem 0;
-        }
-
-        .navbar-brand {
-            color: var(--primary-orange) !important;
-            font-size: 1.5rem;
-            font-weight: bold;
-        }
-
-        .logo {
-            height: 50px;
-            width: auto;
-        }
-
-        .nav-link {
-            color: var(--white) !important;
-            margin-left: 1rem;
-            transition: color var(--transition);
-        }
-
-        .nav-link:hover,
-        .nav-link.active {
-            color: var(--primary-orange) !important;
-        }
-
-        /* ====================================
-                     Hero Section
-    =================================== */
-        .hero-section {
-            position: relative;
-            background: url('assets/images/slider1.jpg') no-repeat center center/cover;
-            height: 100vh;
-            color: var(--white);
-        }
-
-        .hero-overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background-color: rgba(0, 0, 0, 0.7);
-        }
-
-        .hero-content {
-            position: relative;
-            z-index: 2;
-            text-align: center;
-        }
-
-        .hero-content h1 {
-            font-size: 3rem;
-            margin-bottom: 20px;
-            color: var(--primary-orange);
-        }
-
-        .hero-content p {
-            font-size: 1.25rem;
-            margin-bottom: 30px;
-        }
-
-        /* Primary Orange Button and Text */
-        .btn-orange,
-        .text-orange,
-        .border-orange {
-            color: var(--white);
-            background-color: var(--primary-orange) !important;
-            border-color: var(--primary-orange) !important;
-        }
-
-        .text-orange {
-            background: none !important;
-        }
-
-        .btn-orange {
-            border: none;
-            padding: 10px 20px;
-            border-radius: 5px;
-            transition: background-color var(--transition), transform var(--transition);
-            cursor: pointer;
-        }
-
-        .btn-orange:hover {
-            background-color: #e65c00;
-            transform: scale(1.05);
-        }
-
-        /* ====================================
-                   Slider Controls
-    =================================== */
-        .slider-controls {
-            position: absolute;
-            bottom: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            z-index: 2;
-        }
-
-        .slider-btn {
-            background: rgba(255, 255, 255, 0.7);
-            border: none;
-            padding: 10px 15px;
-            margin: 0 5px;
-            font-size: 1.2rem;
-            border-radius: 50%;
-            cursor: pointer;
-            transition: background-color var(--transition), transform var(--transition);
-        }
-
-        .slider-btn:hover {
-            background: rgba(255, 255, 255, 0.9);
-            transform: scale(1.1);
-        }
-
-        /* ====================================
-              Section Styles
-    =================================== */
-        section {
-            padding-top: 60px;
-            padding-bottom: 60px;
-            background-color: var(--black);
-            color: var(--white);
-            text-align: center;
-        }
-
-        section h2 {
-            font-size: 2.5rem;
-            margin-bottom: 20px;
-            color: var(--primary-orange) !important;
-        }
-
-        .container {
-            max-width: 1140px;
-            margin: auto;
-            padding: 0 15px;
-        }
-
-        /* ====================================
-              Program Cards (Classes)
-    =================================== */
-        .class-card {
-            transition: transform 0.3s;
-            border: 1px solid #444;
-            background: var(--black);
-            min-height: 150px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            margin-bottom: 15px;
-        }
-
-        .class-card:hover {
-            transform: scale(1.05);
-        }
-
-        .class-card h3 {
-            color: var(--primary-orange);
-        }
-
-        /* ====================================
-         Custom Card Border for Events
-    =================================== */
-        .card-custom {
-            border: 2px solid var(--primary-orange);
-            background: var(--black);
-            color: var(--white);
-            margin-bottom: 15px;
-        }
-
-        .card-custom .card-body {
-            padding: 20px;
-        }
-
-        .card-custom .card-title {
-            color: var(--primary-orange);
-        }
-
-        /* ====================================
-               Counter Styling
-    =================================== */
-        .counter h3 {
-            font-weight: bold;
-            color: var(--primary-orange);
-        }
-
-        .counter p {
-            color: var(--white);
-        }
-
-        /* ====================================
-              Founder Section Image
-    =================================== */
-        .founder-card img {
-            width: 100px;
-            height: 100px;
-            object-fit: cover;
-            border-radius: 50%;
-            border: 2px solid var(--primary-orange);
-        }
-
-        /* ====================================
-               Gallery Images
-    =================================== */
-        .gallery-img {
-            width: 100%;
-            height: 250px;
-            object-fit: cover;
-            border-radius: 5px;
-            transition: transform var(--transition);
-        }
-
-        .gallery-img:hover {
-            transform: scale(1.05);
-        }
-
-        /* ====================================
-                Testimonials
-    =================================== */
-        .testimonial {
-            font-style: italic;
-            background: #222;
-            padding: 20px;
-            border-radius: 5px;
-            color: var(--white);
-            margin-bottom: 15px;
-        }
-
-        .testimonial:hover {
-            transform: translateY(-3px);
-            transition: transform var(--transition);
-        }
-
-        /* ====================================
-                     FAQ
-    =================================== */
-        .faq-item {
-            padding: 20px;
-            border: 1px solid #444;
-            border-radius: 5px;
-            margin-bottom: 15px;
-            background: var(--black);
-            color: var(--white);
-        }
-
-        .faq-item h5 {
-            color: var(--primary-orange);
-            margin-bottom: 10px;
-        }
-
-        /* ====================================
-              Contact Form
-    =================================== */
-        .contact-form input,
-        .contact-form textarea {
-            border: 1px solid var(--primary-orange);
-            border-radius: 5px;
-            padding: 10px;
-            width: 100%;
-            background: var(--black);
-            color: var(--white);
-        }
-
-        .contact-form input:focus,
-        .contact-form textarea:focus {
-            border-color: var(--primary-orange);
-            outline: none;
-            box-shadow: 0 0 5px var(--primary-orange);
-        }
-
-        .contact-form button {
-            background: var(--primary-orange);
-            border: none;
-            padding: 10px 20px;
-            border-radius: 5px;
-            color: var(--white);
-            transition: background-color var(--transition), transform var(--transition);
-            cursor: pointer;
-        }
-
-        .contact-form button:hover {
-            background: #e65c00;
-            transform: scale(1.05);
-        }
-
-        /* ====================================
-                 Map Styling
-    =================================== */
-        .map-container iframe {
-            width: 100%;
-            height: 400px;
-            border: 0;
-        }
-
-        /* ====================================
-                Footer Styling
-    =================================== */
-        .site-footer {
-            background: var(--light-gray);
-            padding: 40px 0;
-            color: var(--black);
-        }
-
-        .site-footer a {
-            color: var(--black);
-            text-decoration: none;
-            transition: color var(--transition);
-        }
-
-        .site-footer a:hover {
-            color: var(--primary-orange);
-        }
-
-        .footer-bottom {
-            text-align: center;
-            border-top: 1px solid var(--primary-orange);
-            padding-top: 10px;
-            margin-top: 20px;
-            font-size: 0.9rem;
-        }
-
-        /* ====================================
-              Responsive Adjustments
-    =================================== */
-        @media (max-width: 767px) {
-            .hero-content h1 {
-                font-size: 2.5rem;
-            }
-
-            .hero-content p {
-                font-size: 1rem;
-            }
-
-            section {
-                padding: 40px 0;
-            }
-
-            .navbar-nav .nav-link {
-                margin-left: 0.5rem;
-            }
-        }
-    </style>
+    <title>Ghatak Sports Academy India (GSAI)</title>
 </head>
 
 <body>
-    <!-- Header / Navbar -->
-    <header class="sticky-top">
-        <nav class="navbar navbar-expand-lg navbar-light">
-            <div class="container">
-                <a class="navbar-brand d-flex align-items-center" href="#">
-                    <img src="assets/images/logo.png" alt="Ghatak Sport Academy Logo" class="logo me-2" />
-                    Ghatak Sport Academy
+    <!-- Skip to Content Link for Accessibility -->
+    <a href="#main-content" class="skip-link">Skip to Content</a>
+
+    <!-- Header & Navigation -->
+    <header>
+        <div class="container header-container">
+            <div class="logo">
+                <a href="#home">
+                    <img src="assets/images/logo.png" alt="GSAI Logo" />
+                    <span>Ghatak Sports Academy India</span>
                 </a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
-                    aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse" id="navbarNav">
-                    <ul class="navbar-nav ms-auto">
-                        <li class="nav-item"><a class="nav-link active" href="#home">Home</a></li>
-                        <li class="nav-item"><a class="nav-link" href="#about">About</a></li>
-                        <li class="nav-item"><a class="nav-link" href="#philosophy">Philosophy</a></li>
-                        <li class="nav-item"><a class="nav-link" href="#programs">Programs</a></li>
-                        <li class="nav-item"><a class="nav-link" href="#events">Events</a></li>
-                        <li class="nav-item"><a class="nav-link" href="#achievements">Achievements</a></li>
-                        <li class="nav-item"><a class="nav-link" href="#founder">Founder</a></li>
-                        <li class="nav-item"><a class="nav-link" href="#gallery">Gallery</a></li>
-                        <li class="nav-item"><a class="nav-link" href="#testimonials">Testimonials</a></li>
-                        <li class="nav-item"><a class="nav-link" href="#faq">FAQ</a></li>
-                        <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
-                    </ul>
-                </div>
             </div>
-        </nav>
+            <nav role="navigation" aria-label="Main Navigation">
+                <button class="menu-toggle" aria-label="Toggle Menu">&#9776;</button>
+                <ul class="nav-list">
+                    <li>
+                        <a href="#home" class="nav-link">
+                            <i class="fas fa-home" aria-hidden="true"></i> Home
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#about" class="nav-link">
+                            <i class="fas fa-info-circle" aria-hidden="true"></i> About Us
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#founder" class="nav-link">
+                            <i class="fas fa-user-tie" aria-hidden="true"></i> Founder’s Message
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#programs" class="nav-link">
+                            <i class="fas fa-running" aria-hidden="true"></i> Programs
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#gallery" class="nav-link">
+                            <i class="fas fa-images" aria-hidden="true"></i> Gallery
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#testimonials" class="nav-link">
+                            <i class="fas fa-quote-left" aria-hidden="true"></i> Testimonials
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#achievements" class="nav-link">
+                            <i class="fas fa-trophy" aria-hidden="true"></i> Achievements
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#blog" class="nav-link">
+                            <i class="fas fa-newspaper" aria-hidden="true"></i> Blog/News
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#faq" class="nav-link">
+                            <i class="fas fa-question-circle" aria-hidden="true"></i> FAQ
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#enroll" class="nav-link">
+                            <i class="fas fa-user-plus" aria-hidden="true"></i> Enroll
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#legal" class="nav-link">
+                            <i class="fas fa-file-alt" aria-hidden="true"></i> Legal
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#contact" class="nav-link">
+                            <i class="fas fa-envelope" aria-hidden="true"></i> Contact
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#map" class="nav-link">
+                            <i class="fas fa-map-marker-alt" aria-hidden="true"></i> Map
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
     </header>
 
-    <!-- Hero Section with Slider -->
-    <section id="home" class="hero-section">
-        <div class="hero-overlay"></div>
-        <div class="container text-center hero-content position-absolute top-50 start-50 translate-middle">
-            <h1 class="display-4 fw-bold">Welcome to Ghatak Sport Academy</h1>
-            <p class="lead my-4">Master modern martial arts with world-class training.</p>
-            <a href="#contact" class="btn btn-orange btn-lg">Join Now</a>
-        </div>
-        <!-- Slider Controls -->
-        <div class="slider-controls">
-            <button class="slider-btn prev-btn">&laquo;</button>
-            <button class="slider-btn next-btn">&raquo;</button>
-        </div>
-    </section>
 
-    <!-- About Section -->
-    <section id="about">
-        <div class="container text-center">
-            <h2 class="mb-4 text-orange">About Us</h2>
-            <p>
-                Ghatak Sport Academy combines traditional martial arts with modern techniques to transform your training
-                experience.
-                Our mission is to empower individuals through discipline, skill, and physical excellence.
-            </p>
-        </div>
-    </section>
+    <!-- Main Content -->
+    <main id="main-content">
+        <!-- Home Section with Slider -->
+        <section id="home">
+            <div class="slider" id="slider"></div>
+            <div class="overlay">
+                <h1 class="fadeInBox">Welcome to GSAI</h1>
+                <p class="fadeInBox">
+                    Experience world-class martial arts and self-defense training designed to empower you both
+                    physically and mentally.
+                </p>
+                <a href="#contact" class="btn fadeInBox">Join Now</a>
+            </div>
+            <div class="slider-buttons" id="slider-buttons"></div>
+        </section>
 
-    <!-- Philosophy Section -->
-    <section id="philosophy">
-        <div class="container text-center">
-            <h2 class="mb-4 text-orange">Our Philosophy</h2>
-            <p>
-                We believe in a holistic approach to martial arts—one that builds physical strength, mental clarity, and
-                character.
-                Our training nurtures discipline, respect, and resilience.
-            </p>
-        </div>
-    </section>
-
-    <!-- Programs Section -->
-    <section id="programs">
-        <div class="container text-center">
-            <h2 class="mb-4 text-orange">Our Programs</h2>
-            <p class="mb-5">
-                Choose from a wide range of classes suited for all ages and skill levels.
-            </p>
-            <div class="row g-4 justify-content-center">
-                <!-- Program Cards -->
-                <div class="col-sm-6 col-md-4 col-lg-3">
-                    <div class="class-card p-3 rounded">
-                        <h3 class="h5">Karate</h3>
+        <!-- About Us Section -->
+        <section id="about">
+            <div class="container">
+                <h2>About Us</h2>
+                <p class="about-intro">
+                    At Ghatak Sports Academy India (GSAI), we are dedicated to nurturing excellence in martial arts and
+                    self-defense.
+                    Our training programs merge traditional techniques with modern methodologies to ensure that each
+                    student reaches their full potential.
+                </p>
+                <p class="about-intro">
+                    Our state-of-the-art facilities and expert instructors foster an environment where discipline,
+                    respect, and strength are paramount.
+                </p>
+                <div class="card-grid">
+                    <div class="card">
+                        <h3><i class="fas fa-bullseye" aria-hidden="true"></i> Our Mission</h3>
+                        <p>
+                            To empower individuals through comprehensive training that enhances physical fitness, mental
+                            agility, and self-confidence.
+                        </p>
                     </div>
-                </div>
-                <div class="col-sm-6 col-md-4 col-lg-3">
-                    <div class="class-card p-3 rounded">
-                        <h3 class="h5">Taekwondo</h3>
-                    </div>
-                </div>
-                <div class="col-sm-6 col-md-4 col-lg-3">
-                    <div class="class-card p-3 rounded">
-                        <h3 class="h5">Boxing</h3>
-                    </div>
-                </div>
-                <div class="col-sm-6 col-md-4 col-lg-3">
-                    <div class="class-card p-3 rounded">
-                        <h3 class="h5">Kickboxing</h3>
-                    </div>
-                </div>
-                <div class="col-sm-6 col-md-4 col-lg-3">
-                    <div class="class-card p-3 rounded">
-                        <h3 class="h5">Grappling</h3>
-                    </div>
-                </div>
-                <div class="col-sm-6 col-md-4 col-lg-3">
-                    <div class="class-card p-3 rounded">
-                        <h3 class="h5">MMA</h3>
-                    </div>
-                </div>
-                <div class="col-sm-6 col-md-4 col-lg-3">
-                    <div class="class-card p-3 rounded">
-                        <h3 class="h5">Kalaripayattu</h3>
-                    </div>
-                </div>
-                <div class="col-sm-6 col-md-4 col-lg-3">
-                    <div class="class-card p-3 rounded">
-                        <h3 class="h5">Self Defense</h3>
-                    </div>
-                </div>
-                <div class="col-sm-6 col-md-4 col-lg-3">
-                    <div class="class-card p-3 rounded">
-                        <h3 class="h5">Fat Loss</h3>
+                    <div class="card">
+                        <h3><i class="fas fa-eye" aria-hidden="true"></i> Our Vision</h3>
+                        <p>
+                            To cultivate a community of resilient individuals, equipped to face challenges with honor
+                            and determination.
+                        </p>
                     </div>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <!-- Events Section -->
-    <section id="events">
-        <div class="container text-center">
-            <h2 class="mb-4 text-orange">Upcoming Events</h2>
-            <div class="row g-4">
-                <div class="col-md-4">
-                    <div class="card card-custom h-100">
-                        <div class="card-body">
-                            <h3 class="card-title">Seminar on Self-Defense</h3>
-                            <p class="card-text">
-                                Join us for an exclusive seminar featuring advanced self-defense techniques.
-                            </p>
-                            <p><strong>Date:</strong> July 15, 2025</p>
+        <!-- Founder’s Message Section -->
+        <section id="founder">
+            <div class="container founder-container">
+                <h2>Founder’s Message</h2>
+                <div class="founder-card">
+                    <figure class="founder-image">
+                        <img src="assets/images/slider6.jpg" alt="Founder Mr. Nitesh Yadav" />
+                        <figcaption>
+                            Mr. Nitesh Yadav <br />
+                            Founder / Director
+                        </figcaption>
+                    </figure>
+                    <div class="founder-info">
+                        <p>
+                            <strong>Black Belt 1st Dan</strong> – International/National player, Gold medalist.
+                        </p>
+                        <p>Self Instructor at the Academy.</p>
+                        <div class="founder-icons">
+                            <span class="icon belt-icon" title="Belt">
+                                <i class="fas fa-award" aria-hidden="true"></i>
+                            </span>
+                            <span class="icon martial-icon" title="Martial Arts">
+                                <i class="fas fa-fist-raised" aria-hidden="true"></i>
+                            </span>
                         </div>
+                        <p>
+                            With decades of experience in martial arts, Mr. Nitesh Yadav has dedicated his life to
+                            mastering the discipline
+                            and mentoring the next generation. His journey embodies perseverance, passion, and the
+                            relentless pursuit of excellence.
+                        </p>
                     </div>
                 </div>
-                <div class="col-md-4">
-                    <div class="card card-custom h-100">
-                        <div class="card-body">
-                            <h3 class="card-title">Martial Arts Championship</h3>
-                            <p class="card-text">
-                                Compete in our annual championship and showcase your skills on the global stage.
-                            </p>
-                            <p><strong>Date:</strong> August 10, 2025</p>
-                        </div>
+            </div>
+        </section>
+
+        <!-- Programs & Training Section -->
+        <section id="programs">
+            <div class="container">
+                <h2>Programs & Training</h2>
+                <p class="section-intro">
+                    Discover our range of martial arts and self-defense training programs, including class schedules and
+                    levels designed for everyone—from beginners to advanced practitioners.
+                </p>
+                <div class="card-grid">
+                    <div class="card">
+                        <h3>Karate</h3>
+                        <p>Master traditional Karate techniques with discipline and precision.</p>
+                    </div>
+                    <div class="card">
+                        <h3>Taekwondo</h3>
+                        <p>Experience dynamic kicks and powerful moves in our Taekwondo classes.</p>
+                    </div>
+                    <div class="card">
+                        <h3>Boxing</h3>
+                        <p>Improve your fitness and striking power through professional boxing training.</p>
+                    </div>
+                    <div class="card">
+                        <h3>Kickboxing</h3>
+                        <p>Combine martial arts and cardio for a high-energy kickboxing workout.</p>
+                    </div>
+                    <div class="card">
+                        <h3>Grappling</h3>
+                        <p>Learn close-combat techniques and submissions with expert guidance.</p>
+                    </div>
+                    <div class="card">
+                        <h3>MMA</h3>
+                        <p>Train in Mixed Martial Arts by blending striking, grappling, and conditioning.</p>
+                    </div>
+                    <div class="card">
+                        <h3>Kalaripayattu</h3>
+                        <p>Explore ancient Indian martial arts with fluid movements and traditional techniques.</p>
+                    </div>
+                    <div class="card">
+                        <h3>Self Defense</h3>
+                        <p>Equip yourself with practical self-defense skills for everyday protection.</p>
+                    </div>
+                    <div class="card">
+                        <h3>Fat Loss</h3>
+                        <p>Join our fitness-focused sessions designed to burn fat and boost endurance.</p>
                     </div>
                 </div>
-                <div class="col-md-4">
-                    <div class="card card-custom h-100">
-                        <div class="card-body">
-                            <h3 class="card-title">Beginner’s Workshop</h3>
-                            <p class="card-text">
-                                Perfect for newcomers—learn the fundamentals in a supportive environment.
-                            </p>
-                            <p><strong>Date:</strong> September 5, 2025</p>
+            </div>
+        </section>
+
+        <!-- Gallery Section -->
+        <section id="gallery">
+            <div class="container">
+                <h2>Gallery</h2>
+                <p class="section-intro">
+                    Explore images and videos from our training sessions, events, and competitions.
+                </p>
+                <div class="gallery-grid">
+                    <!-- Gallery Items -->
+                    <div class="gallery-item">
+                        <img src="assets/images/slider1.jpg" alt="Training Session" />
+                    </div>
+                    <div class="gallery-item">
+                        <img src="assets/images/slider2.jpg" alt="Event Highlights" />
+                    </div>
+                    <div class="gallery-item">
+                        <img src="assets/images/slider3.jpg" alt="Competition Moment" />
+                    </div>
+                    <div class="gallery-item">
+                        <img src="assets/images/slider4.jpg" alt="Training Session" />
+                    </div>
+                    <div class="gallery-item">
+                        <img src="assets/images/slider5.jpg" alt="Event" />
+                    </div>
+                    <!-- Gallery Video -->
+                    <div class="gallery-item video">
+                        <video controls>
+                            <source src="assets/videos/gallery_video1.mp4" type="video/mp4" />
+                            Your browser does not support the video tag.
+                        </video>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Testimonials Section -->
+        <section id="testimonials">
+            <div class="container">
+                <h2>Testimonials</h2>
+                <p class="section-intro">
+                    Hear from our students, parents, and professionals about their transformative experiences.
+                </p>
+                <div class="testimonial-grid">
+                    <div class="testimonial-card">
+                        <p class="testimonial-quote">
+                            "I feel empowered and inspired every day thanks to the outstanding training provided by
+                            GSAI."
+                        </p>
+                        <div class="testimonial-author">
+                            <div class="author-info">
+                                <h4>Shivansh Yadav</h4>
+                                <span>Student</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="testimonial-card">
+                        <p class="testimonial-quote">
+                            "My child has gained confidence and discipline since joining. Highly recommended!"
+                        </p>
+                        <div class="testimonial-author">
+                            <div class="author-info">
+                                <h4>Sandeep Yadav</h4>
+                                <span>Parent</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="testimonial-card">
+                        <p class="testimonial-quote">
+                            "A world-class academy that provides the best training environment for professionals."
+                        </p>
+                        <div class="testimonial-author">
+                            <div class="author-info">
+                                <h4>Shrishti Yadav</h4>
+                                <span>Professional</span>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <!-- Achievements Section -->
-    <section id="achievements">
-        <div class="container text-center">
-            <h2 class="mb-4 text-orange">Our Achievements</h2>
-            <p class="mb-5">Celebrating our milestones and awards.</p>
-            <div class="row">
-                <div class="col-md-3 col-6 mb-4">
-                    <div class="counter">
-                        <h3 class="display-5">150+</h3>
-                        <p>Championship Titles</p>
+        <!-- Achievements Section -->
+        <section id="achievements">
+            <div class="container">
+                <h2>Achievements</h2>
+                <p class="section-intro">
+                    Discover awards, recognitions, and success stories of our talented students.
+                </p>
+                <div class="achievement-grid">
+                    <div class="achievement-card">
+                        <div class="achievement-icon">
+                            <i class="fas fa-trophy" aria-hidden="true"></i>
+                        </div>
+                        <h3>National Championship Gold Medal</h3>
+                        <p>
+                            Alice secured the gold medal in the National Martial Arts Championship, showcasing
+                            exceptional skill and discipline.
+                        </p>
                     </div>
-                </div>
-                <div class="col-md-3 col-6 mb-4">
-                    <div class="counter">
-                        <h3 class="display-5">2000+</h3>
-                        <p>Students Trained</p>
+                    <div class="achievement-card">
+                        <div class="achievement-icon">
+                            <i class="fas fa-medal" aria-hidden="true"></i>
+                        </div>
+                        <h3>Best Technique Award</h3>
+                        <p>
+                            Bob was recognized for his innovative techniques and impeccable performance in various
+                            competitions.
+                        </p>
                     </div>
-                </div>
-                <div class="col-md-3 col-6 mb-4">
-                    <div class="counter">
-                        <h3 class="display-5">50+</h3>
-                        <p>International Wins</p>
-                    </div>
-                </div>
-                <div class="col-md-3 col-6 mb-4">
-                    <div class="counter">
-                        <h3 class="display-5">30+</h3>
-                        <p>National Awards</p>
+                    <div class="achievement-card">
+                        <div class="achievement-icon">
+                            <i class="fas fa-award" aria-hidden="true"></i>
+                        </div>
+                        <h3>International Recognition</h3>
+                        <p>
+                            Charlie received international acclaim for outstanding achievements in martial arts,
+                            inspiring future generations.
+                        </p>
                     </div>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <!-- Founder Section -->
-    <section id="founder">
-        <div class="container">
-            <h2 class="mb-4 text-orange text-center">Our Founder</h2>
-            <div class="row justify-content-center">
-                <div class="col-md-6">
-                    <div class="founder-card d-flex align-items-center">
-                        <div class="founder-img me-3">
-                            <img src="assets/images/founder.jpg" alt="Founder Photo" class="img-fluid rounded-circle">
-                        </div>
-                        <div class="founder-info">
-                            <h3>Nitesh Yadav</h3>
+        <!-- Blog/News & Events Section -->
+        <section id="blog">
+            <div class="container">
+                <h2>Blog/News & Events</h2>
+                <p class="section-intro">
+                    Stay updated with our latest news, upcoming tournaments, workshops, and academy events.
+                </p>
+                <div class="blog-grid">
+                    <div class="blog-card">
+                        <img src="assets/images/blog1.jpg" alt="Tournament Announcement" />
+                        <div class="blog-content">
+                            <h3>Upcoming Tournament Announcement</h3>
+                            <span class="blog-date">October 10, 2023</span>
                             <p>
-                                A world-renowned martial artist with multiple international and national titles, Nitesh
-                                Yadav leads our academy with passion and expertise.
+                                Join us for the annual martial arts tournament, where elite talent and inspiring
+                                competition come together.
                             </p>
+                            <a href="#" class="btn">Read More</a>
+                        </div>
+                    </div>
+                    <div class="blog-card">
+                        <img src="assets/images/blog2.jpg" alt="Self-Defense Workshop" />
+                        <div class="blog-content">
+                            <h3>Workshop on Self-Defense Techniques</h3>
+                            <span class="blog-date">November 05, 2023</span>
+                            <p>
+                                Learn practical self-defense moves from our expert instructors in an intensive, hands-on
+                                workshop.
+                            </p>
+                            <a href="#" class="btn">Read More</a>
+                        </div>
+                    </div>
+                    <div class="blog-card">
+                        <img src="assets/images/blog3.jpg" alt="New Classes Launched" />
+                        <div class="blog-content">
+                            <h3>Academy News: New Classes Launched</h3>
+                            <span class="blog-date">December 01, 2023</span>
+                            <p>
+                                We're excited to announce new class schedules and levels to welcome more aspiring
+                                martial artists.
+                            </p>
+                            <a href="#" class="btn">Read More</a>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <!-- Gallery Section -->
-    <section id="gallery">
-        <div class="container text-center">
-            <h2 class="mb-4 text-orange">Gallery</h2>
-            <div class="row g-4">
-                <div class="col-md-4">
-                    <img src="assets/images/slider1.jpg" alt="Gallery Image 1" class="gallery-img rounded">
-                </div>
-                <div class="col-md-4">
-                    <img src="assets/images/slider2.jpg" alt="Gallery Image 2" class="gallery-img rounded">
-                </div>
-                <div class="col-md-4">
-                    <img src="assets/images/slider3.jpg" alt="Gallery Image 3" class="gallery-img rounded">
-                </div>
-                <div class="col-md-4">
-                    <img src="assets/images/slider4.jpg" alt="Gallery Image 4" class="gallery-img rounded">
-                </div>
-                <div class="col-md-4">
-                    <img src="assets/images/slider5.jpg" alt="Gallery Image 5" class="gallery-img rounded">
-                </div>
-                <div class="col-md-4">
-                    <img src="assets/images/slider6.jpg" alt="Gallery Image 6" class="gallery-img rounded">
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Testimonials Section -->
-    <section id="testimonials">
-        <div class="container text-center">
-            <h2 class="mb-4 text-orange">Testimonials</h2>
-            <div class="row g-4">
-                <div class="col-md-6">
-                    <div class="testimonial p-4 border rounded">
+        <!-- FAQ Section -->
+        <section id="faq">
+            <div class="container">
+                <h2>Frequently Asked Questions</h2>
+                <p class="section-intro">
+                    Find answers to common queries about training, fees, and enrollment.
+                </p>
+                <div class="faq-list">
+                    <div class="faq-item">
+                        <h3>What are the enrollment fees?</h3>
                         <p>
-                            "Ghatak Sport Academy has revolutionized my training. The coaches are phenomenal and the
-                            atmosphere is truly inspiring."<br>– Student A
+                            The enrollment fees vary based on the program and level. Please contact our office for
+                            detailed information.
+                        </p>
+                    </div>
+                    <div class="faq-item">
+                        <h3>What are the class schedules?</h3>
+                        <p>
+                            We offer classes throughout the week, including weekends. Visit our website for the full
+                            schedule.
+                        </p>
+                    </div>
+                    <div class="faq-item">
+                        <h3>Do you offer trial classes?</h3>
+                        <p>
+                            Yes, we offer trial classes so you can experience our training firsthand before enrolling.
+                        </p>
+                    </div>
+                    <div class="faq-item">
+                        <h3>What age groups do you cater to?</h3>
+                        <p>
+                            Our programs are designed for both children and adults with classes tailored for various age
+                            groups.
                         </p>
                     </div>
                 </div>
-                <div class="col-md-6">
-                    <div class="testimonial p-4 border rounded">
-                        <p>
-                            "The blend of tradition and modern techniques here is unmatched. I feel empowered and
-                            confident every day."<br>– Student B
-                        </p>
-                    </div>
-                </div>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <!-- FAQ Section -->
-    <section id="faq">
-        <div class="container">
-            <h2 class="mb-4 text-orange text-center">FAQ</h2>
-            <div class="row justify-content-center g-4">
-                <div class="col-md-6">
-                    <div class="faq-item p-4 border rounded">
-                        <h5>What age groups do you accept?</h5>
-                        <p>We welcome students from 5 years old and above.</p>
+        <!-- Join Us / Enroll Now Section -->
+        <section id="enroll">
+            <div class="container">
+                <h2>Join Us / Enroll Now</h2>
+                <p class="section-intro">
+                    Register now to start your journey in martial arts and self-defense training.
+                </p>
+                <form class="enroll-form">
+                    <div class="form-group">
+                        <label for="enroll-name">Full Name</label>
+                        <input type="text" id="enroll-name" name="enroll-name" placeholder="Your Name" required />
                     </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="faq-item p-4 border rounded">
-                        <h5>Do you offer certification?</h5>
-                        <p>Yes, certification is provided upon successful completion of our training programs.</p>
+                    <div class="form-group">
+                        <label for="enroll-email">Email</label>
+                        <input type="email" id="enroll-email" name="enroll-email" placeholder="Your Email" required />
                     </div>
+                    <div class="form-group">
+                        <label for="enroll-phone">Phone Number</label>
+                        <input type="tel" id="enroll-phone" name="enroll-phone" placeholder="Your Phone Number"
+                            required />
+                    </div>
+                    <div class="form-group">
+                        <label for="enroll-message">Message</label>
+                        <textarea id="enroll-message" name="enroll-message" placeholder="Your Message"
+                            rows="4"></textarea>
+                    </div>
+                    <button type="submit" class="btn">Submit</button>
+                </form>
+            </div>
+        </section>
+
+        <!-- Privacy Policy & Terms Section -->
+        <section id="legal">
+            <div class="container">
+                <h2>Privacy Policy &amp; Terms</h2>
+                <p class="section-intro">
+                    Review our privacy policy and terms to understand your rights and responsibilities as a website
+                    visitor and student.
+                </p>
+                <div class="legal-links">
+                    <a href="assets\pages\privacy.html" class="btn">Privacy Policy</a>
+                    <a href="assets\pages\terms.html" class="btn">Terms &amp; Conditions</a>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <!-- Contact Section -->
-    <section id="contact">
-        <div class="container">
-            <h2 class="mb-4 text-orange text-center">Contact Us</h2>
-            <div class="row justify-content-center">
-                <div class="col-md-8">
-                    <form class="contact-form">
-                        <div class="mb-3">
-                            <input type="text" name="name" class="form-control" placeholder="Your Name" required>
-                        </div>
-                        <div class="mb-3">
-                            <input type="email" name="email" class="form-control" placeholder="Your Email" required>
-                        </div>
-                        <div class="mb-3">
-                            <textarea name="message" rows="5" class="form-control" placeholder="Your Message"
-                                required></textarea>
-                        </div>
-                        <div class="text-center">
-                            <button type="submit" class="btn btn-orange">Send Message</button>
-                        </div>
-                    </form>
+        <!-- Contact Section -->
+        <section id="contact">
+            <div class="container">
+                <h2>Contact Us</h2>
+                <p>
+                    Ready to transform your life? Get in touch with us today and take the first step toward mastering
+                    martial arts.
+                </p>
+                <p>
+                    <i class="fas fa-envelope" aria-hidden="true"></i>
+                    Email: <a href="mailto:info@gsai.com">ghatakgsai@gmail.com</a> &nbsp;|&nbsp;
+                    <i class="fas fa-phone" aria-hidden="true"></i>
+                    Phone: <a href="tel:+911234567890">+91-639-413-5988, +91-835-506-2424</a>
+                    <i class="fas fa-address" aria-hidden="true">Address: Naubasta Pulia, Takrohi Road, Amrai Gaon,
+                        Indira Nagar, Lucknow, U.P. - 226028</i>
+                </p>
+            </div>
+        </section>
+
+        <!-- Google Maps Integration Section -->
+        <section id="map">
+            <div class="container">
+                <h2>Our Location</h2>
+                <div class="map-container">
+                    <!-- Replace the src URL with your academy's location -->
+                    <iframe
+                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3557.7127555156358!2d81.02444217597154!3d26.912609860094033!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3999596def6ea9c7%3A0x23d2ceb539bff92!2sGhatak%20Sports%20Academy%20India!5e0!3m2!1sen!2sin!4v1739461937485!5m2!1sen!2sin"
+                        width="100%" height="450" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
                 </div>
             </div>
-        </div>
-    </section>
-
-    <!-- Map Section -->
-    <section id="map">
-        <div class="container text-center">
-            <h2 class="mb-4 text-orange">Find Us</h2>
-            <div class="map-container mx-auto">
-                <iframe
-                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2115.432787588276!2d81.02566494812476!3d26.912389673545032!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3999596def6ea9c7%3A0x23d2ceb539bff92!2sGhatak%20Sports%20Academy%20India!5e0!3m2!1sen!2sin!4v1739209713971!5m2!1sen!2sin"
-                    allowfullscreen loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
-            </div>
-        </div>
-    </section>
+        </section>
+    </main>
 
     <!-- Footer -->
-    <footer class="site-footer">
+    <footer>
         <div class="container">
-            <div class="row">
-                <div class="footer-column col-md-4 mb-3">
-                    <h5>About</h5>
-                    <p>
-                        Ghatak Sport Academy offers professional martial arts training that combines modern techniques
-                        with traditional values.
-                    </p>
-                </div>
-                <div class="footer-column col-md-4 mb-3">
-                    <h5>Quick Links</h5>
-                    <ul class="list-unstyled">
-                        <li><a href="#home">Home</a></li>
-                        <li><a href="#about">About</a></li>
-                        <li><a href="#programs">Programs</a></li>
-                        <li><a href="#contact">Contact</a></li>
-                    </ul>
-                </div>
-                <div class="footer-column col-md-4 mb-3">
-                    <h5>Contact</h5>
-                    <ul class="list-unstyled">
-                        <li>Naubasta Pulia, Takrohi Road, Amrai Gaon, Indira Nagar, Lucknow, U.P. - 226028</li>
-                        <li>📞 6394135988, 8355062424</li>
-                        <li>📧 ghatakgsai@gmail.com</li>
-                    </ul>
-                </div>
-            </div>
-            <div class="footer-bottom text-center border-top pt-3 mt-3">
-                <p>&copy; 2025 Ghatak Sport Academy. All Rights Reserved.</p>
-            </div>
+            <p>
+                Made with <span class="love-emoji" aria-label="love">❤️</span> by
+                <a href="https://ellowdigitals.me" target="_blank" rel="noopener noreferrer">EllowDigitals</a>
+            </p>
         </div>
     </footer>
 
-    <!-- Bootstrap JS Bundle -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <!-- Custom JavaScript (if needed) -->
-    <script src="assets/script.js"></script>
+    <!-- Main Script -->
+    <script src="assets/script.js" defer></script>
 </body>
 
 </html>

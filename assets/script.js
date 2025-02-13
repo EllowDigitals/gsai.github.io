@@ -1,58 +1,68 @@
 document.addEventListener("DOMContentLoaded", function () {
-    // HERO SLIDER: Array of image paths
-    const heroImages = [
-        "assets/images/slider1.jpg",
-        "assets/images/slider2.jpg",
-        "assets/images/slider3.jpg"
+    // Define slider images with relative paths
+    const sliderImages = [
+        'assets/images/slider1.jpg',
+        'assets/images/slider5.jpg',
+        'assets/images/slider4.jpg',
+        'assets/images/slider2.jpg',
+        'assets/images/slider3.jpg',
+        'assets/images/slider6.jpg'
     ];
-    let currentImageIndex = 0;
-    const heroSection = document.querySelector(".hero-section");
 
-    // Preload slider images for faster reload
-    heroImages.forEach(src => {
-        const img = new Image();
-        img.src = src;
+    const sliderContainer = document.getElementById('slider');
+    const sliderButtonsContainer = document.getElementById('slider-buttons');
+    let currentIndex = 0;
+    const slideInterval = 5000; // 5 seconds
+
+    // Dynamically create slider slides and buttons
+    sliderImages.forEach((image, index) => {
+        // Create slide element
+        const slide = document.createElement('div');
+        slide.classList.add('slide');
+        if (index === 0) slide.classList.add('active');
+        slide.style.backgroundImage = `url(${image})`;
+        sliderContainer.appendChild(slide);
+
+        // Create corresponding navigation button
+        const button = document.createElement('button');
+        button.setAttribute('data-index', index);
+        sliderButtonsContainer.appendChild(button);
     });
 
-    // Function to change the hero background image without a fade overlay
-    function changeHeroImage(index) {
-        currentImageIndex = index;
-        if (currentImageIndex < 0) {
-            currentImageIndex = heroImages.length - 1;
-        } else if (currentImageIndex >= heroImages.length) {
-            currentImageIndex = 0;
-        }
-        heroSection.style.backgroundImage = `url('${heroImages[currentImageIndex]}')`;
-        // Restart fade-in animation by forcing reflow
-        heroSection.classList.remove("fade-in");
-        void heroSection.offsetWidth;
-        heroSection.classList.add("fade-in");
+    const slides = document.querySelectorAll('.slide');
+    const sliderButtons = document.querySelectorAll('.slider-buttons button');
+
+    // Function to display a slide by index
+    function showSlide(index) {
+        slides.forEach((slide, idx) => {
+            slide.classList.toggle('active', idx === index);
+        });
+        currentIndex = index;
     }
 
-    function nextHeroImage() {
-        changeHeroImage(currentImageIndex + 1);
-    }
+    // Automatic slide change
+    let timer = setInterval(() => {
+        let nextIndex = (currentIndex + 1) % slides.length;
+        showSlide(nextIndex);
+    }, slideInterval);
 
-    function prevHeroImage() {
-        changeHeroImage(currentImageIndex - 1);
-    }
-
-    // Automatic slider: change every 5 seconds
-    let sliderInterval = setInterval(nextHeroImage, 5000);
-
-    // Slider control buttons
-    const nextBtn = document.querySelector(".next-btn");
-    const prevBtn = document.querySelector(".prev-btn");
-
-    nextBtn.addEventListener("click", function () {
-        clearInterval(sliderInterval);
-        nextHeroImage();
-        sliderInterval = setInterval(nextHeroImage, 5000);
+    // Manual slide navigation via buttons
+    sliderButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            clearInterval(timer);
+            const index = parseInt(button.getAttribute('data-index'));
+            showSlide(index);
+            timer = setInterval(() => {
+                let nextIndex = (currentIndex + 1) % slides.length;
+                showSlide(nextIndex);
+            }, slideInterval);
+        });
     });
 
-    prevBtn.addEventListener("click", function () {
-        clearInterval(sliderInterval);
-        prevHeroImage();
-        sliderInterval = setInterval(nextHeroImage, 5000);
+    // Mobile Navigation Toggle
+    const menuToggle = document.querySelector('.menu-toggle');
+    const navList = document.querySelector('.nav-list');
+    menuToggle.addEventListener('click', () => {
+        navList.classList.toggle('active');
     });
 });
