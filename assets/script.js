@@ -127,58 +127,6 @@ document.addEventListener("DOMContentLoaded", function () {
         console.error("Error in smooth scrolling:", err);
     }
 
-    /* ======================================
-       Enrollment Form Handling
-    ====================================== */
-    try {
-        const enrollForm = document.querySelector(".enroll-form");
-        if (enrollForm) {
-            enrollForm.addEventListener("submit", function (e) {
-                e.preventDefault();
-
-                // Get field values and trim extra spaces
-                const name = document.getElementById("enroll-name").value.trim();
-                const email = document.getElementById("enroll-email").value.trim();
-                const phone = document.getElementById("enroll-phone").value.trim();
-                const message = document.getElementById("enroll-message").value.trim();
-
-                // Basic validation for required fields
-                if (!name || !email || !phone) {
-                    alert("Please fill in all required fields.");
-                    return;
-                }
-
-                // Create a FormData object from the form element
-                const formData = new FormData(enrollForm);
-
-                // Submit the form data using Fetch API
-                fetch(enrollForm.action, {
-                    method: "POST",
-                    body: formData,
-                    headers: {
-                        'Accept': 'application/json'
-                    }
-                })
-                    .then(response => {
-                        if (response.ok) {
-                            alert("Thank you for enrolling! We will contact you soon.");
-                            enrollForm.reset();
-                            // Optionally, redirect to a success page if you prefer:
-                            // window.location.href = "https://typeblitz.netlify.app/assets/success.html";
-                        } else {
-                            alert("Oops! There was a problem submitting your form.");
-                        }
-                    })
-                    .catch(error => {
-                        console.error("Error in form submission:", error);
-                        alert("Oops! There was a problem submitting your form.");
-                    });
-            });
-        }
-    } catch (err) {
-        console.error("Error in enrollment form handling:", err);
-    }
-
 
     /* ======================================
          Animate on Scroll (Section Animations)
