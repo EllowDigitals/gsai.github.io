@@ -5,13 +5,19 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Success Page</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+
+    <!-- Meta Optimization -->
     <meta name="description" content="Your message has been successfully sent.">
     <meta name="theme-color" content="#00ff26">
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="https://ghatakgsai.netlify.app/assets/pages/success.html">
 
+    <!-- Optimized Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+        integrity="sha384-oS3vJWb95yYg5rZZYwoSbUbWzJc8Yj+U8/I8JkaTAtF+2vFQiv6r8kXW/E0+I6Mg" crossorigin="anonymous">
+
     <style>
+        /* Global Styles */
         body {
             font-family: Arial, sans-serif;
             margin: 0;
@@ -20,22 +26,19 @@
             align-items: center;
             height: 100vh;
             background-color: #f4f4f4;
+            overflow: hidden;
         }
 
-        .success-message,
-        .loader-wrapper {
+        /* Success Message */
+        .success-message {
             display: none;
             text-align: center;
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
             padding: 20px;
             background-color: #4CAF50;
             color: white;
             border-radius: 10px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            animation: fadeIn 1s ease-in-out;
+            animation: fadeIn 0.8s ease-in-out;
         }
 
         .success-message i {
@@ -43,19 +46,29 @@
             margin-bottom: 10px;
         }
 
+        /* Loader */
         .loader-wrapper {
+            display: none;
+            justify-content: center;
+            align-items: center;
             background-color: rgba(255, 255, 255, 0.8);
+            width: 100%;
+            height: 100vh;
+            position: fixed;
+            top: 0;
+            left: 0;
         }
 
         .loader {
-            border: 8px solid #f3f3f3;
-            border-top: 8px solid #3498db;
+            border: 6px solid #f3f3f3;
+            border-top: 6px solid #3498db;
             border-radius: 50%;
-            width: 60px;
-            height: 60px;
+            width: 50px;
+            height: 50px;
             animation: spin 1s linear infinite;
         }
 
+        /* Animations */
         @keyframes fadeIn {
             from {
                 opacity: 0;
@@ -76,21 +89,22 @@
             }
         }
 
-        @media only screen and (max-width: 600px) {
+        /* Responsive Adjustments */
+        @media (max-width: 600px) {
             .success-message {
                 padding: 15px;
             }
 
             .loader {
-                width: 50px;
-                height: 50px;
+                width: 40px;
+                height: 40px;
             }
         }
     </style>
 </head>
 
 <body>
-    <div class="success-message" id="successMessage">
+    <div class="success-message" id="successMessage" role="alert">
         <i class="fas fa-check-circle"></i>
         <p>Your message has been sent successfully.</p>
     </div>
@@ -101,18 +115,20 @@
 
     <script>
         document.addEventListener("DOMContentLoaded", () => {
-            const successMessage = document.getElementById('successMessage');
-            const loaderWrapper = document.getElementById('loaderWrapper');
+            const successMessage = document.getElementById("successMessage");
+            const loaderWrapper = document.getElementById("loaderWrapper");
 
-            successMessage.style.display = 'block';
+            // Show success message
+            successMessage.style.display = "block";
+
+            // Hide success message & show loader after 4 seconds
             setTimeout(() => {
-                successMessage.style.display = 'none';
-                loaderWrapper.style.display = 'flex';
+                successMessage.style.display = "none";
+                loaderWrapper.style.display = "flex";
+
+                // Redirect after 4 seconds
                 setTimeout(() => {
-                    window.location.href = 'https://ghatakgsai.netlify.app/';
-                    setTimeout(() => {
-                        window.location.href = 'https://ghatakgsai.netlify.app/';
-                    }, 5000);
+                    window.location.href = "https://ghatakgsai.netlify.app/";
                 }, 4000);
             }, 4000);
         });

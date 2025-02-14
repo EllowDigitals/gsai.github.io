@@ -2,7 +2,7 @@ document.addEventListener("DOMContentLoaded", function () {
     "use strict";
 
     /* ======================================
-         Slider Functionality
+         Slider Functionality (Optimized)
     ====================================== */
     try {
         const sliderImages = [
@@ -13,7 +13,6 @@ document.addEventListener("DOMContentLoaded", function () {
             "assets/images/slider4.jpg",
             "assets/images/slider5.jpg",
             "assets/images/slider6.jpg",
-
         ];
 
         const sliderContainer = document.getElementById("slider");
@@ -26,97 +25,99 @@ document.addEventListener("DOMContentLoaded", function () {
         let currentIndex = 0;
         const slideInterval = 5000; // 5 seconds
 
-        // Create slides and navigation buttons
+        // Create elements using DocumentFragment
+        const fragmentSlides = document.createDocumentFragment();
+        const fragmentButtons = document.createDocumentFragment();
+
         sliderImages.forEach((image, index) => {
-            // Create slide element
             const slide = document.createElement("div");
             slide.classList.add("slide");
-            if (index === 0) slide.classList.add("active");
             slide.style.backgroundImage = `url(${image})`;
-            sliderContainer.appendChild(slide);
+            slide.style.opacity = index === 0 ? "1" : "0";
+            slide.style.transition = "opacity 1s ease-in-out";
+            fragmentSlides.appendChild(slide);
 
-            // Create navigation button for each slide
             const button = document.createElement("button");
             button.setAttribute("data-index", index);
-            sliderButtonsContainer.appendChild(button);
+            fragmentButtons.appendChild(button);
         });
 
-        const slides = document.querySelectorAll(".slide");
-        const sliderButtons = document.querySelectorAll("#slider-buttons button");
+        sliderContainer.appendChild(fragmentSlides);
+        sliderButtonsContainer.appendChild(fragmentButtons);
+
+        const slides = [...sliderContainer.children];
+        const sliderButtons = [...sliderButtonsContainer.children];
 
         if (slides.length === 0) {
             throw new Error("No slides were created.");
         }
 
-        // Function to show a specific slide by index
+        // Function to show a specific slide
         function showSlide(index) {
             slides.forEach((slide, idx) => {
-                slide.classList.toggle("active", idx === index);
+                slide.style.opacity = idx === index ? "1" : "0";
             });
             currentIndex = index;
         }
 
-        // Automatic slide transition
-        let sliderTimer = setInterval(() => {
-            let nextIndex = (currentIndex + 1) % slides.length;
-            showSlide(nextIndex);
-        }, slideInterval);
+        // Automatic slide transition using requestAnimationFrame
+        let lastTimestamp = 0;
+        function autoSlide(timestamp) {
+            if (!lastTimestamp || timestamp - lastTimestamp > slideInterval) {
+                let nextIndex = (currentIndex + 1) % slides.length;
+                showSlide(nextIndex);
+                lastTimestamp = timestamp;
+            }
+            requestAnimationFrame(autoSlide);
+        }
+
+        requestAnimationFrame(autoSlide);
 
         // Manual slide navigation
         sliderButtons.forEach((button) => {
             button.addEventListener("click", () => {
-                clearInterval(sliderTimer);
                 const index = parseInt(button.getAttribute("data-index"), 10);
-                if (isNaN(index)) return;
-                showSlide(index);
-                // Restart the timer after manual navigation
-                sliderTimer = setInterval(() => {
-                    let nextIndex = (currentIndex + 1) % slides.length;
-                    showSlide(nextIndex);
-                }, slideInterval);
+                if (!isNaN(index)) {
+                    showSlide(index);
+                    lastTimestamp = performance.now(); // Reset timer
+                }
             });
         });
+
     } catch (err) {
         console.error("Error in slider functionality:", err);
     }
 
     /* ======================================
-         Mobile Navigation
+         Mobile Navigation (Optimized)
     ====================================== */
     try {
-        // Use a more specific selector for mobile nav list to avoid selecting the desktop nav list
         const menuToggle = document.querySelector(".menu-toggle");
         const mobileNavList = document.querySelector(".mobile-nav .nav-list");
 
-        if (!menuToggle || !mobileNavList) {
-            console.warn("Mobile navigation elements not found.");
-        } else {
+        if (menuToggle && mobileNavList) {
             menuToggle.addEventListener("click", () => {
                 mobileNavList.classList.toggle("active");
             });
 
-            // Close the mobile menu when a navigation link is clicked
-            const mobileNavLinks = document.querySelectorAll(".mobile-nav .nav-list li a");
-            mobileNavLinks.forEach((link) => {
-                link.addEventListener("click", () => {
-                    if (mobileNavList.classList.contains("active")) {
-                        mobileNavList.classList.remove("active");
-                    }
-                });
+            document.addEventListener("click", (e) => {
+                if (!menuToggle.contains(e.target) && !mobileNavList.contains(e.target)) {
+                    mobileNavList.classList.remove("active");
+                }
             });
+        } else {
+            console.warn("Mobile navigation elements not found.");
         }
     } catch (err) {
         console.error("Error in mobile navigation:", err);
     }
 
     /* ======================================
-         Smooth Scrolling for Anchor Links
+         Smooth Scrolling (Optimized)
     ====================================== */
     try {
-        const anchorLinks = document.querySelectorAll('a[href^="#"]');
-        anchorLinks.forEach((link) => {
+        document.querySelectorAll('a[href^="#"]').forEach((link) => {
             link.addEventListener("click", function (e) {
-                // Get target element by id (skip links with just "#")
                 const targetId = this.getAttribute("href").substring(1);
                 const targetElement = document.getElementById(targetId);
                 if (targetElement) {
@@ -129,24 +130,21 @@ document.addEventListener("DOMContentLoaded", function () {
         console.error("Error in smooth scrolling:", err);
     }
 
-
     /* ======================================
-         Animate on Scroll (Section Animations)
+         Animate on Scroll (Optimized)
     ====================================== */
     try {
-        // Elements you want to animate on scroll should have the class .fadeInBox
         const animateElements = document.querySelectorAll(".fadeInBox");
 
         if (animateElements.length > 0) {
             const observerOptions = {
-                threshold: 0.2, // Trigger when 20% of the element is visible
+                threshold: 0.2,
             };
 
             const animateOnScroll = (entries, observer) => {
                 entries.forEach((entry) => {
                     if (entry.isIntersecting) {
                         entry.target.classList.add("in-view");
-                        // Optionally unobserve the element if you want the animation to run only once
                         observer.unobserve(entry.target);
                     }
                 });
@@ -162,12 +160,12 @@ document.addEventListener("DOMContentLoaded", function () {
     /* ======================================
          Global Error Handling
     ====================================== */
-    window.addEventListener("error", function (event) {
+    window.addEventListener("error", (event) => {
         console.error("Global error caught:", event.error);
     });
 
     /* ======================================
-         Lazy Loading Check
+         Lazy Loading Support Check
     ====================================== */
     if ("loading" in HTMLImageElement.prototype) {
         document.querySelectorAll('img[loading="lazy"]').forEach((img) => {
