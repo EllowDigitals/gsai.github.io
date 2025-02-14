@@ -9,7 +9,6 @@
     box-sizing: border-box;
 }
 
-/* Use a modern system font stack and optimize text rendering */
 html {
     scroll-behavior: smooth;
     font-size: 16px;
@@ -39,10 +38,10 @@ body {
 }
 
 /* ==========================================================================
-         CSS VARIABLES & THEME SETUP
+            CSS VARIABLES & THEME SETUP
       ========================================================================== */
 :root {
-    /* Colors & Theme Variables */
+    /* Primary Colors & Backgrounds */
     --primary-color: #ff4500;
     --primary-color-hover: #e04e00;
     --bg-primary: #fcfcfc;
@@ -52,9 +51,11 @@ body {
     --header-bg: rgba(255, 255, 255, 0.95);
     --nav-hover: #ff4500;
     --transition-speed: 0.3s;
-    --slider-overlay: rgba(0, 0, 0, 0.07);
-    /* New variable for slider background */
     --slider-bg: #fff;
+    --slider-overlay: rgba(255, 255, 255, 0.116);
+    --slider-h1: rgb(0, 0, 0);
+    --slider-p: #ffffff;
+    --slider-h1t: #000;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -64,14 +65,16 @@ body {
         --card-bg: #242424;
         --text-color: #f5f5f5;
         --header-bg: rgba(20, 20, 20, 0.95);
-        --slider-overlay: rgba(0, 0, 0, 0.51);
-        /* In dark mode, use a black slider background */
         --slider-bg: #000;
+        --slider-overlay: rgba(0, 0, 0, 0.6);
+        --slider-h1: rgb(255, 255, 255); 
+        --slider-p: #000000;
+        --slider-h1t: #fff;
     }
 }
 
 /* ==========================================================================
-         KEYFRAMES & COMMON ANIMATIONS
+            KEYFRAMES & COMMON ANIMATIONS
       ========================================================================== */
 @keyframes fadeInPage {
     from {
@@ -120,7 +123,7 @@ body {
 }
 
 /* ==========================================================================
-         GLOBAL ELEMENT STYLING
+            GLOBAL ELEMENT STYLING
       ========================================================================== */
 img,
 video {
@@ -164,9 +167,9 @@ textarea:focus,
     margin-bottom: 1.25rem;
 }
 
-/* =======================================================================
-      HEADER & NAVIGATION
-   ======================================================================== */
+/* ==========================================================================
+            HEADER & NAVIGATION
+      ========================================================================== */
 header {
     position: fixed;
     top: 0;
@@ -319,7 +322,7 @@ nav {
 }
 
 /* ==========================================================================
-         BUTTONS & INTERACTIVE ELEMENTS
+            BUTTONS & INTERACTIVE ELEMENTS
       ========================================================================== */
 .btn {
     display: inline-block;
@@ -359,7 +362,7 @@ nav {
 }
 
 /* ==========================================================================
-         CARDS, IMAGES & HOVER EFFECTS
+            CARDS, IMAGES & HOVER EFFECTS
       ========================================================================== */
 .card,
 .blog-card,
@@ -397,7 +400,7 @@ nav {
 }
 
 /* ==========================================================================
-         SECTIONS & OVERLAYS
+            SECTIONS & OVERLAYS
       ========================================================================== */
 section {
     padding: 5rem 1.25rem;
@@ -429,7 +432,7 @@ section p {
 }
 
 /* ==========================================================================
-         HOME SECTION & SLIDER
+            HOME SECTION & SLIDER
       ========================================================================== */
 #home {
     position: relative;
@@ -439,12 +442,15 @@ section p {
     /* Offset for fixed header */
 }
 
+/* Slider container */
 .slider {
     width: 100%;
     height: 100%;
     position: relative;
+    background-color: var(--slider-bg);
 }
 
+/* Each slide */
 .slide {
     position: absolute;
     top: 0;
@@ -452,11 +458,11 @@ section p {
     width: 100%;
     height: 100%;
     background-color: var(--slider-bg);
-    /* Set explicit bg color */
     background-size: contain;
     background-position: center;
     background-repeat: no-repeat;
     opacity: 0;
+    transform: scale(1.05);
     transition: opacity 1s ease-in-out, transform 1s ease-in-out;
     will-change: opacity, transform;
 }
@@ -472,13 +478,14 @@ section p {
     }
 }
 
+/* Slider Overlay (unified for both themes) */
 .overlay {
     position: absolute;
     top: 0;
     left: 0;
     right: 0;
     bottom: 0;
-    background: linear-gradient(135deg, rgba(255, 255, 255, 0.6) 0%, rgba(0, 0, 0, 0.3) 100%);
+    background: var(--slider-overlay);
     backdrop-filter: blur(1px);
     display: flex;
     flex-direction: column;
@@ -486,6 +493,7 @@ section p {
     align-items: center;
     padding: 1.25rem;
     text-align: center;
+    z-index: 1;
 }
 
 .overlay h1,
@@ -497,18 +505,23 @@ section p {
 }
 
 .overlay h1 {
-    color: var(--primary-color);
+    color: var(--slider-p);
     font-size: clamp(2.5rem, 5vw, 3.5rem);
     text-transform: uppercase;
     font-weight: 900;
     margin-bottom: 1.25rem;
-    background: rgba(0, 0, 0, 0.5);
     padding: 0.5rem 1rem;
     animation-delay: 0.5s;
+    background: var(--slider-h1);
+    /* Adjust transparency */
+    border-radius: 11px;
+    backdrop-filter: blur(5px);
+    /* Optional: Adds a blur effect */
 }
 
 .overlay p {
-    color: #fff;
+    color: var(--slider-h1t);
+    font-weight: 900;
     font-size: clamp(1rem, 2.5vw, 1.5rem);
     max-width: 700px;
     margin-bottom: 2rem;
@@ -519,72 +532,31 @@ section p {
     animation-delay: 0.9s;
 }
 
-/* Slider navigation buttons */
+/* Slider Navigation Buttons */
 .slider-buttons {
     position: absolute;
-    bottom: 2rem;
+    bottom: 1rem;
     left: 50%;
     transform: translateX(-50%);
     display: flex;
-    gap: 1rem;
-    z-index: 10;
+    gap: 0.5rem;
+    z-index: 2;
 }
 
 .slider-buttons button {
-    width: 12px;
-    height: 12px;
-    border: 2px solid #fff;
-    background: transparent;
+    width: 1rem;
+    height: 1rem;
     border-radius: 50%;
+    border: none;
+    background-color: var(--primary-color);
+    opacity: 0.5;
     cursor: pointer;
-    transition: background 0.3s ease, transform 0.3s ease;
+    transition: opacity 0.3s ease;
 }
 
-.slider-buttons button:hover,
-.slider-buttons button.active {
-    background: #fff;
-    transform: scale(1.2);
-}
-
-@media (max-width: 768px) {
-    .overlay h1 {
-        font-size: 2.5rem;
-        padding: 0.5rem 0.75rem;
-    }
-
-    .overlay p {
-        font-size: 1.2rem;
-        padding: 0 1rem;
-    }
-
-    .btn {
-        font-size: 1rem;
-        padding: 0.5rem 1rem;
-    }
-
-    .slider-buttons {
-        bottom: 1rem;
-    }
-
-    .slider-buttons button {
-        width: 10px;
-        height: 10px;
-    }
-}
-
-@media (max-width: 480px) {
-    .overlay h1 {
-        font-size: 2rem;
-    }
-
-    .overlay p {
-        font-size: 1rem;
-    }
-
-    .btn {
-        font-size: 0.9rem;
-        padding: 0.5rem 0.75rem;
-    }
+.slider-buttons button.active,
+.slider-buttons button:hover {
+    opacity: 1;
 }
 
 /* ==========================================================================

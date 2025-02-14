@@ -176,19 +176,25 @@
 
     <!-- Main Content -->
     <main id="main-content">
-        <!-- Home Section -->
         <section id="home">
-            <div class="slider" id="slider"></div>
+            <div class="slider" id="slider">
+                <!-- Each slide should have the "slide" class; only one should have "active" at a time -->
+                <div class="slide active" style="background-image: url('path-to-image.jpg');"></div>
+                <!-- Additional slides here -->
+            </div>
             <div class="overlay">
                 <h1>Welcome to GSAI</h1>
-                <p>
-                    World-class martial arts and self-defense training to empower your
-                    body and mind.
-                </p>
+                <p>World-class martial arts and self-defense training to empower your body and mind.</p>
                 <a href="#enroll" class="btn">Join Now</a>
             </div>
-            <div class="slider-buttons" id="slider-buttons"></div>
+            <div class="slider-buttons" id="slider-buttons">
+                <!-- Slider buttons (dots) will go here -->
+                <button class="active"></button>
+                <button></button>
+                <!-- Add more buttons as needed -->
+            </div>
         </section>
+
 
         <!-- About Us Section -->
         <section id="about">
