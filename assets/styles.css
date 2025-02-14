@@ -554,6 +554,8 @@ section p {
     animation-delay: 0.5s;
     opacity: 0;
     color: var(--slider-subtitle-text);
+    font-weight: bolder;
+    font-variant: normal;
 }
 
 @keyframes fadeInUp {
