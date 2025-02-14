@@ -52,25 +52,23 @@ body {
     /* Header */
     --header-bg: rgba(255, 255, 255, 0.95);
     --header-bg-scrolled: #333;
-    /* Light theme: dark header when scrolled */
 
     /* Navigation */
     --nav-hover: #ff4500;
     --transition-speed: 0.3s;
 
-    /* Slider (renamed for clarity) */
+    /* Slider */
     --slider-bg: #fff;
     --slider-overlay: rgba(255, 255, 255, 0.116);
     --slider-title-bg: rgba(0, 0, 0, 0.863);
-    /* h1 background */
     --slider-title-text: #fff;
-    /* h1 text color */
-    --slider-subtitle-text: #000;
-    /* paragraph text */
+    --slider-subtitle-text: #000000;
 
     /* Footer */
     --footer-bg: #000;
     --footer-text: #fff;
+    --custom-slider: linear-gradient(135deg, rgba(255, 255, 255, 0.041) 0%, rgba(255, 255, 255, 0.075) 100%);
+    
 }
 
 /* Dark Mode Overrides */
@@ -87,7 +85,7 @@ body {
         --slider-title-bg: rgba(255, 255, 255, 0.863);
         --slider-title-text: #000;
         --slider-subtitle-text: #fff;
-        /* Footer remains unchanged but can be adjusted if desired */
+        --custom-slider: linear-gradient(135deg, rgba(0, 0, 0, 0.3) 0%, rgba(0, 0, 0, 0.7) 100%);
     }
 }
 
@@ -162,7 +160,7 @@ button:focus,
 input:focus,
 textarea:focus,
 :focus-visible {
-    outline: mone;
+    outline: none;
     outline-offset: 4px;
 }
 
@@ -205,7 +203,6 @@ header.scrolled {
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
 }
 
-/* Ensure text/icons in header gain contrast when scrolled */
 header.scrolled nav .nav-list li a,
 header.scrolled .menu-toggle {
     color: #fff;
@@ -456,8 +453,8 @@ section p {
 }
 
 /* ==========================================================================
-      HOME SECTION & SLIDER
-      ========================================================================== */
+   HOME SECTION & IMPROVED SLIDER DESIGN WITH RESPONSIVE IMAGE FITTING
+   ========================================================================== */
 #home {
     position: relative;
     overflow: hidden;
@@ -467,26 +464,33 @@ section p {
 }
 
 .slider {
+    position: relative;
     width: 100%;
     height: 100%;
-    position: relative;
-    background-color: var(--slider-bg);
+    overflow: hidden;
 }
 
+/* For PC: the slide image fits inside without being cut */
 .slide {
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: var(--slider-bg);
     background-size: contain;
     background-position: center;
     background-repeat: no-repeat;
     opacity: 0;
-    transform: scale(1.05);
-    transition: opacity 1s ease-in-out, transform 1s ease-in-out;
+    transform: scale(1.1);
+    transition: opacity 1.2s ease, transform 1.2s ease;
     will-change: opacity, transform;
+}
+
+/* On small devices: image fills the slider (may be cropped) */
+@media (max-width: 768px) {
+    .slide {
+        background-size: cover;
+    }
 }
 
 .slide.active {
@@ -494,71 +498,113 @@ section p {
     transform: scale(1);
 }
 
-@media (max-width: 768px) {
-    .slide {
-        background-size: cover;
-    }
-}
-
-.overlay {
+/* Diagonal gradient overlay for enhanced contrast and depth */
+.slide::before {
+    content: "";
     position: absolute;
     top: 0;
     left: 0;
-    right: 0;
-    bottom: 0;
-    background: var(--slider-overlay);
-    backdrop-filter: blur(1px);
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    padding: 1.25rem;
-    text-align: center;
+    width: 100%;
+    height: 100%;
+    background: var(--custom-slider);
     z-index: 1;
 }
 
-.overlay h1,
-.overlay p,
-.btn {
-    opacity: 0;
-    animation: fadeInUp 1s ease forwards;
-    will-change: opacity, transform;
-}
-
-.overlay h1 {
+/* Overlay container for slide content */
+.overlay {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 2;
+    text-align: center;
+    padding: 1rem;
     color: var(--slider-title-text);
-    font-size: clamp(2.5rem, 5vw, 3.5rem);
-    text-transform: uppercase;
+}
+
+/* Title with a strong background and smooth fade-down */
+.overlay h1 {
+    font-size: clamp(2.5rem, 5vw, 4rem);
     font-weight: 900;
-    margin-bottom: 1.25rem;
-    padding: 0.5rem 1rem;
-    animation-delay: 0.5s;
+    margin-bottom: 1rem;
+    padding: 0.75rem 1.5rem;
     background: var(--slider-title-bg);
-    border-radius: 11px;
-    backdrop-filter: blur(5px);
+    border-radius: 0.5rem;
+    animation: fadeInDown 1s ease forwards;
+    opacity: 0;
 }
 
+@keyframes fadeInDown {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Subtitle with a gentle upward fade */
 .overlay p {
-    color: var(--slider-subtitle-text);
-    font-weight: 900;
     font-size: clamp(1rem, 2.5vw, 1.5rem);
-    max-width: 700px;
-    margin-bottom: 2rem;
-    animation-delay: 0.7s;
+    margin-bottom: 1.5rem;
+    animation: fadeInUp 1s ease forwards;
+    animation-delay: 0.5s;
+    opacity: 0;
+    color: var(--slider-subtitle-text);
 }
 
-.overlay .btn {
-    animation-delay: 0.9s;
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
+/* Navigation arrows for sliding between slides */
+.slider-nav {
+    position: absolute;
+    top: 50%;
+    width: 100%;
+    transform: translateY(-50%);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 1rem;
+    z-index: 3;
+}
+
+.slider-nav button {
+    background: rgba(0, 0, 0, 0.5);
+    border: none;
+    color: #fff;
+    font-size: 1.5rem;
+    padding: 0.75rem;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.slider-nav button:hover {
+    background: rgba(0, 0, 0, 0.7);
+}
+
+/* Pagination dots for quick navigation */
 .slider-buttons {
     position: absolute;
-    bottom: 1rem;
+    bottom: 1.5rem;
     left: 50%;
     transform: translateX(-50%);
     display: flex;
     gap: 0.5rem;
-    z-index: 2;
+    z-index: 3;
 }
 
 .slider-buttons button {
@@ -566,8 +612,8 @@ section p {
     height: 1rem;
     border-radius: 50%;
     border: none;
-    background-color: var(--primary-color);
-    opacity: 0.5;
+    background: var(--primary-color);
+    opacity: 0.6;
     cursor: pointer;
     transition: opacity 0.3s ease;
 }
@@ -575,6 +621,17 @@ section p {
 .slider-buttons button.active,
 .slider-buttons button:hover {
     opacity: 1;
+}
+
+/* Responsive adjustments for overlay text */
+@media (max-width: 768px) {
+    .overlay h1 {
+        font-size: clamp(1.8rem, 6vw, 2.5rem);
+    }
+
+    .overlay p {
+        font-size: clamp(0.9rem, 3vw, 1.2rem);
+    }
 }
 
 /* ==========================================================================

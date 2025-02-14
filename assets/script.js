@@ -39,12 +39,13 @@ document.addEventListener("DOMContentLoaded", function () {
         const fragmentButtons = document.createDocumentFragment();
 
         sliderImages.forEach((image, index) => {
+            // Create slide element
             const slide = document.createElement("div");
             slide.classList.add("slide");
             slide.style.opacity = index === 0 ? "1" : "0";
             slide.style.transition = "opacity 1s ease-in-out";
 
-            // Preload image and set background image with a fallback
+            // Preload image and set as background with a fallback
             const img = new Image();
             img.src = image;
             img.onload = () => {
@@ -52,13 +53,18 @@ document.addEventListener("DOMContentLoaded", function () {
             };
             img.onerror = () => {
                 console.error("Error loading slider image:", image);
-                slide.style.backgroundImage = `url(assets/images/default.jpg)`;
+                slide.style.backgroundImage = "url(assets/images/default.jpg)";
             };
 
             fragmentSlides.appendChild(slide);
 
+            // Create corresponding slider button (dot)
             const button = document.createElement("button");
             button.setAttribute("data-index", index);
+            // Set active class on the first button initially
+            if (index === 0) {
+                button.classList.add("active");
+            }
             fragmentButtons.appendChild(button);
         });
 
@@ -72,17 +78,30 @@ document.addEventListener("DOMContentLoaded", function () {
             throw new Error("No slides were created.");
         }
 
+        // Helper to update active class on slider buttons
+        function updateSliderButtons(index) {
+            sliderButtons.forEach((button, idx) => {
+                if (idx === index) {
+                    button.classList.add("active");
+                } else {
+                    button.classList.remove("active");
+                }
+            });
+        }
+
+        // Show slide at the specified index
         function showSlide(index) {
             slides.forEach((slide, idx) => {
                 slide.style.opacity = idx === index ? "1" : "0";
             });
             currentIndex = index;
+            updateSliderButtons(index);
         }
 
         let lastTimestamp = 0;
         function autoSlide(timestamp) {
             if (!lastTimestamp || timestamp - lastTimestamp > slideInterval) {
-                let nextIndex = (currentIndex + 1) % slides.length;
+                const nextIndex = (currentIndex + 1) % slides.length;
                 showSlide(nextIndex);
                 lastTimestamp = timestamp;
             }
@@ -90,6 +109,7 @@ document.addEventListener("DOMContentLoaded", function () {
         }
         requestAnimationFrame(autoSlide);
 
+        // Click event for slider buttons
         sliderButtons.forEach((button) => {
             button.addEventListener("click", () => {
                 const index = parseInt(button.getAttribute("data-index"), 10);
@@ -103,11 +123,11 @@ document.addEventListener("DOMContentLoaded", function () {
         // Keyboard navigation for slider (Left/Right arrow keys)
         document.addEventListener("keydown", (e) => {
             if (e.key === "ArrowLeft") {
-                let prevIndex = (currentIndex - 1 + slides.length) % slides.length;
+                const prevIndex = (currentIndex - 1 + slides.length) % slides.length;
                 showSlide(prevIndex);
                 lastTimestamp = performance.now();
             } else if (e.key === "ArrowRight") {
-                let nextIndex = (currentIndex + 1) % slides.length;
+                const nextIndex = (currentIndex + 1) % slides.length;
                 showSlide(nextIndex);
                 lastTimestamp = performance.now();
             }
@@ -120,15 +140,15 @@ document.addEventListener("DOMContentLoaded", function () {
         });
         sliderContainer.addEventListener("touchend", (e) => {
             if (touchStartX !== null) {
-                let touchEndX = e.changedTouches[0].screenX;
+                const touchEndX = e.changedTouches[0].screenX;
                 if (touchEndX - touchStartX > 50) {
                     // Swipe right
-                    let prevIndex = (currentIndex - 1 + slides.length) % slides.length;
+                    const prevIndex = (currentIndex - 1 + slides.length) % slides.length;
                     showSlide(prevIndex);
                     lastTimestamp = performance.now();
                 } else if (touchStartX - touchEndX > 50) {
                     // Swipe left
-                    let nextIndex = (currentIndex + 1) % slides.length;
+                    const nextIndex = (currentIndex + 1) % slides.length;
                     showSlide(nextIndex);
                     lastTimestamp = performance.now();
                 }
@@ -160,12 +180,14 @@ document.addEventListener("DOMContentLoaded", function () {
                 }
             });
 
+            // Close mobile nav when clicking outside of it
             document.addEventListener("click", (e) => {
                 if (!menuToggle.contains(e.target) && !mobileNav.contains(e.target)) {
                     mobileNav.classList.remove("active");
                 }
             });
 
+            // Close mobile nav on link click
             navLinks.forEach((link) => {
                 link.addEventListener("click", () => {
                     mobileNav.classList.remove("active");
