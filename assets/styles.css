@@ -38,7 +38,7 @@ body {
 }
 
 /* ==========================================================================
-            CSS VARIABLES & THEME SETUP
+      CSS VARIABLES & THEME SETUP
       ========================================================================== */
 :root {
     /* Primary Colors & Backgrounds */
@@ -48,16 +48,32 @@ body {
     --bg-secondary: #f9f9f9;
     --card-bg: #fff;
     --text-color: #333;
+
+    /* Header */
     --header-bg: rgba(255, 255, 255, 0.95);
+    --header-bg-scrolled: #333;
+    /* Light theme: dark header when scrolled */
+
+    /* Navigation */
     --nav-hover: #ff4500;
     --transition-speed: 0.3s;
+
+    /* Slider (renamed for clarity) */
     --slider-bg: #fff;
     --slider-overlay: rgba(255, 255, 255, 0.116);
-    --slider-h1: rgb(0, 0, 0);
-    --slider-p: #ffffff;
-    --slider-h1t: #000;
+    --slider-title-bg: rgba(0, 0, 0, 0.863);
+    /* h1 background */
+    --slider-title-text: #fff;
+    /* h1 text color */
+    --slider-subtitle-text: #000;
+    /* paragraph text */
+
+    /* Footer */
+    --footer-bg: #000;
+    --footer-text: #fff;
 }
 
+/* Dark Mode Overrides */
 @media (prefers-color-scheme: dark) {
     :root {
         --bg-primary: #141414;
@@ -65,16 +81,18 @@ body {
         --card-bg: #242424;
         --text-color: #f5f5f5;
         --header-bg: rgba(20, 20, 20, 0.95);
+        --header-bg-scrolled: #222;
         --slider-bg: #000;
         --slider-overlay: rgba(0, 0, 0, 0.6);
-        --slider-h1: rgb(255, 255, 255);
-        --slider-p: #000000;
-        --slider-h1t: #fff;
+        --slider-title-bg: rgba(255, 255, 255, 0.863);
+        --slider-title-text: #000;
+        --slider-subtitle-text: #fff;
+        /* Footer remains unchanged but can be adjusted if desired */
     }
 }
 
 /* ==========================================================================
-            KEYFRAMES & COMMON ANIMATIONS
+      KEYFRAMES & COMMON ANIMATIONS
       ========================================================================== */
 @keyframes fadeInPage {
     from {
@@ -123,7 +141,7 @@ body {
 }
 
 /* ==========================================================================
-            GLOBAL ELEMENT STYLING
+      GLOBAL ELEMENT STYLING
       ========================================================================== */
 img,
 video {
@@ -144,7 +162,7 @@ button:focus,
 input:focus,
 textarea:focus,
 :focus-visible {
-    outline: 2px dashed var(--primary-color);
+    outline: mone;
     outline-offset: 4px;
 }
 
@@ -168,7 +186,7 @@ textarea:focus,
 }
 
 /* ==========================================================================
-            HEADER & NAVIGATION
+      HEADER & NAVIGATION
       ========================================================================== */
 header {
     position: fixed;
@@ -183,8 +201,14 @@ header {
 }
 
 header.scrolled {
-    background: #333;
+    background: var(--header-bg-scrolled);
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+}
+
+/* Ensure text/icons in header gain contrast when scrolled */
+header.scrolled nav .nav-list li a,
+header.scrolled .menu-toggle {
+    color: #fff;
 }
 
 .header-container {
@@ -322,7 +346,7 @@ nav {
 }
 
 /* ==========================================================================
-            BUTTONS & INTERACTIVE ELEMENTS
+      BUTTONS & INTERACTIVE ELEMENTS
       ========================================================================== */
 .btn {
     display: inline-block;
@@ -362,7 +386,7 @@ nav {
 }
 
 /* ==========================================================================
-            CARDS, IMAGES & HOVER EFFECTS
+      CARDS, IMAGES & HOVER EFFECTS
       ========================================================================== */
 .card,
 .blog-card,
@@ -400,7 +424,7 @@ nav {
 }
 
 /* ==========================================================================
-            SECTIONS & OVERLAYS
+      SECTIONS & OVERLAYS
       ========================================================================== */
 section {
     padding: 5rem 1.25rem;
@@ -432,7 +456,7 @@ section p {
 }
 
 /* ==========================================================================
-            HOME SECTION & SLIDER
+      HOME SECTION & SLIDER
       ========================================================================== */
 #home {
     position: relative;
@@ -442,7 +466,6 @@ section p {
     /* Offset for fixed header */
 }
 
-/* Slider container */
 .slider {
     width: 100%;
     height: 100%;
@@ -450,7 +473,6 @@ section p {
     background-color: var(--slider-bg);
 }
 
-/* Each slide */
 .slide {
     position: absolute;
     top: 0;
@@ -478,7 +500,6 @@ section p {
     }
 }
 
-/* Slider Overlay (unified for both themes) */
 .overlay {
     position: absolute;
     top: 0;
@@ -505,22 +526,20 @@ section p {
 }
 
 .overlay h1 {
-    color: var(--slider-p);
+    color: var(--slider-title-text);
     font-size: clamp(2.5rem, 5vw, 3.5rem);
     text-transform: uppercase;
     font-weight: 900;
     margin-bottom: 1.25rem;
     padding: 0.5rem 1rem;
     animation-delay: 0.5s;
-    background: var(--slider-h1);
-    /* Adjust transparency */
+    background: var(--slider-title-bg);
     border-radius: 11px;
     backdrop-filter: blur(5px);
-    /* Optional: Adds a blur effect */
 }
 
 .overlay p {
-    color: var(--slider-h1t);
+    color: var(--slider-subtitle-text);
     font-weight: 900;
     font-size: clamp(1rem, 2.5vw, 1.5rem);
     max-width: 700px;
@@ -532,7 +551,6 @@ section p {
     animation-delay: 0.9s;
 }
 
-/* Slider Navigation Buttons */
 .slider-buttons {
     position: absolute;
     bottom: 1rem;
@@ -560,7 +578,7 @@ section p {
 }
 
 /* ==========================================================================
-         GRID & CARD LAYOUTS
+      GRID & CARD LAYOUTS
       ========================================================================== */
 .card-grid,
 .gallery-grid,
@@ -573,9 +591,8 @@ section p {
 }
 
 /* ==========================================================================
-         SPECIAL COMPONENTS
+      SPECIAL COMPONENTS
       ========================================================================== */
-
 /* About Section */
 #about {
     background: var(--bg-secondary);
@@ -894,10 +911,10 @@ section p {
 }
 
 /* ==========================================================================
-         FOOTER
+      FOOTER
       ========================================================================== */
 footer {
-    background: #000;
+    background: var(--footer-bg);
     padding: 1.25rem 0;
     text-align: center;
     border-radius: 40px 40px 0 0;
@@ -905,7 +922,7 @@ footer {
 
 footer p {
     font-size: 1rem;
-    color: #fff;
+    color: var(--footer-text);
 }
 
 footer a {
@@ -928,7 +945,7 @@ footer a:hover {
 
 .footer-reserved {
     margin-bottom: 1rem;
-    color: #fff;
+    color: var(--footer-text);
 }
 
 .footer-social .social-media {
@@ -959,7 +976,7 @@ footer a:hover {
     margin-top: 1rem;
     font-size: 0.9rem;
     font-weight: 900;
-    color: #fff;
+    color: var(--footer-text);
     padding: 0.5rem;
 }
 
@@ -968,7 +985,7 @@ footer a:hover {
 }
 
 /* ==========================================================================
-         SCROLLBAR STYLING
+      SCROLLBAR STYLING
       ========================================================================== */
 ::-webkit-scrollbar {
     width: 10px;
@@ -995,8 +1012,8 @@ footer a:hover {
 }
 
 /* ==========================================================================
-            MISCELLANEOUS / COMPONENT-SPECIFIC ANIMATIONS
-========================================================================== */
+      MISCELLANEOUS / COMPONENT-SPECIFIC ANIMATIONS
+      ========================================================================== */
 /* Preloader */
 #preloader {
     position: fixed;
