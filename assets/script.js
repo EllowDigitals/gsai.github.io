@@ -45,14 +45,13 @@ document.addEventListener("DOMContentLoaded", function () {
         sliderContainer.appendChild(fragmentSlides);
         sliderButtonsContainer.appendChild(fragmentButtons);
 
-        const slides = [...sliderContainer.children];
-        const sliderButtons = [...sliderButtonsContainer.children];
+        const slides = Array.from(sliderContainer.children);
+        const sliderButtons = Array.from(sliderButtonsContainer.children);
 
         if (slides.length === 0) {
             throw new Error("No slides were created.");
         }
 
-        // Function to show a specific slide
         function showSlide(index) {
             slides.forEach((slide, idx) => {
                 slide.style.opacity = idx === index ? "1" : "0";
@@ -60,7 +59,6 @@ document.addEventListener("DOMContentLoaded", function () {
             currentIndex = index;
         }
 
-        // Automatic slide transition using requestAnimationFrame
         let lastTimestamp = 0;
         function autoSlide(timestamp) {
             if (!lastTimestamp || timestamp - lastTimestamp > slideInterval) {
@@ -73,17 +71,15 @@ document.addEventListener("DOMContentLoaded", function () {
 
         requestAnimationFrame(autoSlide);
 
-        // Manual slide navigation
         sliderButtons.forEach((button) => {
             button.addEventListener("click", () => {
                 const index = parseInt(button.getAttribute("data-index"), 10);
                 if (!isNaN(index)) {
                     showSlide(index);
-                    lastTimestamp = performance.now(); // Reset timer
+                    lastTimestamp = performance.now();
                 }
             });
         });
-
     } catch (err) {
         console.error("Error in slider functionality:", err);
     }
@@ -94,6 +90,7 @@ document.addEventListener("DOMContentLoaded", function () {
     try {
         const menuToggle = document.querySelector(".menu-toggle");
         const mobileNavList = document.querySelector(".mobile-nav .nav-list");
+        const navLinks = document.querySelectorAll(".mobile-nav .nav-list .nav-link");
 
         if (menuToggle && mobileNavList) {
             menuToggle.addEventListener("click", () => {
@@ -104,6 +101,12 @@ document.addEventListener("DOMContentLoaded", function () {
                 if (!menuToggle.contains(e.target) && !mobileNavList.contains(e.target)) {
                     mobileNavList.classList.remove("active");
                 }
+            });
+
+            navLinks.forEach(link => {
+                link.addEventListener("click", () => {
+                    mobileNavList.classList.remove("active");
+                });
             });
         } else {
             console.warn("Mobile navigation elements not found.");
@@ -137,9 +140,7 @@ document.addEventListener("DOMContentLoaded", function () {
         const animateElements = document.querySelectorAll(".fadeInBox");
 
         if (animateElements.length > 0) {
-            const observerOptions = {
-                threshold: 0.2,
-            };
+            const observerOptions = { threshold: 0.2 };
 
             const animateOnScroll = (entries, observer) => {
                 entries.forEach((entry) => {
