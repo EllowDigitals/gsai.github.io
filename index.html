@@ -103,6 +103,7 @@
 </head>
 
 <body>
+
     <!-- Preloader -->
     <div id="preloader">
         <div class="animation-container">
@@ -189,7 +190,6 @@
                 <!-- The slider buttons (dots) will be dynamically generated -->
             </div>
         </section>
-
 
         <!-- About Us Section -->
         <section id="about">
@@ -519,7 +519,6 @@
             </div>
         </section>
 
-
         <!-- Privacy Policy & Terms -->
         <section id="legal">
             <div class="container">
@@ -607,18 +606,39 @@
         </div>
     </footer>
 
-    <!-- Scripts -->
-    <script src="assets/script.js" defer></script>
     <script>
-        window.addEventListener("load", () => {
-            const preloader = document.getElementById("preloader");
-            preloader.style.opacity = "0";
-            setTimeout(() => {
-                preloader.style.display = "none";
-                document.getElementById("content").style.display = "block";
-            }, 500);
+        document.addEventListener("DOMContentLoaded", () => {
+            try {
+                const preloader = document.getElementById("preloader");
+                const content = document.getElementById("content");
+
+                if (!preloader || !content) {
+                    console.error("Preloader or content element not found.");
+                    return;
+                }
+
+                window.addEventListener("load", () => {
+                    try {
+                        preloader.style.transition = "opacity 0.5s ease-out";
+                        preloader.style.opacity = "0";
+
+                        setTimeout(() => {
+                            preloader.style.display = "none";
+                            content.style.display = "block";
+                        }, 500);
+                    } catch (error) {
+                        console.error("Error during preloader animation:", error);
+                    }
+                });
+            } catch (error) {
+                console.error("Error initializing preloader script:", error);
+            }
         });
     </script>
+
+    <!-- Scripts -->
+    <script src="assets/script.js" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/js/all.min.js" ></script>
 </body>
 
 </html>
