@@ -60,7 +60,7 @@ body {
     /* Slider */
     --slider-bg: #fff;
     --slider-overlay: rgba(255, 255, 255, 0.116);
-    --slider-title-bg: rgba(0, 0, 0, 0.863);
+    --slider-title-bg: #ff4400cc;
     --slider-title-text: #fff;
     --slider-subtitle-text: #000000;
 
@@ -68,7 +68,7 @@ body {
     --footer-bg: #000;
     --footer-text: #fff;
     --custom-slider: linear-gradient(135deg, rgba(255, 255, 255, 0.041) 0%, rgba(255, 255, 255, 0.075) 100%);
-    
+
 }
 
 /* Dark Mode Overrides */
@@ -82,7 +82,7 @@ body {
         --header-bg-scrolled: #222;
         --slider-bg: #000;
         --slider-overlay: rgba(0, 0, 0, 0.6);
-        --slider-title-bg: rgba(255, 255, 255, 0.863);
+        --slider-title-bg: rgba(255, 255, 255, 0.801);
         --slider-title-text: #000;
         --slider-subtitle-text: #fff;
         --custom-slider: linear-gradient(135deg, rgba(0, 0, 0, 0.3) 0%, rgba(0, 0, 0, 0.7) 100%);
