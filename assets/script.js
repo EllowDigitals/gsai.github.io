@@ -2,8 +2,8 @@ document.addEventListener("DOMContentLoaded", function () {
     "use strict";
 
     /* ======================================
-         Global Page Fade‑in Animation
-    ====================================== */
+           Global Page Fade‑in Animation
+      ====================================== */
     document.body.style.opacity = 0;
     document.body.style.transition = "opacity 1s ease-in-out";
     requestAnimationFrame(() => {
@@ -11,8 +11,8 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
     /* ======================================
-         Slider Functionality (Enhanced)
-    ====================================== */
+           Slider Functionality (Enhanced)
+      ====================================== */
     try {
         const sliderImages = [
             "assets/images/slider.webp",
@@ -160,12 +160,14 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     /* ======================================
-         Mobile Navigation (Enhanced)
-    ====================================== */
+           Mobile Navigation (Enhanced)
+      ====================================== */
     try {
         const menuToggle = document.querySelector(".menu-toggle");
         const mobileNav = document.querySelector(".mobile-nav");
-        const navLinks = document.querySelectorAll(".mobile-nav .nav-list .nav-link");
+        const navLinks = document.querySelectorAll(
+            ".mobile-nav .nav-list .nav-link"
+        );
 
         if (menuToggle && mobileNav) {
             menuToggle.addEventListener("click", () => {
@@ -201,8 +203,8 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     /* ======================================
-         Smooth Scrolling (Optimized)
-    ====================================== */
+           Smooth Scrolling (Optimized)
+      ====================================== */
     try {
         document.querySelectorAll('a[href^="#"]').forEach((link) => {
             link.addEventListener("click", function (e) {
@@ -219,8 +221,8 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     /* ======================================
-         Animate on Scroll (Optimized)
-    ====================================== */
+           Animate on Scroll (Optimized)
+      ====================================== */
     try {
         const animateElements = document.querySelectorAll(".fadeInBox");
 
@@ -236,7 +238,10 @@ document.addEventListener("DOMContentLoaded", function () {
                 });
             };
 
-            const observer = new IntersectionObserver(animateOnScroll, observerOptions);
+            const observer = new IntersectionObserver(
+                animateOnScroll,
+                observerOptions
+            );
             animateElements.forEach((el) => observer.observe(el));
         }
     } catch (err) {
@@ -244,8 +249,8 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     /* ======================================
-         Global Error Handling
-    ====================================== */
+           Global Error Handling
+      ====================================== */
     window.addEventListener("error", (event) => {
         console.error("Global error caught:", event.error);
     });
@@ -255,13 +260,54 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
     /* ======================================
-         Lazy Loading Support Check
-    ====================================== */
+           Lazy Loading Support Check
+      ====================================== */
     if ("loading" in HTMLImageElement.prototype) {
         document.querySelectorAll('img[loading="lazy"]').forEach((img) => {
             console.log("Lazy loading supported for:", img.src);
         });
     } else {
-        console.log("Native lazy loading not supported. Consider adding a polyfill.");
+        console.log(
+            "Native lazy loading not supported. Consider adding a polyfill."
+        );
     }
 });
+
+document
+    .querySelector(".enroll-form")
+    .addEventListener("submit", function (event) {
+        let phoneInput = document.getElementById("enroll-phone").value.trim();
+        let emailInput = document.getElementById("enroll-email").value.trim();
+
+        // Regular expression for validating phone numbers
+        let phoneRegex =
+            /^\+?\d{1,4}?[-.\s]?\(?\d{2,3}\)?[-.\s]?\d{3,4}[-.\s]?\d{4}$/;
+
+        // Check if the phone number matches the pattern
+        if (!phoneRegex.test(phoneInput)) {
+            alert(
+                "Please enter a valid phone number with a country code, totaling around 10 digits."
+            );
+            event.preventDefault(); // Prevent form submission
+            return;
+        }
+
+        // Further check if the number is within range (10-14 digits including country code)
+        let digitsOnly = phoneInput.replace(/\D/g, ""); // Remove non-digit characters
+        if (digitsOnly.length < 10 || digitsOnly.length > 14) {
+            alert(
+                "Phone number must be between 10 and 14 digits including country code."
+            );
+            event.preventDefault();
+            return;
+        }
+
+        // Regular expression for validating Gmail addresses
+        let gmailRegex = /^[a-zA-Z0-9._%+-]+@gmail\.com$/;
+
+        // Check if the email is a valid Gmail address
+        if (!gmailRegex.test(emailInput)) {
+            alert("Please enter a valid Gmail address (example@gmail.com).");
+            event.preventDefault(); // Prevent form submission
+        }
+    });
