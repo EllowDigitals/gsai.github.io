@@ -17,7 +17,7 @@ html {
 }
 
 body {
-    font-family: 'Montserrat', Arial, sans-serif;
+    font-family: "Montserrat", Arial, sans-serif;
     background: var(--bg-primary);
     color: var(--text-color);
     overflow-x: hidden;
@@ -67,8 +67,9 @@ body {
     /* Footer */
     --footer-bg: #000;
     --footer-text: #fff;
-    --custom-slider: linear-gradient(135deg, rgba(255, 255, 255, 0.041) 0%, rgba(255, 255, 255, 0.075) 100%);
-
+    --custom-slider: linear-gradient(135deg,
+            rgba(255, 255, 255, 0.041) 0%,
+            rgba(255, 255, 255, 0.075) 100%);
 }
 
 /* Dark Mode Overrides */
@@ -85,7 +86,9 @@ body {
         --slider-title-bg: rgba(255, 255, 255, 0.801);
         --slider-title-text: #000;
         --slider-subtitle-text: #fff;
-        --custom-slider: linear-gradient(135deg, rgba(0, 0, 0, 0.3) 0%, rgba(0, 0, 0, 0.7) 100%);
+        --custom-slider: linear-gradient(135deg,
+                rgba(0, 0, 0, 0.3) 0%,
+                rgba(0, 0, 0, 0.7) 100%);
     }
 }
 

@@ -2,8 +2,8 @@ document.addEventListener("DOMContentLoaded", function () {
     "use strict";
 
     /* ======================================
-           Global Page Fade‑in Animation
-      ====================================== */
+             Global Page Fade‑in Animation
+        ====================================== */
     document.body.style.opacity = 0;
     document.body.style.transition = "opacity 1s ease-in-out";
     requestAnimationFrame(() => {
@@ -11,8 +11,8 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
     /* ======================================
-           Slider Functionality (Enhanced)
-      ====================================== */
+             Slider Functionality (Enhanced)
+        ====================================== */
     try {
         const sliderImages = [
             "assets/images/slider.webp",
@@ -160,8 +160,8 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     /* ======================================
-           Mobile Navigation (Enhanced)
-      ====================================== */
+             Mobile Navigation (Enhanced)
+        ====================================== */
     try {
         const menuToggle = document.querySelector(".menu-toggle");
         const mobileNav = document.querySelector(".mobile-nav");
@@ -203,8 +203,8 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     /* ======================================
-           Smooth Scrolling (Optimized)
-      ====================================== */
+             Smooth Scrolling (Optimized)
+        ====================================== */
     try {
         document.querySelectorAll('a[href^="#"]').forEach((link) => {
             link.addEventListener("click", function (e) {
@@ -221,8 +221,8 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     /* ======================================
-           Animate on Scroll (Optimized)
-      ====================================== */
+             Animate on Scroll (Optimized)
+        ====================================== */
     try {
         const animateElements = document.querySelectorAll(".fadeInBox");
 
@@ -249,8 +249,8 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     /* ======================================
-           Global Error Handling
-      ====================================== */
+             Global Error Handling
+        ====================================== */
     window.addEventListener("error", (event) => {
         console.error("Global error caught:", event.error);
     });
@@ -260,8 +260,8 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
     /* ======================================
-           Lazy Loading Support Check
-      ====================================== */
+             Lazy Loading Support Check
+        ====================================== */
     if ("loading" in HTMLImageElement.prototype) {
         document.querySelectorAll('img[loading="lazy"]').forEach((img) => {
             console.log("Lazy loading supported for:", img.src);
