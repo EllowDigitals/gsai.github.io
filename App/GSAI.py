@@ -1,55 +1,78 @@
-from tkinter import Tk, Frame, Label, Button
+from tkinter import Tk, Frame, Label, Button, messagebox
+from PIL import Image, ImageTk
 
-# Create main window
+# Create the main application window
 app = Tk()
-app.title("Tkinter Example")
+app.title("Ghatak Sports Academy India")
 app.geometry("1200x860")
-app.configure(bg="#EEE")
+app.configure(bg="#FFF")
 app.resizable(False, False)
 
-def main_app():
-    def admin_area():
-        # Create a side frame for buttons
+def load_images(image_files):
+    """Load images and return a dictionary of PhotoImage objects."""
+    images = {}
+    for file in image_files:
+        try:
+            img = Image.open(file)
+            images[file] = ImageTk.PhotoImage(img)
+        except Exception as e:
+            messagebox.showerror("Error", f"Failed to load {file}: {e}")
+            images[file] = None  # Assign None instead of stopping execution
+    return images
 
-        side_frame = Frame(app, width=280, height=860, bg="#FFF", relief="flat")
-        side_frame.place(x=0, y=0)
-        side_frame.pack_propagate(False)  # Prevent auto-resizing
+def student_management():
+    """Displays the student management section."""
+    student_frame = Frame(app, width=780, height=760, bg="#FFF", relief="flat")
+    student_frame.place(x=370, y=50)
 
-        # Create a label
-        label = Label(app, text="Welcome!", font=("Arial", 16, "bold"), bg="lightblue")
-        label.place(x=500, y=50)
+    Label(student_frame, text="New Admission", fg="black", bg="#FFF",
+          font=("sans-serif", 18, "bold")).place(x=40, y=40)
 
-        def action_one():
-            label.config(text="Start Action Executed!")
+    Label(student_frame, text="Fill Details Carefully", fg="black", bg="#FFF",
+          font=("sans-serif", 9, "bold")).place(x=40, y=100)
 
-        # Define button details
-        buttons = [
-            ("Add Student", action_one, "black"),
-            ("Fees Submission", action_one, "black"),
-            ("Annoucement", action_one, "black"),
-            ("Statics", action_one, "black"),
-            ("Webiste", action_one, "black"),
-            ("Exit", app.destroy, "black")
-        ]
+def admin_area():
+    """Set up the admin area of the application."""
+    app.title("Ghatak Sports Academy India: Admin Section")
 
-        # Place buttons inside side_frame
-        for i, (text, command, color) in enumerate(buttons):
-            button = Button(
-                side_frame,
-                text=text,
-                command=command,
-                bg=color,
-                fg="white",
-                activeforeground="white",
-                activebackground="orange",
-                font=("Arial", 12),
-                padx=10,
-                pady=5,
-            )
-            button.place(x=40, y=180 + i * 100, width=200, height=40)
-            
-        app.mainloop()
+    # Load images
+    image_files = ["logo.png"]
+    images = load_images(image_files)
 
-    admin_area()        
-main_app()
+    # Sidebar Frame
+    side_frame = Frame(app, width=310, height=860, bg="orange", relief="flat")
+    side_frame.place(x=0, y=0)
 
+    # Add logo if image exists
+    if images.get("logo.png"):
+        Label(side_frame, image=images["logo.png"], border=0, background="orange").place(x=70, y=50)
+
+    # Footer label
+    Label(side_frame, text="Made with ❤ by EllowDigitals",
+          font=("Arial", 11, "bold"), bg="orange").place(x=55, y=800)
+
+    # Define button details
+    buttons = [
+        ("Student Management", student_management),
+        ("Student Payment", lambda: messagebox.showinfo("Action", "Student Payment Clicked")),
+        ("Publish Announcement", lambda: messagebox.showinfo("Action", "Publish Announcement Clicked")),
+        ("View Analytics", lambda: messagebox.showinfo("Action", "View Analytics Clicked")),
+        ("Visit Website", lambda: messagebox.showinfo("Action", "Visit Website Clicked")),
+        ("Update Application", app.quit)
+    ]
+
+    # Create buttons inside the sidebar
+    for i, (text, command) in enumerate(buttons):
+        Button(side_frame, text=text, command=command,
+               bg="#000", fg="#FFF", border=0,
+               font=("Arial", 12), relief="flat").place(x=60, y=300 + i * 80, width=200, height=40)
+    
+    side_frame.mainloop()
+
+def main():
+    """Main function to initialize the application."""
+    admin_area()
+    app.mainloop()
+
+# Run the application
+main()
