@@ -311,3 +311,54 @@ document
             event.preventDefault(); // Prevent form submission
         }
     });
+
+document.addEventListener("DOMContentLoaded", function () {
+    const enrollButton = document.getElementById("enroll-button");
+    const enrollForm = document.querySelector(".enroll-form");
+
+    if (enrollButton && enrollForm) {
+        enrollButton.addEventListener("click", function () {
+            enrollForm.classList.toggle("active");
+        });
+    } else {
+        console.warn("Enroll button or form not found.");
+    }
+}
+);
+
+document.addEventListener("DOMContentLoaded", function () {
+    // Pause auto-slider on hover
+    const sliderTrack = document.querySelector(".slider-track");
+    const sliderWrapper = document.querySelector(".slider-wrapper");
+
+    sliderWrapper.addEventListener("mouseenter", () => {
+        sliderTrack.style.animationPlayState = "paused";
+    });
+
+    sliderWrapper.addEventListener("mouseleave", () => {
+        sliderTrack.style.animationPlayState = "running";
+    });
+
+    // Smooth scroll for anchor links in footer
+    const footerLinks = document.querySelectorAll(".footer a[href^='#']");
+
+    footerLinks.forEach(link => {
+        link.addEventListener("click", function (e) {
+            e.preventDefault();
+            const targetId = this.getAttribute("href").substring(1);
+            const target = document.getElementById(targetId);
+            if (target) {
+                window.scrollTo({
+                    top: target.offsetTop - 70,
+                    behavior: "smooth"
+                });
+            }
+        });
+    });
+
+    // Auto-update current year in footer
+    const yearSpan = document.querySelector(".current-year");
+    if (yearSpan) {
+        yearSpan.textContent = new Date().getFullYear();
+    }
+});
