@@ -1,364 +1,258 @@
-document.addEventListener("DOMContentLoaded", function () {
-    "use strict";
+"use strict";
 
-    /* ======================================
-             Global Page Fade‑in Animation
-        ====================================== */
+/* ===============================
+   DOM Ready
+=============================== */
+document.addEventListener("DOMContentLoaded", () => {
+    /* ===============================
+       Page Fade-In Effect
+    =============================== */
     document.body.style.opacity = 0;
     document.body.style.transition = "opacity 1s ease-in-out";
     requestAnimationFrame(() => {
         document.body.style.opacity = 1;
     });
 
-    /* ======================================
-             Slider Functionality (Enhanced)
-        ====================================== */
-    try {
-        const sliderImages = [
+    /* ===============================
+       Hero Image Slider
+    =============================== */
+    (() => {
+        const images = [
             "assets/images/slider.webp",
             "assets/images/slider1.webp",
             "assets/images/slider2.webp",
             "assets/images/slider3.webp",
             "assets/images/slider4.webp",
             "assets/images/slider5.webp",
-            "assets/images/slider6.webp",
+            "assets/images/slider6.webp"
         ];
+        const container = document.getElementById("slider");
+        const buttons = document.getElementById("slider-buttons");
 
-        const sliderContainer = document.getElementById("slider");
-        const sliderButtonsContainer = document.getElementById("slider-buttons");
+        if (!container || !buttons) return;
 
-        if (!sliderContainer || !sliderButtonsContainer) {
-            throw new Error("Slider container elements not found.");
-        }
+        const interval = 5000;
+        let current = 0;
+        let lastTime = 0;
+        const slides = [];
+        const navButtons = [];
 
-        let currentIndex = 0;
-        const slideInterval = 5000; // 5 seconds
+        const showSlide = index => {
+            slides.forEach((slide, i) => slide.style.opacity = i === index ? "1" : "0");
+            navButtons.forEach((btn, i) => btn.classList.toggle("active", i === index));
+            current = index;
+        };
 
-        // Create DocumentFragments for performance
-        const fragmentSlides = document.createDocumentFragment();
-        const fragmentButtons = document.createDocumentFragment();
-
-        sliderImages.forEach((image, index) => {
-            // Create slide element
+        images.forEach((src, i) => {
             const slide = document.createElement("div");
-            slide.classList.add("slide");
-            slide.style.opacity = index === 0 ? "1" : "0";
+            slide.className = "slide";
+            slide.style.opacity = i === 0 ? "1" : "0";
             slide.style.transition = "opacity 1s ease-in-out";
 
-            // Preload image and set as background with a fallback
             const img = new Image();
-            img.src = image;
-            img.onload = () => {
-                slide.style.backgroundImage = `url(${image})`;
-            };
+            img.src = src;
+            img.onload = () => slide.style.backgroundImage = `url(${src})`;
             img.onerror = () => {
-                console.error("Error loading slider image:", image);
+                console.error(`Failed to load: ${src}`);
                 slide.style.backgroundImage = "url(assets/images/default.jpg)";
             };
 
-            fragmentSlides.appendChild(slide);
+            const btn = document.createElement("button");
+            btn.dataset.index = i;
+            if (i === 0) btn.classList.add("active");
+            btn.addEventListener("click", () => {
+                showSlide(i);
+                lastTime = performance.now();
+            });
 
-            // Create corresponding slider button (dot)
-            const button = document.createElement("button");
-            button.setAttribute("data-index", index);
-            // Set active class on the first button initially
-            if (index === 0) {
-                button.classList.add("active");
-            }
-            fragmentButtons.appendChild(button);
+            slides.push(slide);
+            navButtons.push(btn);
+            container.appendChild(slide);
+            buttons.appendChild(btn);
         });
 
-        sliderContainer.appendChild(fragmentSlides);
-        sliderButtonsContainer.appendChild(fragmentButtons);
-
-        const slides = Array.from(sliderContainer.children);
-        const sliderButtons = Array.from(sliderButtonsContainer.children);
-
-        if (slides.length === 0) {
-            throw new Error("No slides were created.");
-        }
-
-        // Helper to update active class on slider buttons
-        function updateSliderButtons(index) {
-            sliderButtons.forEach((button, idx) => {
-                if (idx === index) {
-                    button.classList.add("active");
-                } else {
-                    button.classList.remove("active");
-                }
-            });
-        }
-
-        // Show slide at the specified index
-        function showSlide(index) {
-            slides.forEach((slide, idx) => {
-                slide.style.opacity = idx === index ? "1" : "0";
-            });
-            currentIndex = index;
-            updateSliderButtons(index);
-        }
-
-        let lastTimestamp = 0;
-        function autoSlide(timestamp) {
-            if (!lastTimestamp || timestamp - lastTimestamp > slideInterval) {
-                const nextIndex = (currentIndex + 1) % slides.length;
-                showSlide(nextIndex);
-                lastTimestamp = timestamp;
+        const cycle = time => {
+            if (!lastTime || time - lastTime > interval) {
+                showSlide((current + 1) % slides.length);
+                lastTime = time;
             }
-            requestAnimationFrame(autoSlide);
-        }
-        requestAnimationFrame(autoSlide);
+            requestAnimationFrame(cycle);
+        };
+        requestAnimationFrame(cycle);
 
-        // Click event for slider buttons
-        sliderButtons.forEach((button) => {
-            button.addEventListener("click", () => {
-                const index = parseInt(button.getAttribute("data-index"), 10);
-                if (!isNaN(index)) {
-                    showSlide(index);
-                    lastTimestamp = performance.now();
-                }
-            });
+        document.addEventListener("keydown", e => {
+            if (e.key === "ArrowLeft") showSlide((current - 1 + slides.length) % slides.length);
+            if (e.key === "ArrowRight") showSlide((current + 1) % slides.length);
+            lastTime = performance.now();
         });
 
-        // Keyboard navigation for slider (Left/Right arrow keys)
-        document.addEventListener("keydown", (e) => {
-            if (e.key === "ArrowLeft") {
-                const prevIndex = (currentIndex - 1 + slides.length) % slides.length;
-                showSlide(prevIndex);
-                lastTimestamp = performance.now();
-            } else if (e.key === "ArrowRight") {
-                const nextIndex = (currentIndex + 1) % slides.length;
-                showSlide(nextIndex);
-                lastTimestamp = performance.now();
+        let startX = null;
+        container.addEventListener("touchstart", e => startX = e.changedTouches[0].screenX);
+        container.addEventListener("touchend", e => {
+            const delta = e.changedTouches[0].screenX - startX;
+            if (delta > 50) showSlide((current - 1 + slides.length) % slides.length);
+            if (delta < -50) showSlide((current + 1) % slides.length);
+            lastTime = performance.now();
+            startX = null;
+        });
+    })();
+
+    /* ===============================
+       Mobile Navigation
+    =============================== */
+    (() => {
+        const toggle = document.querySelector(".menu-toggle");
+        const nav = document.querySelector(".mobile-nav");
+        const links = document.querySelectorAll(".mobile-nav .nav-link");
+        if (!toggle || !nav) return;
+
+        const toggleNav = () => nav.classList.toggle("active");
+
+        toggle.addEventListener("click", toggleNav);
+        toggle.addEventListener("keydown", e => {
+            if (["Enter", " "].includes(e.key)) {
+                e.preventDefault();
+                toggleNav();
             }
         });
 
-        // Touch swipe support for mobile devices
-        let touchStartX = null;
-        sliderContainer.addEventListener("touchstart", (e) => {
-            touchStartX = e.changedTouches[0].screenX;
-        });
-        sliderContainer.addEventListener("touchend", (e) => {
-            if (touchStartX !== null) {
-                const touchEndX = e.changedTouches[0].screenX;
-                if (touchEndX - touchStartX > 50) {
-                    // Swipe right
-                    const prevIndex = (currentIndex - 1 + slides.length) % slides.length;
-                    showSlide(prevIndex);
-                    lastTimestamp = performance.now();
-                } else if (touchStartX - touchEndX > 50) {
-                    // Swipe left
-                    const nextIndex = (currentIndex + 1) % slides.length;
-                    showSlide(nextIndex);
-                    lastTimestamp = performance.now();
-                }
+        document.addEventListener("click", e => {
+            if (!toggle.contains(e.target) && !nav.contains(e.target)) {
+                nav.classList.remove("active");
             }
-            touchStartX = null;
         });
-    } catch (err) {
-        console.error("Error in slider functionality:", err);
-    }
 
-    /* ======================================
-             Mobile Navigation (Enhanced)
-        ====================================== */
-    try {
-        const menuToggle = document.querySelector(".menu-toggle");
-        const mobileNav = document.querySelector(".mobile-nav");
-        const navLinks = document.querySelectorAll(
-            ".mobile-nav .nav-list .nav-link"
-        );
+        links.forEach(link => link.addEventListener("click", () => nav.classList.remove("active")));
+    })();
 
-        if (menuToggle && mobileNav) {
-            menuToggle.addEventListener("click", () => {
-                mobileNav.classList.toggle("active");
-            });
-
-            // Keyboard support for menu toggle (Enter or Space)
-            menuToggle.addEventListener("keydown", (e) => {
-                if (e.key === "Enter" || e.key === " ") {
-                    e.preventDefault();
-                    mobileNav.classList.toggle("active");
-                }
-            });
-
-            // Close mobile nav when clicking outside of it
-            document.addEventListener("click", (e) => {
-                if (!menuToggle.contains(e.target) && !mobileNav.contains(e.target)) {
-                    mobileNav.classList.remove("active");
-                }
-            });
-
-            // Close mobile nav on link click
-            navLinks.forEach((link) => {
-                link.addEventListener("click", () => {
-                    mobileNav.classList.remove("active");
-                });
-            });
-        } else {
-            console.warn("Mobile navigation elements not found.");
-        }
-    } catch (err) {
-        console.error("Error in mobile navigation:", err);
-    }
-
-    /* ======================================
-             Smooth Scrolling (Optimized)
-        ====================================== */
-    try {
-        document.querySelectorAll('a[href^="#"]').forEach((link) => {
-            link.addEventListener("click", function (e) {
-                const targetId = this.getAttribute("href").substring(1);
-                const targetElement = document.getElementById(targetId);
-                if (targetElement) {
-                    e.preventDefault();
-                    targetElement.scrollIntoView({ behavior: "smooth" });
-                }
-            });
-        });
-    } catch (err) {
-        console.error("Error in smooth scrolling:", err);
-    }
-
-    /* ======================================
-             Animate on Scroll (Optimized)
-        ====================================== */
-    try {
-        const animateElements = document.querySelectorAll(".fadeInBox");
-
-        if (animateElements.length > 0) {
-            const observerOptions = { threshold: 0.2 };
-
-            const animateOnScroll = (entries, observer) => {
-                entries.forEach((entry) => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add("in-view");
-                        observer.unobserve(entry.target);
-                    }
-                });
-            };
-
-            const observer = new IntersectionObserver(
-                animateOnScroll,
-                observerOptions
-            );
-            animateElements.forEach((el) => observer.observe(el));
-        }
-    } catch (err) {
-        console.error("Error in animate on scroll:", err);
-    }
-
-    /* ======================================
-             Global Error Handling
-        ====================================== */
-    window.addEventListener("error", (event) => {
-        console.error("Global error caught:", event.error);
-    });
-
-    window.addEventListener("unhandledrejection", (event) => {
-        console.error("Unhandled promise rejection:", event.reason);
-    });
-
-    /* ======================================
-             Lazy Loading Support Check
-        ====================================== */
-    if ("loading" in HTMLImageElement.prototype) {
-        document.querySelectorAll('img[loading="lazy"]').forEach((img) => {
-            console.log("Lazy loading supported for:", img.src);
-        });
-    } else {
-        console.log(
-            "Native lazy loading not supported. Consider adding a polyfill."
-        );
-    }
-});
-
-document
-    .querySelector(".enroll-form")
-    .addEventListener("submit", function (event) {
-        let phoneInput = document.getElementById("enroll-phone").value.trim();
-        let emailInput = document.getElementById("enroll-email").value.trim();
-
-        // Regular expression for validating phone numbers
-        let phoneRegex =
-            /^\+?\d{1,4}?[-.\s]?\(?\d{2,3}\)?[-.\s]?\d{3,4}[-.\s]?\d{4}$/;
-
-        // Check if the phone number matches the pattern
-        if (!phoneRegex.test(phoneInput)) {
-            alert(
-                "Please enter a valid phone number with a country code, totaling around 10 digits."
-            );
-            event.preventDefault(); // Prevent form submission
-            return;
-        }
-
-        // Further check if the number is within range (10-14 digits including country code)
-        let digitsOnly = phoneInput.replace(/\D/g, ""); // Remove non-digit characters
-        if (digitsOnly.length < 10 || digitsOnly.length > 14) {
-            alert(
-                "Phone number must be between 10 and 14 digits including country code."
-            );
-            event.preventDefault();
-            return;
-        }
-
-        // Regular expression for validating Gmail addresses
-        let gmailRegex = /^[a-zA-Z0-9._%+-]+@gmail\.com$/;
-
-        // Check if the email is a valid Gmail address
-        if (!gmailRegex.test(emailInput)) {
-            alert("Please enter a valid Gmail address (example@gmail.com).");
-            event.preventDefault(); // Prevent form submission
-        }
-    });
-
-document.addEventListener("DOMContentLoaded", function () {
-    const enrollButton = document.getElementById("enroll-button");
-    const enrollForm = document.querySelector(".enroll-form");
-
-    if (enrollButton && enrollForm) {
-        enrollButton.addEventListener("click", function () {
-            enrollForm.classList.toggle("active");
-        });
-    } else {
-        console.warn("Enroll button or form not found.");
-    }
-}
-);
-
-document.addEventListener("DOMContentLoaded", function () {
-    // Pause auto-slider on hover
-    const sliderTrack = document.querySelector(".slider-track");
-    const sliderWrapper = document.querySelector(".slider-wrapper");
-
-    sliderWrapper.addEventListener("mouseenter", () => {
-        sliderTrack.style.animationPlayState = "paused";
-    });
-
-    sliderWrapper.addEventListener("mouseleave", () => {
-        sliderTrack.style.animationPlayState = "running";
-    });
-
-    // Smooth scroll for anchor links in footer
-    const footerLinks = document.querySelectorAll(".footer a[href^='#']");
-
-    footerLinks.forEach(link => {
-        link.addEventListener("click", function (e) {
-            e.preventDefault();
-            const targetId = this.getAttribute("href").substring(1);
+    /* ===============================
+       Smooth Anchor Scrolling
+    =============================== */
+    document.querySelectorAll('a[href^="#"]').forEach(link => {
+        link.addEventListener("click", e => {
+            const targetId = link.getAttribute("href").substring(1);
             const target = document.getElementById(targetId);
             if (target) {
-                window.scrollTo({
-                    top: target.offsetTop - 70,
-                    behavior: "smooth"
-                });
+                e.preventDefault();
+                target.scrollIntoView({ behavior: "smooth", block: "start" });
             }
         });
     });
 
-    // Auto-update current year in footer
-    const yearSpan = document.querySelector(".current-year");
-    if (yearSpan) {
-        yearSpan.textContent = new Date().getFullYear();
+    /* ===============================
+       Scroll Reveal Animation
+    =============================== */
+    (() => {
+        const items = document.querySelectorAll(".fadeInBox");
+        if (!items.length) return;
+
+        const observer = new IntersectionObserver(entries => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add("in-view");
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.2 });
+
+        items.forEach(item => observer.observe(item));
+    })();
+
+    /* ===============================
+       Enroll Form Toggle & Validation
+    =============================== */
+    (() => {
+        const form = document.querySelector(".enroll-form");
+        const toggleBtn = document.getElementById("enroll-button");
+
+        toggleBtn?.addEventListener("click", () => {
+            form?.classList.toggle("active");
+        });
+
+        form?.addEventListener("submit", e => {
+            const phone = document.getElementById("enroll-phone")?.value.trim();
+            const email = document.getElementById("enroll-email")?.value.trim();
+            const phoneRegex = /^\+?\d{1,4}?[-.\s]?\(?\d{2,4}\)?[-.\s]?\d{3,4}[-.\s]?\d{3,4}$/;
+            const digits = phone.replace(/\D/g, "");
+
+            if (!phoneRegex.test(phone)) {
+                alert("Please enter a valid phone number with country code.");
+                e.preventDefault();
+            } else if (digits.length < 10 || digits.length > 14) {
+                alert("Phone number must be between 10–14 digits.");
+                e.preventDefault();
+            } else if (!/^[\w.+-]+@gmail\.com$/.test(email)) {
+                alert("Please enter a valid Gmail address.");
+                e.preventDefault();
+            }
+        });
+    })();
+
+    /* ===============================
+       Logo Slider: Hover Pause
+    =============================== */
+    (() => {
+        const track = document.querySelector(".slider-track");
+        const wrapper = document.querySelector(".slider-wrapper");
+        if (!track || !wrapper) return;
+
+        wrapper.addEventListener("mouseenter", () => track.style.animationPlayState = "paused");
+        wrapper.addEventListener("mouseleave", () => track.style.animationPlayState = "running");
+    })();
+
+    /* ===============================
+       Dynamic Footer Year
+    =============================== */
+    const year = document.querySelector(".current-year");
+    if (year) year.textContent = new Date().getFullYear();
+
+    /* ===============================
+       Error Logging
+    =============================== */
+    window.addEventListener("error", e => {
+        console.error("Error:", e.error || e.message);
+    });
+    window.addEventListener("unhandledrejection", e => {
+        console.error("Unhandled Promise:", e.reason);
+    });
+
+    /* ===============================
+       Lazy Loading Support Check
+    =============================== */
+    if ("loading" in HTMLImageElement.prototype) {
+        document.querySelectorAll('img[loading="lazy"]').forEach(img => {
+            console.log("Native lazy loading:", img.src);
+        });
+    } else {
+        console.warn("Lazy loading not supported. Consider a polyfill.");
     }
+
+    /* ===============================
+       SEO: Add Meta Description if Missing
+    =============================== */
+    (() => {
+        if (!document.querySelector('meta[name="description"]')) {
+            const meta = document.createElement("meta");
+            meta.name = "description";
+            meta.content = "Ghatak Sports Academy - Martial Arts Training in India. Learn self-defense, fitness, and discipline.";
+            document.head.appendChild(meta);
+        }
+    })();
+
+    /* ===============================
+       Connection Status Indicator
+    =============================== */
+    (() => {
+        window.addEventListener("offline", () => alert("You are currently offline. Some features may not work."));
+        window.addEventListener("online", () => alert("You're back online!"));
+    })();
+
+    /* ===============================
+       Global Error Fallback Logging
+    =============================== */
+    (() => {
+        window.onerror = (msg, src, line, col, err) => {
+            console.warn(`Global Error: ${msg} at ${src}:${line}:${col}`);
+        };
+    })();
 });
