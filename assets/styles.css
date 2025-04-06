@@ -1002,7 +1002,7 @@ section p {
     position: relative;
     animation: fadeInScale 0.8s ease forwards;
     will-change: opacity, transform;
-    
+
 }
 
 .slider-wrapper {
