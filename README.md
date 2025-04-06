@@ -2,132 +2,136 @@
 
 <div align="center">
 
-# 📊 **Project Status & Hosting**
+## 📊 Project Status & Hosting
 
 [![Netlify Status](https://api.netlify.com/api/v1/badges/8c055132-a1bd-456d-8f11-e1dfaa067806/deploy-status)](https://app.netlify.com/sites/ghatakgsai/deploys)  
 [![GitHub Pages](https://img.shields.io/badge/Hosted%20on-GitHub%20Pages-blue.svg)](https://pages.github.com/)  
-[![Netlify](https://img.shields.io/netlify/8c055132-a1bd-456d-8f11-e1dfaa067806)](https://www.netlify.com)
+[![Netlify Badge](https://img.shields.io/netlify/8c055132-a1bd-456d-8f11-e1dfaa067806)](https://www.netlify.com)
 
 ---
 
-## 📦 **Repository Insights**
+## 📦 Repository Insights
 
-| **Metric**                | **Status**                                                                                     |
-|---------------------------|-----------------------------------------------------------------------------------------------|
-| 🕒 **Last Commit**         | [![GitHub last commit](https://img.shields.io/github/last-commit/EllowDigitals/gsai.github.io?logo=github)](https://github.com/EllowDigitals/gsai.github.io/commits/main) |
-| 🐛 **Open Issues**         | [![GitHub issues](https://img.shields.io/github/issues/EllowDigitals/gsai.github.io?logo=github)](https://github.com/EllowDigitals/gsai.github.io/issues) |
-| 🔄 **Pull Requests**       | [![GitHub pull requests](https://img.shields.io/github/issues-pr/EllowDigitals/gsai.github.io?logo=github)](https://github.com/EllowDigitals/gsai.github.io/pulls) |
-| 🍴 **Forks**               | [![GitHub forks](https://img.shields.io/github/forks/EllowDigitals/gsai.github.io?style=social&logo=github)](https://github.com/EllowDigitals/gsai.github.io/network/members) |
-| ⭐ **Stars**               | [![GitHub stars](https://img.shields.io/github/stars/EllowDigitals/gsai.github.io?style=social&logo=github)](https://github.com/EllowDigitals/gsai.github.io/stargazers) |
+| **Metric**         | **Status**                                                                                     |
+|--------------------|-----------------------------------------------------------------------------------------------|
+| 🕒 Last Commit      | [![GitHub last commit](https://img.shields.io/github/last-commit/EllowDigitals/gsai.github.io?logo=github)](https://github.com/EllowDigitals/gsai.github.io/commits/main) |
+| 🐛 Open Issues      | [![GitHub issues](https://img.shields.io/github/issues/EllowDigitals/gsai.github.io?logo=github)](https://github.com/EllowDigitals/gsai.github.io/issues) |
+| 🔄 Pull Requests    | [![GitHub pull requests](https://img.shields.io/github/issues-pr/EllowDigitals/gsai.github.io?logo=github)](https://github.com/EllowDigitals/gsai.github.io/pulls) |
+| 🍴 Forks            | [![GitHub forks](https://img.shields.io/github/forks/EllowDigitals/gsai.github.io?style=social&logo=github)](https://github.com/EllowDigitals/gsai.github.io/network/members) |
+| ⭐ Stars            | [![GitHub stars](https://img.shields.io/github/stars/EllowDigitals/gsai.github.io?style=social&logo=github)](https://github.com/EllowDigitals/gsai.github.io/stargazers) |
 
 </div>
 
 ---
 
-## 🥋 **About Us**
+## 🥋 About Us
 
-**Ghatak Sports Academy India™ (GSAI)** is a **GOVT. & ISO 9001:2015 CERTIFIED INSTITUTE** dedicated to empowering individuals through martial arts and self-defense. 💪✨
+**Ghatak Sports Academy India™ (GSAI)** is a **Government & ISO 9001:2015 certified institution** committed to empowering individuals through the art of self-defense and martial arts. 💪✨
 
-We blend **traditional martial arts** with **modern training techniques** to help you achieve your **physical, mental, and ethical best**. 🌟 At GSAI, we foster a disciplined, respectful, and supportive environment where you can grow with **strength, confidence, and integrity**. 💖
+We seamlessly fuse **traditional martial arts** with **modern fitness methodologies**, helping you unlock your **physical, mental, and ethical potential**. 🌟  
+At GSAI, we nurture a culture of **discipline, respect, and excellence**, guiding every student toward a journey of **confidence, strength, and integrity**. 💖
 
 ---
 
-## 👤 **Founder’s Message**
+## 👤 Founder’s Message
 
 ### **Mr. Nitesh Yadav**  
-**Founder / Director**  
-🥇 **Black Belt 1st Dan** – International/National player, Gold medalist, and self-instructor.
 
-> _"With decades of experience, I am committed to mastering martial arts and mentoring the next generation of champions."_  
+**Founder & Director**  
+🥇 *Black Belt 1st Dan* – International/National Gold Medalist | Self-instructor  
+
+> *"With decades of experience, I am dedicated to the mastery of martial arts and mentoring future champions."*  
 > – **Mr. Nitesh Yadav**
 
 ---
 
-## 🥊 **Programs & Training**
+## 🥊 Programs & Training
 
-Explore our diverse range of programs designed for all skill levels:  
+Whether you're a beginner or a pro, we’ve got the right program for you:
 
-- 🥋 **Karate**: Master traditional techniques.  
-- 🦵 **Taekwondo**: Learn dynamic kicks.  
-- 🥊 **Boxing**: Build fitness & striking skills.  
-- 🥋 **Kickboxing**: Combine martial arts with cardio.  
-- 🤼 **Grappling**: Develop close-combat skills.  
-- 🥋 **MMA**: Blend striking and grappling techniques.  
-- 🕉️ **Kalaripayattu**: Discover ancient Indian martial arts.  
-- 🛡️ **Self Defense**: Practical protection for real-life situations.  
-- 🏋️ **Fat Loss**: Achieve your fitness goals.  
+- 🥋 **Karate** – Master powerful, traditional techniques.  
+- 🦵 **Taekwondo** – Learn fast, dynamic kicks and stances.  
+- 🥊 **Boxing** – Enhance fitness and striking precision.  
+- 🥋 **Kickboxing** – A blend of cardio and martial arts.  
+- 🤼 **Grappling** – Hone close-combat and ground techniques.  
+- 🥋 **MMA** – Mix striking and grappling for complete combat.  
+- 🕉️ **Kalaripayattu** – Explore ancient Indian warrior arts.  
+- 🛡️ **Self-Defense** – Practical training for real-life safety.  
+- 🏋️ **Fat Loss Programs** – Sculpt your body, build endurance.
 
 ---
 
-## ❓ **Frequently Asked Questions**
+## ❓ Frequently Asked Questions
 
 💡 **What are the enrollment fees?**  
-Fees vary by program. Contact us for details.  
+Fees vary by program. Contact us for the latest details.
 
 🕒 **What are the class schedules?**  
-Sessions are available throughout the week.  
+Flexible sessions are available throughout the week.
 
 🎯 **Do you offer trial classes?**  
-Yes, trial sessions are available.  
+Yes! Trial sessions are open for new members.
 
-👶 **What age groups do you cater to?**  
-Training is available for all ages, from children to adults.  
+👶 **Which age groups can enroll?**  
+We train all age groups – from kids to adults.
 
-🏠 **Do you provide hostel facilities?**  
-Yes, for outstation students and athletes.  
+🏠 **Is hostel accommodation available?**  
+Yes, hostel facilities are available for outstation students and athletes.
 
-🏏 **What sports do you offer training in?**  
-We offer training in multiple sports, including **Cricket** and **Kabaddi**.  
+🏏 **Which sports do you provide training for?**  
+Apart from martial arts, we offer **Cricket** and **Kabaddi** training.
 
 📝 **How can I register?**  
-Register online or visit our academy.  
+You can register online or visit our academy in person.
 
-💸 **Are there any discounts available?**  
-Seasonal discounts and offers are available.  
+💸 **Are there any discounts?**  
+Yes! We offer seasonal promotions and special discounts.
 
 🤝 **Do you offer personal coaching?**  
-Yes, one-on-one training is available.  
+Absolutely. One-on-one sessions are available upon request.
 
 🔄 **Is there a refund policy?**  
-Policies vary by program. Contact us for details.  
+Refunds depend on the specific program. Please contact us for details.
 
 ---
 
-## 📞 **Contact Us**
+## 📞 Contact Us
 
-Ready to transform your life? Reach out to us today!  
+Ready to begin your martial arts journey? Let's connect!
 
 📧 **Email**: [ghatakgsai@gmail.com](mailto:ghatakgsai@gmail.com)  
 📞 **Phone**: +91-639-413-5988 | +91-835-506-2424  
 
-🏢 **Head Office**:  
+🏢 **Main Campus**:  
 Naubasta Pulia, Takrohi Road, Amrai Gaon, Indira Nagar, Lucknow, U.P. - 226028  
 
-🏢 **Second Branch**:  
-FITNESS & FUN ARENA (TCC), Hardasi Kheda, Deva Rd, near Baba Hospital Road, City Colony, Matiyari, Lucknow, Uttar Pradesh  
+🏢 **Branch Location**:  
+**Fitness & Fun Arena (TCC)**, Hardasi Kheda, Deva Rd, near Baba Hospital Road, City Colony, Matiyari, Lucknow, U.P.
 
 ---
 
-## 🏆 **Recognitions & Affiliations**
+## 🏆 Recognitions & Affiliations
+
+We are proudly recognized by:
 
 - 🇮🇳 **Government of India**  
-- 🏅 **Ministry of Youth Affairs and Sports**  
+- 🏅 **Ministry of Youth Affairs & Sports**  
 - 💪 **Fit India Movement**  
 - 🏃 **Khelo India**  
-- 🏢 **MSME**  
-- ✅ **ISO Certified**  
-- 🏫 **School Games Federation**  
+- 🏢 **MSME Certified**  
+- ✅ **ISO 9001:2015 Certified**  
+- 🏫 **School Games Federation of India**  
 - 🏋️ **UP Olympic Association**  
 - 🕉️ **UP Kalaripayattu Association**  
-- 🥋 **Taekwondo Federation**  
+- 🥋 **Taekwondo Federation**
 
 ---
 
-## 🌐 **Made By**
+## 🌐 Designed & Maintained By
 
-This website is proudly designed and maintained by [EllowDigitals](https://www.ellowdigitals.me).  
+This website is proudly designed and maintained by [**EllowDigitals**](https://www.ellowdigitals.me)
 
 ---
 
 **© 2025 Ghatak Sports Academy India™. All rights reserved.**  
-🌟 _Empowering Lives Through Martial Arts_ 🌟
+🌟 *Empowering Lives Through Martial Arts* 🌟
