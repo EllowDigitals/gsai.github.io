@@ -976,29 +976,33 @@ section p {
 .footer {
     background-color: var(--dark-bg);
     color: var(--text-color);
-    padding: 2rem 1rem;
+    padding: 3rem 1rem;
     font-family: var(--font-base);
-    text-align: center;
-    font-size: 1rem;
-    line-height: 1.6;
+    font-size: 1.1rem;
+    line-height: 1.8;
 }
 
 /* Slider Heading */
 .slider-heading {
-    font-size: 1.5rem;
+    font-size: 1.8rem;
     color: var(--primary-color);
-    margin-bottom: 1rem;
+    margin-bottom: 1.5rem;
+    text-align: center;
 }
 
 /* Logo Slider */
 .logo-slider {
-    margin: 0 auto 2rem;
+    margin: 0 auto 3rem;
     max-width: 1200px;
     overflow: hidden;
-    background-color: var(--lighter-bg);
-    padding: 1.5rem 1rem;
+    background-color: var(--slider-bg);
+    padding: 2rem 1rem;
     border-radius: 12px;
-    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.25);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    position: relative;
+    animation: fadeInScale 0.8s ease forwards;
+    will-change: opacity, transform;
+    
 }
 
 .slider-wrapper {
@@ -1043,29 +1047,33 @@ section p {
     transform: scale(1.1);
 }
 
-/* Footer Content */
+/* Footer Content Layout */
 .footer-content {
     display: flex;
     flex-wrap: wrap;
-    justify-content: center;
+    justify-content: space-evenly;
     gap: 2.5rem;
-    margin-bottom: 2rem;
+    max-width: 1200px;
+    margin: 0 auto 2rem;
 }
 
+/* Individual Footer Section */
 .footer-section {
-    flex: 1 1 260px;
-    max-width: 360px;
+    flex: 1 1 280px;
+    min-width: 240px;
+    padding: 0 1rem;
 }
 
 .footer-section h3 {
     margin-bottom: 1rem;
-    font-size: 1.4rem;
+    font-size: 1.6rem;
     color: var(--primary-color);
     border-bottom: 2px solid var(--primary-color);
     padding-bottom: 0.5rem;
-    text-align: center;
+    text-align: left;
 }
 
+/* Unordered List */
 .footer-section ul {
     list-style: none;
     padding: 0;
@@ -1073,10 +1081,20 @@ section p {
 }
 
 .footer-section li {
-    margin-bottom: 0.6rem;
-    font-size: 1rem;
+    margin-bottom: 0.75rem;
+    font-size: 1.1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
 }
 
+.footer-section li i {
+    font-size: 1.1rem;
+    color: var(--primary-color);
+    min-width: 22px;
+}
+
+/* Anchor Links */
 .footer-section a {
     color: var(--text-color);
     text-decoration: none;
@@ -1087,22 +1105,45 @@ section p {
     color: var(--primary-color);
 }
 
-/* Footer Bottom */
-.footer-bottom {
-    border-top: 1px solid var(--border-color);
-    padding-top: 1rem;
-    font-size: 0.9rem;
-    margin-top: 1rem;
+/* Footer Bottom Box */
+.footer-bottom-box {
+    background-color: var(--slider-bg);
+    border: 1px solid var(--border-color);
+    padding: 1.5rem;
+    margin: 2rem auto 0;
+    max-width: 800px;
+    border-radius: 12px;
+    text-align: center;
+    font-size: 1rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    transition: transform 0.3s ease;
 }
 
-.footer-bottom .heart {
+.footer-bottom-box:hover {
+    transform: translateY(-2px);
+}
+
+.footer-bottom-box .heart {
     color: red;
 }
 
 /* Responsive Tweaks */
+@media (max-width: 480px) {
+    .footer-bottom-box {
+        padding: 1.2rem;
+        font-size: 0.95rem;
+        border-radius: 10px;
+    }
+}
+
+/* Responsive Design */
 @media (max-width: 1024px) {
     .logo-item {
         width: 100px;
+    }
+
+    .footer-section h3 {
+        font-size: 1.4rem;
     }
 }
 
@@ -1111,12 +1152,23 @@ section p {
         width: 80px;
     }
 
+    .footer-content {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .footer-section {
+        text-align: center;
+        padding: 1rem 0;
+    }
+
     .footer-section h3 {
-        font-size: 1.2rem;
+        text-align: center;
     }
 
     .footer-section li {
-        font-size: 0.95rem;
+        justify-content: center;
+        font-size: 1rem;
     }
 }
 
@@ -1126,18 +1178,17 @@ section p {
     }
 
     .footer {
-        font-size: 0.85rem;
+        font-size: 1rem;
     }
 
     .footer-section h3 {
-        font-size: 1.1rem;
+        font-size: 1.3rem;
     }
 
     .footer-section li {
-        font-size: 0.9rem;
+        font-size: 1rem;
     }
 }
-
 
 /* ==========================================================================
       SCROLLBAR STYLING
