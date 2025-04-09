@@ -85,50 +85,166 @@ body {
 }
 
 /* ==========================================================================
-         ANIMATIONS
-         ========================================================================== */
+   ANIMATIONS – Enhanced & Advanced v2.1
+   ========================================================================== */
+
+/* Fade In Page (Initial Load) */
 @keyframes fadeInPage {
-    from {
+    0% {
         opacity: 0;
     }
 
-    to {
+    100% {
         opacity: 1;
     }
 }
 
+/* Fade In + Upward Motion */
 @keyframes fadeInUp {
-    from {
+    0% {
         opacity: 0;
-        transform: translateY(20px);
+        transform: translateY(30px);
     }
 
-    to {
+    100% {
         opacity: 1;
         transform: translateY(0);
     }
 }
 
-@keyframes spin {
+/* Fade In + Downward Motion */
+@keyframes fadeInDown {
     0% {
-        transform: rotate(0);
+        opacity: 0;
+        transform: translateY(-30px);
     }
 
     100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Slide In From Left */
+@keyframes slideInLeft {
+    0% {
+        opacity: 0;
+        transform: translateX(-40px);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* Slide In From Right */
+@keyframes slideInRight {
+    0% {
+        opacity: 0;
+        transform: translateX(40px);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* Simple Spin */
+@keyframes spin {
+    to {
         transform: rotate(360deg);
     }
 }
 
+/* Pulse Glow */
 @keyframes pulse {
 
     0%,
     100% {
         opacity: 0.6;
+        transform: scale(1);
     }
 
     50% {
         opacity: 1;
+        transform: scale(1.05);
     }
+}
+
+/* Wiggle Animation (Attention Grab) */
+@keyframes wiggle {
+
+    0%,
+    100% {
+        transform: rotate(-3deg);
+    }
+
+    50% {
+        transform: rotate(3deg);
+    }
+}
+
+/* Bounce In */
+@keyframes bounceIn {
+    0% {
+        opacity: 0;
+        transform: scale(0.5);
+    }
+
+    60% {
+        opacity: 1;
+        transform: scale(1.05);
+    }
+
+    80% {
+        transform: scale(0.95);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}
+
+/* ===============================
+   Utility Classes
+   =============================== */
+
+.fade-in-page {
+    animation: fadeInPage 0.8s ease-in-out forwards;
+}
+
+.fade-in-up {
+    animation: fadeInUp 0.8s ease-out forwards;
+}
+
+.fade-in-down {
+    animation: fadeInDown 0.8s ease-out forwards;
+}
+
+.slide-in-left {
+    animation: slideInLeft 0.8s ease-out forwards;
+}
+
+.slide-in-right {
+    animation: slideInRight 0.8s ease-out forwards;
+}
+
+.pulse {
+    animation: pulse 1.5s ease-in-out infinite;
+}
+
+.spin {
+    animation: spin 1s linear infinite;
+}
+
+.wiggle {
+    animation: wiggle 0.5s ease-in-out infinite;
+}
+
+.bounce-in {
+    animation: bounceIn 0.6s ease-out forwards;
 }
 
 /* ==========================================================================
@@ -180,35 +296,98 @@ textarea:focus,
 }
 
 /* ==========================================================================
-         PRELOADER
-         ========================================================================== */
+   PRELOADER
+   ========================================================================== */
 #preloader {
     position: fixed;
     inset: 0;
-    background: var(--bg-primary);
+    background: var(--bg-primary, #121212);
     z-index: 9999;
     display: flex;
     align-items: center;
     justify-content: center;
     flex-direction: column;
+    transition: opacity 0.5s ease;
+    padding: 2rem;
+    text-align: center;
 }
 
-.preloader-spinner {
-    width: 3rem;
-    height: 3rem;
-    border: 0.4rem solid rgba(0, 0, 0, 0.1);
-    border-top-color: var(--primary-color);
-    border-radius: 50%;
-    animation: spin 1s linear infinite;
+.animation-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    max-width: 90vw;
+}
+
+.martial-arts-kick {
+    width: 100px;
+    height: 100px;
+    animation: kick 1.5s ease-in-out infinite;
+    object-fit: contain;
+    will-change: transform;
+}
+
+@keyframes kick {
+
+    0%,
+    100% {
+        transform: rotate(0deg);
+    }
+
+    30% {
+        transform: rotate(12deg);
+    }
+
+    60% {
+        transform: rotate(-18deg);
+    }
 }
 
 .loading-text {
-    margin-top: 1rem;
-    color: var(--primary-color);
-    font-size: 1rem;
-    letter-spacing: 0.1rem;
-    animation: pulse 1.5s ease-in-out infinite;
+    color: var(--primary-color, #ff4500);
+    font-size: 1.2rem;
+    font-weight: 600;
+    animation: pulse 1.2s ease-in-out infinite;
+    letter-spacing: 0.08rem;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
 }
+
+@keyframes pulse {
+
+    0%,
+    100% {
+        opacity: 0.6;
+    }
+
+    50% {
+        opacity: 1;
+    }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .martial-arts-kick {
+        width: 80px;
+        height: 80px;
+    }
+
+    .loading-text {
+        font-size: 1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .martial-arts-kick {
+        width: 60px;
+        height: 60px;
+    }
+
+    .loading-text {
+        font-size: 0.9rem;
+    }
+}
+
 
 /* ==========================================================================
          SECTION WRAPPERS
@@ -383,21 +562,20 @@ h2.section-title {
     }
 }
 
-/* ==========================================================
-      HEADER: MODERN, RESPONSIVE, THEME-AWARE
-      ========================================================== */
-
+/* =============================
+   HEADER: Modern + Responsive
+   ============================= */
 #site-header {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
-    background: var(--header-bg);
+    background: var(--header-bg, #121212);
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
     z-index: 1000;
     box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25);
-    transition: background var(--transition-speed), box-shadow var(--transition-speed);
+    transition: all 0.3s ease-in-out;
 }
 
 .header-container {
@@ -409,7 +587,7 @@ h2.section-title {
     align-items: center;
 }
 
-/* === LOGO === */
+/* === Logo === */
 .logo a {
     display: flex;
     align-items: center;
@@ -418,8 +596,9 @@ h2.section-title {
 }
 
 .logo img {
-    height: 3.2rem;
+    height: 3rem;
     transition: transform 0.4s ease;
+    max-width: 100%;
 }
 
 .logo a:hover img {
@@ -427,10 +606,9 @@ h2.section-title {
 }
 
 .logo-text {
-    font-size: 1.4rem;
     font-weight: 700;
-    color: var(--primary-color);
-    transition: color var(--transition-speed);
+    font-size: 1.3rem;
+    color: var(--primary-color, #ff4500);
 }
 
 .logo-full {
@@ -441,31 +619,30 @@ h2.section-title {
     display: none;
 }
 
-/* === NAVIGATION (DESKTOP) === */
+/* === Desktop Nav === */
 .main-nav {
     display: flex;
-    align-items: center;
 }
 
 .nav-list {
     display: flex;
     gap: 2rem;
     list-style: none;
-    padding: 0;
     margin: 0;
+    padding: 0;
 }
 
 .nav-link {
-    color: var(--text-color);
+    color: var(--text-color, #fff);
     font-weight: 500;
     text-decoration: none;
     position: relative;
-    transition: all var(--transition-speed);
+    padding: 0.5rem 0;
 }
 
 .nav-link:hover,
 .nav-link:focus {
-    color: var(--nav-hover);
+    color: var(--primary-color-hover, #ffa07a);
 }
 
 .nav-link::after {
@@ -473,12 +650,12 @@ h2.section-title {
     position: absolute;
     bottom: -4px;
     left: 0;
-    width: 100%;
     height: 2px;
-    background-color: var(--primary-color);
+    width: 100%;
+    background-color: var(--primary-color, #ff4500);
     transform: scaleX(0);
     transform-origin: right;
-    transition: transform var(--transition-speed);
+    transition: transform 0.3s ease-in-out;
 }
 
 .nav-link:hover::after {
@@ -486,42 +663,39 @@ h2.section-title {
     transform-origin: left;
 }
 
-/* === JOIN NOW BUTTON === */
+/* === Join Button === */
 .join-link {
-    background-color: var(--primary-color);
+    background-color: var(--primary-color, #ff4500);
     color: #fff !important;
-    padding: 0.5rem 1.4rem;
+    padding: 0.5rem 1.2rem;
     border-radius: 999px;
     font-weight: 600;
-    transition: all var(--transition-speed);
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-    display: inline-block;
+    transition: all 0.3s ease-in-out;
 }
 
 .join-link:hover {
-    background-color: var(--primary-color-hover);
     transform: translateY(-2px) scale(1.03);
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.35);
+    background-color: var(--primary-color-hover, #ff6633);
 }
 
-/* === MENU TOGGLE BUTTON (MOBILE) === */
+/* === Mobile Toggle === */
 .menu-toggle {
     display: none;
     font-size: 2rem;
     background: none;
     border: none;
-    color: var(--text-color);
+    color: var(--text-color, #fff);
     cursor: pointer;
-    transition: color var(--transition-speed);
 }
 
 .menu-toggle:hover {
     color: var(--primary-color);
 }
 
-/* === MOBILE NAVIGATION === */
+/* === Mobile Nav === */
 .mobile-nav {
-    background: var(--bg-primary);
+    background: var(--bg-primary, #121212);
     max-height: 0;
     overflow: hidden;
     transition: max-height 0.4s ease;
@@ -534,33 +708,19 @@ h2.section-title {
 .mobile-nav .nav-list {
     display: flex;
     flex-direction: column;
-    padding: 0;
-    margin: 0;
-}
-
-.mobile-nav .nav-list li {
-    border-top: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .mobile-nav .nav-link {
     padding: 1rem 1.5rem;
     display: block;
-    color: var(--text-color);
-    transition: background 0.3s ease;
+    color: var(--text-color, #fff);
 }
 
 .mobile-nav .nav-link:hover {
-    background-color: rgba(255, 69, 0, 0.1);
+    background-color: rgba(255, 255, 255, 0.05);
 }
 
-.mobile-nav .join-link {
-    margin: 1rem auto;
-    max-width: 200px;
-    text-align: center;
-    display: block;
-}
-
-/* === RESPONSIVE BREAKPOINTS === */
+/* === Responsive === */
 @media (max-width: 1024px) {
     .main-nav {
         display: none;
@@ -579,18 +739,27 @@ h2.section-title {
     }
 }
 
-@media (max-width: 480px) {
-    .join-link {
-        padding: 0.6rem 1.2rem;
-        font-size: 0.95rem;
+@media (max-width: 600px) {
+    .logo img {
+        height: 2.4rem;
     }
 
-    .logo img {
-        height: 2.5rem;
+    .logo-text {
+        font-size: 1.1rem;
     }
 
     .header-container {
-        padding: 0.8rem 1rem;
+        padding: 0.75rem 1rem;
+    }
+
+    .join-link {
+        padding: 0.4rem 1rem;
+        font-size: 0.95rem;
+    }
+
+    .mobile-nav .nav-link {
+        font-size: 1rem;
+        padding: 0.9rem 1.2rem;
     }
 }
 
@@ -1523,34 +1692,42 @@ h2.section-title {
     margin-bottom: 0.5rem;
 }
 
-
 /* ============================
-      Enroll / Join Us - Contrast Fixed & Responsive
-      ============================ */
+   Enroll / Join Us - Themed, Responsive & Accessible
+============================ */
 #enroll {
     background-color: var(--bg-primary);
     padding: 4rem 1.5rem;
     text-align: center;
+    color: var(--text-color);
 }
 
 #enroll h2 {
-    font-size: 2.5rem;
+    font-size: clamp(2rem, 5vw, 2.75rem);
     color: var(--primary-color);
-    margin-bottom: 1rem;
+    margin-bottom: 1.25rem;
+    line-height: 1.2;
 }
 
+/* ============================
+   Form Container
+============================ */
 .enroll-form {
     display: flex;
     flex-direction: column;
-    gap: 1.25rem;
-    text-align: left;
+    gap: 1.5rem;
     width: 100%;
     max-width: 720px;
     margin-inline: auto;
-    padding: 1rem;
-    box-sizing: border-box;
+    padding: 1.5rem;
+    background: var(--card-bg-alt);
+    border-radius: var(--radius);
+    box-shadow: 0 0 30px rgba(0, 0, 0, 0.05);
 }
 
+/* ============================
+   Inputs & Labels
+============================ */
 .enroll-form .form-group {
     display: flex;
     flex-direction: column;
@@ -1572,23 +1749,22 @@ h2.section-title {
     color: var(--text-color);
     border: 1px solid rgba(0, 0, 0, 0.15);
     font-size: 1rem;
-    transition: border-color 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
+    transition: border-color var(--transition-speed) ease, box-shadow var(--transition-speed) ease, background-color var(--transition-speed) ease;
 }
 
-/* Placeholder text visibility fix */
 .enroll-form input::placeholder,
 .enroll-form textarea::placeholder {
-    color: var(--text-color);
-    opacity: 0.6;
+    color: var(--text-muted);
+    opacity: 0.7;
 }
 
-.enroll-form input:focus,
-.enroll-form textarea:focus {
+.enroll-form input:focus-visible,
+.enroll-form textarea:focus-visible {
     border-color: var(--primary-color-hover);
-    outline: none;
-    box-shadow: 0 0 6px rgba(255, 69, 0, 0.3);
+    outline: 2px solid rgba(255, 69, 0, 0.3);
+    outline-offset: 2px;
+    box-shadow: 0 0 8px rgba(255, 69, 0, 0.2);
     background-color: var(--bg-primary);
-    /* Ensure visibility on focus */
     color: var(--text-color);
 }
 
@@ -1597,6 +1773,9 @@ h2.section-title {
     min-height: 140px;
 }
 
+/* ============================
+   Button Styling
+============================ */
 .enroll-form button.btn {
     font-size: 1rem;
     font-weight: 600;
@@ -1606,18 +1785,109 @@ h2.section-title {
     border: none;
     border-radius: 0.5rem;
     cursor: pointer;
-    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+    transition: background-color var(--transition-speed) ease, box-shadow var(--transition-speed) ease, transform 0.2s ease;
 }
 
 .enroll-form button.btn:hover {
     background-color: var(--primary-color-hover);
-    box-shadow: 0 4px 12px rgba(255, 69, 0, 0.25);
+    box-shadow: 0 4px 14px rgba(255, 69, 0, 0.25);
+    transform: translateY(-2px);
 }
 
-/* Responsive Fixes */
-@media (max-width: 480px) {
+.enroll-form button.btn:active {
+    transform: scale(0.98);
+}
+
+.enroll-form button.btn.loading {
+    position: relative;
+    pointer-events: none;
+    opacity: 0.8;
+}
+
+.enroll-form button.btn.loading::after {
+    content: "";
+    position: absolute;
+    right: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 1rem;
+    height: 1rem;
+    border: 2px solid #fff;
+    border-top: 2px solid transparent;
+    border-radius: 50%;
+    animation: spin 0.75s linear infinite;
+}
+
+/* ============================
+   Feedback Messages
+============================ */
+.form-feedback {
+    margin-top: 1rem;
+    text-align: center;
+    font-weight: 600;
+    padding: 0.75rem 1.25rem;
+    border-radius: 0.5rem;
+    font-size: 0.95rem;
+    opacity: 0.95;
+    animation: fadeInPage 0.5s ease;
+}
+
+.form-feedback.success {
+    color: #fff;
+    background-color: var(--primary-color);
+}
+
+.form-feedback.error {
+    background-color: #e74c3c;
+    color: #fff;
+}
+
+/* ============================
+   Error & Animation States
+============================ */
+.input-error {
+    border-color: var(--primary-color) !important;
+    background-color: rgba(255, 69, 0, 0.05);
+}
+
+@keyframes shake {
+
+    0%,
+    100% {
+        transform: translateX(0);
+    }
+
+    25% {
+        transform: translateX(-5px);
+    }
+
+    50% {
+        transform: translateX(5px);
+    }
+
+    75% {
+        transform: translateX(-4px);
+    }
+}
+
+.shake {
+    animation: shake 0.4s ease;
+}
+
+.form-error {
+    color: var(--primary-color);
+    font-size: 0.9rem;
+    margin-top: 0.25rem;
+    font-weight: 500;
+    transition: opacity var(--transition-speed) ease;
+}
+
+/* ============================
+   Responsive Adjustments
+============================ */
+@media (max-width: 600px) {
     .enroll-form {
-        padding: 1rem 0.75rem;
+        padding: 1rem;
     }
 
     .enroll-form input,
@@ -1630,6 +1900,30 @@ h2.section-title {
         padding: 0.75rem;
     }
 }
+
+/* ============================
+   Loading Spinner Animation
+============================ */
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes fadeInPage {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
 
 /* ==========================================================================
       Contact Section – Modern & Responsive
@@ -1964,7 +2258,6 @@ address {
     }
 }
 
-/* Footer Base */
 .footer {
     background: var(--footer-bg);
     color: var(--footer-text);
@@ -1972,98 +2265,83 @@ address {
     font-family: var(--font-base);
     font-size: 1rem;
     line-height: 1.7;
-    position: relative;
-    z-index: 1;
     overflow-x: hidden;
-    transition: background var(--transition-speed);
 }
 
 /* Logo Slider */
 .logo-slider {
-    background: transparent;
-    padding: 2rem 1rem;
     max-width: 1200px;
-    margin: 0 auto 3rem;
-    overflow: hidden;
-    border: none;
-    box-shadow: none;
+    margin: 0 auto 2rem;
+    padding: 2rem 1rem;
+    text-align: center;
 }
 
 .slider-heading {
-    font-size: 2rem;
-    text-align: center;
-    margin-bottom: 2rem;
+    font-size: 1.8rem;
+    margin-bottom: 1.5rem;
     color: var(--primary-color);
-    font-weight: 600;
 }
 
 .slider-wrapper {
     overflow: hidden;
-    position: relative;
 }
 
 .slider-track {
     display: flex;
-    animation: slide 30s linear infinite;
     gap: 2rem;
+    animation: slide 40s linear infinite;
     align-items: center;
 }
 
 @keyframes slide {
-    from {
+    0% {
         transform: translateX(0);
     }
 
-    to {
+    100% {
         transform: translateX(-50%);
     }
 }
 
 .logo-item {
     flex: 0 0 auto;
-    width: 120px;
+    width: 100px;
+    padding: 0.5rem;
     display: flex;
-    align-items: center;
     justify-content: center;
-    padding: 0.75rem;
-    transition: transform 0.3s ease;
+    align-items: center;
+    transition: transform 0.3s;
 }
 
 .logo-item img {
     max-width: 100%;
     max-height: 60px;
     object-fit: contain;
-    transition: transform 0.4s ease;
-    filter: none;
+    transition: transform 0.3s ease-in-out;
 }
 
 .logo-item img:hover {
     transform: scale(1.1);
 }
 
-/* Footer Sections */
+/* Footer Main */
 .footer-content {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 3rem;
-    justify-content: space-evenly;
     max-width: 1200px;
     margin: 0 auto 2rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2rem;
+    justify-content: center;
+    text-align: left;
 }
 
 .footer-section {
     flex: 1 1 260px;
     min-width: 220px;
-    text-align: left;
-    padding: 0;
-    border-radius: 0;
-    transition: background var(--transition-speed);
-    background: transparent;
-    box-shadow: none;
 }
 
 .footer-section h3 {
-    font-size: 1.6rem;
+    font-size: 1.4rem;
     margin-bottom: 1rem;
     color: var(--primary-color);
     border-bottom: 2px solid var(--primary-color);
@@ -2080,7 +2358,6 @@ address {
     display: flex;
     align-items: center;
     gap: 0.6rem;
-    justify-content: flex-start;
 }
 
 .footer-section li i {
@@ -2088,12 +2365,11 @@ address {
     font-size: 1.1rem;
 }
 
-/* Footer Links */
 .footer-section a {
     color: var(--footer-text);
-    text-decoration: none;
-    transition: color var(--transition-speed), text-shadow var(--transition-speed);
     font-weight: 500;
+    text-decoration: none;
+    transition: color 0.3s ease, text-shadow 0.3s ease;
 }
 
 .footer-section a:hover {
@@ -2104,16 +2380,15 @@ address {
 /* Footer Bottom */
 .footer-bottom-box {
     text-align: center;
-    background-color: rgba(255, 255, 255, 0.05);
+    background: rgba(255, 255, 255, 0.04);
     padding: 2rem 1.5rem;
-    border-radius: var(--radius);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    max-width: 800px;
     margin: 2rem auto 0;
+    max-width: 800px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: var(--radius);
     font-size: 1rem;
     box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
-    transition: transform var(--transition-speed), box-shadow var(--transition-speed);
-    color: var(--footer-text);
+    transition: all 0.3s ease;
 }
 
 .footer-bottom-box:hover {
@@ -2138,13 +2413,7 @@ address {
     }
 }
 
-/* Responsive Media Queries */
-@media (max-width: 1024px) {
-    .logo-item {
-        width: 100px;
-    }
-}
-
+/* Responsive Layout */
 @media (max-width: 768px) {
     .footer-content {
         flex-direction: column;
@@ -2153,7 +2422,6 @@ address {
     }
 
     .footer-section {
-        padding: 0;
         text-align: center;
     }
 
@@ -2172,7 +2440,7 @@ address {
     }
 
     .footer-section h3 {
-        font-size: 1.3rem;
+        font-size: 1.2rem;
     }
 
     .logo-item {
@@ -2185,32 +2453,79 @@ address {
 }
 
 
+.connection-status-banner {
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+}
 
+@media (prefers-color-scheme: dark) {
+    .error-ui-banner {
+        background-color: #ff5722 !important;
+        color: #fff !important;
+    }
+}
 
+[data-slider] [data-slide] {
+    transition: opacity 0.6s ease, visibility 0.6s ease;
+    opacity: 0;
+    visibility: hidden;
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+}
+
+[data-slider] [data-slide].current-slide {
+    opacity: 1;
+    visibility: visible;
+    z-index: 1;
+}
 
 
 /* ==========================================================================
-         SCROLLBAR STYLING
-         ========================================================================== */
+   SCROLLBAR STYLING (Theme-Based & Optimized)
+   ========================================================================== */
+
+/* For WebKit Browsers (Chrome, Edge, Safari) */
 ::-webkit-scrollbar {
     width: 10px;
+    height: 10px;
 }
 
 ::-webkit-scrollbar-thumb {
-    background: #fff;
-    border-radius: 5px;
-    transition: background 0.3s ease;
+    background-color: var(--text-light);
+    border-radius: 6px;
+    transition: background-color var(--transition-speed);
 }
 
 ::-webkit-scrollbar-thumb:hover {
-    background: #fcfcfc;
+    background-color: var(--text-muted);
 }
 
 ::-webkit-scrollbar-track {
-    background: #000;
+    background-color: var(--bg-primary);
 }
 
+/* Firefox-Compatible Styling */
 * {
-    scrollbar-color: #fff #000;
     scrollbar-width: thin;
+    scrollbar-color: var(--text-light) var(--bg-primary);
+}
+
+/* Dark Mode Enhancements */
+@media (prefers-color-scheme: dark) {
+    ::-webkit-scrollbar-thumb {
+        background-color: var(--text-light);
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+        background-color: var(--text-muted);
+    }
+
+    ::-webkit-scrollbar-track {
+        background-color: var(--bg-primary);
+    }
+
+    * {
+        scrollbar-color: var(--text-light) var(--bg-primary);
+    }
 }

@@ -153,32 +153,24 @@
 
 <body>
     <!-- Preloader -->
-    <div id="preloader">
+    <div id="preloader" aria-hidden="true">
         <div class="animation-container">
-            <!-- Inline SVG: Martial Arts Figure (Stick-figure performing a kick) -->
-            <svg viewBox="0 0 100 100" class="martial-arts-kick">
-                <!-- Head -->
+            <svg viewBox="0 0 100 100" class="martial-arts-kick" aria-label="Loading animation">
                 <circle cx="50" cy="20" r="5" fill="#f1c40f" />
-                <!-- Body -->
                 <line x1="50" y1="25" x2="50" y2="45" stroke="#f1c40f" stroke-width="2" />
-                <!-- Left Arm -->
                 <line x1="50" y1="30" x2="40" y2="35" stroke="#f1c40f" stroke-width="2" />
-                <!-- Right Arm -->
                 <line x1="50" y1="30" x2="60" y2="35" stroke="#f1c40f" stroke-width="2" />
-                <!-- Left Leg (stationary) -->
                 <line x1="50" y1="45" x2="40" y2="60" stroke="#f1c40f" stroke-width="2" />
-                <!-- Right Leg (kicking leg) -->
                 <g id="kicking-leg-group">
                     <line x1="50" y1="45" x2="70" y2="40" stroke="#f1c40f" stroke-width="2" />
                 </g>
             </svg>
-            <!-- Loading Text -->
             <div class="loading-text">Loading...</div>
         </div>
     </div>
 
     <!-- Main Content Wrapper -->
-    <main id="content" style="display: none;">
+    <main id="main-content" style="display: none;">
 
         <!-- Header -->
         <header id="site-header">
@@ -194,38 +186,34 @@
                     </a>
                 </div>
 
+                <!-- Menu Toggle (Mobile Only) -->
+                <button class="menu-toggle" aria-label="Toggle navigation" aria-expanded="false"
+                    aria-controls="mobile-nav">
+                    <span class="menu-icon">☰</span>
+                </button>
+
                 <!-- Desktop Navigation -->
                 <nav class="main-nav" role="navigation" aria-label="Main Navigation">
                     <ul class="nav-list">
                         <li><a href="#home" class="nav-link">Home</a></li>
-                        <li><a href="#about" class="nav-link">About Us</a></li>
+                        <li><a href="#about" class="nav-link">About</a></li>
                         <li><a href="#programs" class="nav-link">Programs</a></li>
                         <li><a href="#contact-us" class="nav-link">Contact</a></li>
                         <li><a href="https://forms.gle/LTYn59kPWkQgC3VR7" class="nav-link join-link">Join Now</a></li>
                     </ul>
                 </nav>
-
-
-                <!-- Mobile Menu Toggle -->
-                <button class="menu-toggle" aria-label="Toggle navigation menu" aria-expanded="false"
-                    aria-controls="mobile-nav">
-                    ☰
-                </button>
             </div>
 
             <!-- Mobile Navigation -->
             <nav id="mobile-nav" class="mobile-nav" role="navigation" aria-label="Mobile Navigation">
                 <ul class="nav-list">
-                    <li><a href="#home" class="nav-link" role="menuitem">🏠 Home</a></li>
-                    <li><a href="#about" class="nav-link" role="menuitem">👊 About Us</a></li>
-                    <li><a href="#programs" class="nav-link" role="menuitem">🥋 Programs</a></li>
-                    <li><a href="#contact-us" class="nav-link" role="menuitem">📞 Contact</a></li>
-                    <li><a href="#map" class="nav-link" role="menuitem">📍 Our Location</a></li>
+                    <li><a href="#home" class="nav-link">🏠 Home</a></li>
+                    <li><a href="#about" class="nav-link">👊 About</a></li>
+                    <li><a href="#programs" class="nav-link">🥋 Programs</a></li>
+                    <li><a href="#contact-us" class="nav-link">📞 Contact</a></li>
+                    <li><a href="#map" class="nav-link">📍 Location</a></li>
                     <li>
-                        <a href="https://forms.gle/LTYn59kPWkQgC3VR7" class="nav-link join-link" role="menuitem"
-                            aria-label="Join Ghatak Sports Academy">
-                            🚀 Join Now
-                        </a>
+                        <a href="https://forms.gle/LTYn59kPWkQgC3VR7" class="nav-link join-link">🚀 Join Now</a>
                     </li>
                 </ul>
             </nav>
@@ -317,7 +305,6 @@
                 </div>
             </div>
         </section>
-
 
         <!-- Programs & Training Section -->
         <section id="programs" class="programs-section" aria-label="Training Programs at Ghatak Sports Academy">
@@ -638,7 +625,7 @@
             </div>
         </section>
 
-         <!-- Join Us / Enroll Now Section
+        <!-- Join Us / Enroll Now Section -->
         <section id="enroll" aria-labelledby="enroll-heading">
             <div class="container">
                 <h2 id="enroll-heading">Join Ghatak Sports Academy – Enroll Now</h2>
@@ -650,17 +637,20 @@
                 <form class="enroll-form" action="https://formsubmit.co/ghatakgsai@gmail.com" method="POST">
                     <div class="form-group">
                         <label for="enroll-name">Full Name <span aria-hidden="true">*</span></label>
-                        <input type="text" id="enroll-name" name="name" placeholder="Your Full Name" required />
+                        <input type="text" id="enroll-name" name="name" placeholder="Your Full Name" required
+                            autocomplete="name" />
                     </div>
 
                     <div class="form-group">
                         <label for="enroll-email">Email Address <span aria-hidden="true">*</span></label>
-                        <input type="email" id="enroll-email" name="email" placeholder="you@example.com" required />
+                        <input type="email" id="enroll-email" name="email" placeholder="you@example.com" required
+                            autocomplete="email" />
                     </div>
 
                     <div class="form-group">
                         <label for="enroll-phone">Phone Number <span aria-hidden="true">*</span></label>
-                        <input type="tel" id="enroll-phone" name="phone" placeholder="+91-XXXXXXXXXX" required />
+                        <input type="tel" id="enroll-phone" name="phone" placeholder="+91-XXXXXXXXXX" required
+                            autocomplete="tel" />
                     </div>
 
                     <div class="form-group">
@@ -681,8 +671,9 @@
 
                     <button type="submit" class="btn">Submit Enrollment</button>
                 </form>
+
             </div>
-        </section> -->
+        </section>
 
         <!-- Contact Section -->
         <section id="contact-us" class="contact-section" aria-labelledby="contact-heading">
@@ -773,8 +764,8 @@
 
     </main>
 
-    <!-- Begin Footer -->
-    <footer class="footer" role="contentinfo">
+    <!-- Footer -->
+    <footer id="footer" class="footer" role="contentinfo">
         <!-- Logo Slider -->
         <section class="logo-slider" aria-label="Recognitions and Affiliations">
             <h2 class="slider-heading">Recognitions & Affiliations</h2>
@@ -783,69 +774,93 @@
                     <!-- Logos (Optimized for accessibility and SEO) -->
                     <!-- Government -->
                     <div class="logo-item">
-                        <img src="assets/images/india.webp" alt="Government of India Logo"
-                            title="Government of India Logo">
+                        <a href="https://www.india.gov.in/" target="_blank" rel="noopener noreferrer">
+                            <img src="assets/images/india.webp" alt="Government of India Logo"
+                                title="Government of India Logo">
+                        </a>
                     </div>
                     <div class="logo-item">
-                        <img src="assets/images/ministry.webp" alt="Ministry of Youth Affairs and Sports"
-                            title="Ministry of Youth Affairs and Sports">
+                        <a href="https://yas.nic.in/" target="_blank" rel="noopener noreferrer">
+                            <img src="assets/images/ministry.webp" alt="Ministry of Youth Affairs and Sports"
+                                title="Ministry of Youth Affairs and Sports">
+                        </a>
                     </div>
                     <div class="logo-item">
-                        <img src="assets/images/MSME.webp" alt="MSME Certification" title="MSME Certification">
+                        <a href="https://msme.gov.in/" target="_blank" rel="noopener noreferrer">
+                            <img src="assets/images/MSME.webp" alt="MSME Certification" title="MSME Certification">
+                        </a>
                     </div>
                     <div class="logo-item">
-                        <img src="assets/images/iso.webp" alt="ISO Certified" title="ISO Certified">
+                        <a href="https://www.iso.org/home.html" target="_blank" rel="noopener noreferrer">
+                            <img src="assets/images/iso.webp" alt="ISO Certified" title="ISO Certified">
+                        </a>
                     </div>
                     <!-- Movements -->
                     <div class="logo-item">
-                        <img src="assets/images/fit-india.webp" alt="Fit India Movement" title="Fit India Movement">
+                        <a href="https://fitindia.gov.in/" target="_blank" rel="noopener noreferrer">
+                            <img src="assets/images/fit-india.webp" alt="Fit India Movement" title="Fit India Movement">
+                        </a>
                     </div>
                     <div class="logo-item">
-                        <img src="assets/images/khelo-india.webp" alt="Khelo India Program" title="Khelo India Program">
+                        <a href="https://kheloindia.gov.in/" target="_blank" rel="noopener noreferrer">
+                            <img src="assets/images/khelo-india.webp" alt="Khelo India Program"
+                                title="Khelo India Program">
+                        </a>
                     </div>
                     <!-- Associations -->
                     <div class="logo-item">
-                        <img src="assets/images/SGF.webp" alt="School Games Federation of India"
-                            title="School Games Federation of India">
+                        <a href="https://sgfindia.in/" target="_blank" rel="noopener noreferrer">
+                            <img src="assets/images/SGF.webp" alt="School Games Federation of India"
+                                title="School Games Federation of India">
+                        </a>
                     </div>
                     <div class="logo-item">
-                        <img src="assets/images/takewondo.webp" alt="Taekwondo Federation of India"
-                            title="Taekwondo Federation of India">
+                        <a href="https://www.taekwondofederation.in/" target="_blank" rel="noopener noreferrer">
+                            <img src="assets/images/takewondo.webp" alt="Taekwondo Federation of India"
+                                title="Taekwondo Federation of India">
+                        </a>
                     </div>
                     <div class="logo-item">
-                        <img src="assets/images/up-olympic.webp" alt="Uttar Pradesh Olympic Association"
-                            title="Uttar Pradesh Olympic Association">
+                        <a href="https://www.olympic.ind.in/" target="_blank" rel="noopener noreferrer">
+                            <img src="assets/images/up-olympic.webp" alt="Uttar Pradesh Olympic Association"
+                                title="Uttar Pradesh Olympic Association">
+                        </a>
                     </div>
                     <div class="logo-item">
-                        <img src="assets/images/up-kalarippayattu.webp" alt="UP Kalaripayattu Association"
-                            title="UP Kalaripayattu Association">
+                        <a href="#" target="_blank" rel="noopener noreferrer">
+                            <img src="assets/images/up-kalarippayattu.webp" alt="UP Kalaripayattu Association"
+                                title="UP Kalaripayattu Association">
+                        </a>
                     </div>
                     <div class="logo-item">
-                        <img src="assets/images/IMG-20250404-WA0015.webp" alt="Kalaripayattu Association Event"
-                            title="Kalaripayattu Association Event">
+                        <a href="#" target="_blank" rel="noopener noreferrer">
+                            <img src="assets/images/IMG-20250404-WA0015.webp" alt="Kalaripayattu Association Event"
+                                title="Kalaripayattu Association Event">
+                        </a>
                     </div>
                     <div class="logo-item">
-                        <img src="assets/images/logo.webp" alt="Ghatak Sports Academy Logo"
-                            title="Ghatak Sports Academy Logo">
+                        <a href="https://ghatakgsai.netlify.app/" target="_blank" rel="noopener noreferrer">
+                            <img src="assets/images/logo.webp" alt="Ghatak Sports Academy Logo"
+                                title="Ghatak Sports Academy Logo">
+                        </a>
                     </div>
+
                 </div>
             </div>
-
         </section>
 
-        <!-- Footer Main Content -->
+        <!-- Footer Content -->
         <div class="footer-content">
             <!-- Quick Links -->
             <div class="footer-section" aria-labelledby="footer-quick-links">
                 <h3 id="footer-quick-links">Quick Links</h3>
                 <ul>
-                    <li><i class="fas fa-home"></i><a href="#home">Ghatak Sports Academy Home Page</a></li>
-                    <li><i class="fas fa-info-circle"></i><a href="#about">About Ghatak Martial Arts Institute</a></li>
-                    <li><i class="fas fa-dumbbell"></i><a href="#programs">Martial Arts & Fitness Programs</a></li>
-                    <li><i class="fas fa-envelope"></i><a href="#contact-us">Contact Ghatak Sports Academy India</a>
-                    </li>
+                    <li><i class="fas fa-home"></i><a href="#home">Home</a></li>
+                    <li><i class="fas fa-info-circle"></i><a href="#about">About Us</a></li>
+                    <li><i class="fas fa-dumbbell"></i><a href="#programs">Programs</a></li>
+                    <li><i class="fas fa-envelope"></i><a href="#contact-us">Contact</a></li>
                     <li><i class="fas fa-user-plus"></i><a href="https://forms.gle/LTYn59kPWkQgC3VR7" target="_blank"
-                            rel="noopener">Join Ghatak Training Program Now</a></li>
+                            rel="noopener">Join Now</a></li>
                 </ul>
             </div>
 
@@ -853,11 +868,10 @@
             <div class="footer-section" aria-labelledby="footer-social">
                 <h3 id="footer-social">Follow Us</h3>
                 <ul>
-                    <li><i class="fab fa-facebook-f"></i><a
-                            href="https://www.facebook.com/people/Ghatak-Gsai/pfbid0Wom8GConE3eJFkKSUmL9GsTA3ErBMSLSX45g8ej8hHTWFaEQLAEtQe3BPfxBm4uml"
-                            target="_blank" rel="noopener">Follow Ghatak on Facebook</a></li>
+                    <li><i class="fab fa-facebook-f"></i><a href="https://facebook.com/ghatakgsai" target="_blank"
+                            rel="noopener">Facebook</a></li>
                     <li><i class="fab fa-instagram"></i><a href="https://instagram.com/ghatakgsai" target="_blank"
-                            rel="noopener">Follow Ghatak on Instagram</a></li>
+                            rel="noopener">Instagram</a></li>
                 </ul>
             </div>
         </div>
@@ -870,34 +884,37 @@
                 reserved.</p>
         </div>
     </footer>
-    <!-- End Footer -->
 
-    <!-- Scripts -->
+
     <script>
         document.addEventListener("DOMContentLoaded", () => {
             const preloader = document.getElementById("preloader");
-            const content = document.getElementById("content");
+            const mainContent = document.getElementById("main-content");
+
+            // Ensure main content is hidden initially
+            if (mainContent) {
+                mainContent.style.display = "none";
+            }
 
             window.addEventListener("load", () => {
-                preloader.style.transition = "opacity 0.5s ease-out";
+                if (!preloader || !mainContent) return;
+
+                // Fade out preloader smoothly
+                preloader.style.transition = "opacity 0.5s ease";
                 preloader.style.opacity = "0";
+
+                // After fade-out, hide preloader and show main content
                 setTimeout(() => {
                     preloader.style.display = "none";
-                    content.style.display = "block";
-                }, 500);
+                    mainContent.style.display = "block";
+                }, 500); // Duration matches the CSS transition
             });
         });
     </script>
-    <script src="assets/script.js" defer></script>
-    <!-- 
-    AOS Stylesheet and Script for Scroll Animations
-    <link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet">
 
-    <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
-    <script>
-        AOS.init({ once: true, duration: 800 });
-    </script> 
-    -->
+
+    <script src="assets/script.js" defer></script>
+
 </body>
 
 </html>
