@@ -403,6 +403,12 @@ h2.section-title {
     line-height: 1.7;
 }
 
+.asset-validator-outline {
+    outline: 2px dashed red !important;
+    outline-offset: 2px;
+}
+
+
 /* ==========================================================================
          BUTTONS
          ========================================================================== */

@@ -407,75 +407,81 @@ function ensureMetaDescription() {
 }
 
 /* ===============================
-   Offline/Online Notifications v2.2 (No Audio, Optimized)
-=============================== */
-function monitorConnectionStatus({ onOnline = () => { }, onOffline = () => { } } = {}) {
+   Connection Monitor v3.5 (Advanced, Responsive, Aware)
+   - Ghatak Sports Optimized
+   - Battery & Engagement Aware
+   - Enhanced UI + Debounce + State Memory
+================================== */
+
+function monitorConnectionStatus({
+    onOnline = () => { },
+    onOffline = () => { },
+    enableBatteryCheck = true
+} = {}) {
     const STATUS_KEY = "ghatak-connection-status";
 
-    // Create notification banner
-    const banner = Object.assign(document.createElement("div"), {
-        className: "connection-status-banner",
+    const banner = document.createElement("div");
+    const dot = document.createElement("div");
+
+    Object.assign(banner, {
+        className: "ghatak-connection-banner",
         role: "status",
         ariaLive: "polite",
+        innerHTML: '<span id="conn-text"></span>'
     });
 
     Object.assign(banner.style, {
         position: "fixed",
-        bottom: "20px",
+        bottom: "16px",
         left: "50%",
         transform: "translateX(-50%)",
         padding: "10px 20px",
-        borderRadius: "8px",
+        borderRadius: "10px",
         color: "#fff",
         fontWeight: "600",
-        zIndex: 9999,
+        zIndex: "9999",
         display: "none",
-        transition: "opacity 0.3s ease-in-out",
-        fontSize: "14px",
+        opacity: "0",
         pointerEvents: "none",
-        boxShadow: "0 2px 10px rgba(0,0,0,0.2)",
-        opacity: "0"
+        boxShadow: "0 4px 16px rgba(0,0,0,0.3)",
+        fontSize: "15px",
+        transition: "all 0.4s ease"
     });
 
-    document.body.appendChild(banner);
-
-    // Create persistent status dot
-    const statusDot = Object.assign(document.createElement("div"), {
-        className: "connection-status-dot",
-    });
-
-    Object.assign(statusDot.style, {
+    Object.assign(dot.style, {
         position: "fixed",
-        bottom: "20px",
-        right: "20px",
-        width: "12px",
-        height: "12px",
+        bottom: "16px",
+        right: "16px",
+        width: "14px",
+        height: "14px",
         borderRadius: "50%",
         backgroundColor: navigator.onLine ? "#27ae60" : "#e74c3c",
-        boxShadow: "0 0 8px rgba(0,0,0,0.3)",
-        zIndex: 9999
+        boxShadow: "0 0 10px rgba(0,0,0,0.3)",
+        zIndex: "9999",
+        transition: "background-color 0.3s ease"
     });
 
-    document.body.appendChild(statusDot);
+    document.body.append(banner, dot);
 
-    const showBanner = (text, bgColor) => {
-        banner.textContent = text;
-        banner.style.backgroundColor = bgColor;
+    const setBanner = (text, color) => {
+        const textEl = banner.querySelector("#conn-text");
+        if (textEl) textEl.textContent = text;
+        banner.style.backgroundColor = color;
         banner.style.display = "block";
         banner.style.opacity = "1";
 
         clearTimeout(banner._timeout);
         banner._timeout = setTimeout(() => {
             banner.style.opacity = "0";
-            setTimeout(() => (banner.style.display = "none"), 300);
-        }, 4000);
+            setTimeout(() => (banner.style.display = "none"), 400);
+        }, 5000);
     };
 
-    const updateVisuals = (isOnline) => {
+    const updateUI = (isOnline) => {
         const color = isOnline ? "#27ae60" : "#e74c3c";
-        const message = isOnline ? "✅ You are back online!" : "🔌 You are offline.";
-        statusDot.style.backgroundColor = color;
-        showBanner(message, color);
+        const message = isOnline ? "✅ Back online!" : "🔌 You are offline.";
+        dot.style.backgroundColor = color;
+        setBanner(message, color);
     };
 
     const debounce = (fn, delay = 300) => {
@@ -488,19 +494,36 @@ function monitorConnectionStatus({ onOnline = () => { }, onOffline = () => { } }
 
     const updateStatus = debounce(() => {
         const isOnline = navigator.onLine;
-        const last = localStorage.getItem(STATUS_KEY);
-        if (String(isOnline) === last) return;
+        const previous = localStorage.getItem(STATUS_KEY);
+        if (String(isOnline) === previous) return;
 
         localStorage.setItem(STATUS_KEY, isOnline);
-        updateVisuals(isOnline);
-
+        updateUI(isOnline);
         (isOnline ? onOnline : onOffline)();
     }, 250);
 
     window.addEventListener("online", updateStatus);
     window.addEventListener("offline", updateStatus);
 
-    // Initial check
+    // Optional: Detect if user has low battery or is inactive
+    if (enableBatteryCheck && navigator.getBattery) {
+        navigator.getBattery().then((battery) => {
+            if (battery.level < 0.15 && !battery.charging) {
+                console.warn("⚠️ Low battery mode detected.");
+                banner.style.fontSize = "13px";
+                banner.style.padding = "8px 16px";
+            }
+        });
+    }
+
+    // Optional: Pause updates if tab is inactive
+    let isTabActive = true;
+    document.addEventListener("visibilitychange", () => {
+        isTabActive = !document.hidden;
+        if (isTabActive) updateStatus(); // Refresh on return
+    });
+
+    // Initial run
     updateStatus();
 }
 
