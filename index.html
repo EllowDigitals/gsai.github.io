@@ -21,7 +21,7 @@
     <meta name="distribution" content="global" />
     <meta name="language" content="en" />
     <meta name="coverage" content="Worldwide" />
-    <meta name="revisit-after" content="7 days" />
+    <meta name="revisit-after" content="1 days" />
 
     <!-- Additional SEO Meta Tags -->
     <meta name="referrer" content="no-referrer-when-downgrade" />
@@ -152,7 +152,7 @@
 </head>
 
 <body>
-    <!-- Preloader -->
+    <!-- PRELOADER -->
     <div id="preloader" aria-hidden="true">
         <div class="animation-container">
             <svg viewBox="0 0 100 100" class="martial-arts-kick" aria-label="Loading animation">
@@ -186,12 +186,6 @@
                     </a>
                 </div>
 
-                <!-- Menu Toggle (Mobile Only) -->
-                <button class="menu-toggle" aria-label="Toggle navigation" aria-expanded="false"
-                    aria-controls="mobile-nav">
-                    <span class="menu-icon">☰</span>
-                </button>
-
                 <!-- Desktop Navigation -->
                 <nav class="main-nav" role="navigation" aria-label="Main Navigation">
                     <ul class="nav-list">
@@ -200,8 +194,16 @@
                         <li><a href="#programs" class="nav-link">Programs</a></li>
                         <li><a href="#contact-us" class="nav-link">Contact</a></li>
                         <li><a href="https://forms.gle/LTYn59kPWkQgC3VR7" class="nav-link join-link">Join Now</a></li>
+                        <li><button id="language-switcher" class="language-btn nav-link" aria-label="Change Language">🌐
+                                Language</button></li>
                     </ul>
                 </nav>
+
+                <!-- Mobile Toggle Button -->
+                <button class="menu-toggle" aria-label="Toggle navigation" aria-expanded="false"
+                    aria-controls="mobile-nav">
+                    <span class="menu-icon">☰</span>
+                </button>
             </div>
 
             <!-- Mobile Navigation -->
@@ -212,9 +214,9 @@
                     <li><a href="#programs" class="nav-link">🥋 Programs</a></li>
                     <li><a href="#contact-us" class="nav-link">📞 Contact</a></li>
                     <li><a href="#map" class="nav-link">📍 Location</a></li>
-                    <li>
-                        <a href="https://forms.gle/LTYn59kPWkQgC3VR7" class="nav-link join-link">🚀 Join Now</a>
-                    </li>
+                    <li><a href="https://forms.gle/LTYn59kPWkQgC3VR7" class="nav-link join-link">🚀 Join Now</a></li>
+                    <li><button id="language-switcher-mobile" class="language-btn nav-link"
+                            aria-label="Change Language">🌐 Language</button></li>
                 </ul>
             </nav>
         </header>
@@ -885,36 +887,42 @@
         </div>
     </footer>
 
-
     <script>
         document.addEventListener("DOMContentLoaded", () => {
             const preloader = document.getElementById("preloader");
             const mainContent = document.getElementById("main-content");
 
-            // Ensure main content is hidden initially
-            if (mainContent) {
-                mainContent.style.display = "none";
-            }
+            if (mainContent) mainContent.style.display = "none";
 
             window.addEventListener("load", () => {
                 if (!preloader || !mainContent) return;
 
-                // Fade out preloader smoothly
                 preloader.style.transition = "opacity 0.5s ease";
                 preloader.style.opacity = "0";
 
-                // After fade-out, hide preloader and show main content
                 setTimeout(() => {
                     preloader.style.display = "none";
                     mainContent.style.display = "block";
-                }, 500); // Duration matches the CSS transition
+                }, 500);
             });
         });
     </script>
+    <script src="assets/script.js" defer></script><!-- Hidden Google Translate Element -->
+    <div id="google_translate_element" style="display: none;"></div>
 
+    <!-- Google Translate Script -->
+    <script type="text/javascript">
+        function googleTranslateElementInit() {
+            new google.translate.TranslateElement({
+                pageLanguage: 'en',
+                includedLanguages: 'en,hi', // add more like 'fr,de' if needed
+                layout: google.translate.TranslateElement.InlineLayout.SIMPLE
+            }, 'google_translate_element');
+        }
+    </script>
+    <script src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
 
-    <script src="assets/script.js" defer></script>
-
+    <script src="assets\language-autotranslate.js" defer></script>
 </body>
 
 </html>

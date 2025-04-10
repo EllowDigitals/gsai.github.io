@@ -767,3 +767,5 @@ function monitorConnectionStatus({ onOnline = () => { }, onOffline = () => { } }
     goToSlide(0);
 
 })(document.querySelector('[data-slider]'));
+
+
