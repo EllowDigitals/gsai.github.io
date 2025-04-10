@@ -1,18 +1,17 @@
 /* ================================================================
-   Asset Validator v4.1 – Static Site Optimized + AI Tips
+   Asset Validator v4.1.1 – Optimized + AI-Powered Suggestions
    ================================================================
    Enhancements:
-   ✓ Skip known CORS-blocked or external assets
-   ✓ Filter 3rd party embeds like Google Maps, Translate, etc.
-   ✓ Improved error resilience + cleaner logs
-   ✓ Configurable ignorePatterns and asset filtering
+   ✓ Smart filtering for external/CORS-heavy assets
+   ✓ Cleaner diagnostics grouping and summaries
+   ✓ AI tips per issue for dev productivity
+   ✓ Fallback to GET if HEAD fails due to CORS (configurable)
 ================================================================ */
 
-(async function runAssetValidatorV4_1() {
-    const version = "4.1";
-    const startTime = performance.now();
-    const diagnostics = {};
+(async function runAssetValidatorV4_1_1() {
+    const version = "4.1.1";
     const CONCURRENCY_LIMIT = 5;
+    const fallbackToGet = true; // Optional: fallback if HEAD fails
 
     const styles = {
         log: "color:#fff;background:#333;padding:2px 6px;border-radius:4px;font-weight:bold;",
@@ -21,6 +20,12 @@
         error: "color:#e74c3c;font-weight:bold;",
         success: "color:#2ecc71;font-weight:bold;"
     };
+
+    const ignorePatterns = [
+        "google.com/maps", "translate.google.com", "gstatic.com",
+        "fonts.googleapis.com", "googletagmanager", "analytics.js",
+        "googleusercontent", "youtube.com", "fbcdn.net"
+    ];
 
     const selectors = {
         img: "img[src]",
@@ -33,28 +38,18 @@
         object: "object[data]"
     };
 
-    const ignorePatterns = [
-        "google.com/maps",
-        "googleusercontent",
-        "translate.google.com",
-        "gstatic.com",
-        "fonts.googleapis.com",
-        "googletagmanager",
-        "analytics.js"
-    ];
-
     const getUrl = (el) => el.getAttribute("src") || el.getAttribute("data") || el.getAttribute("href");
-
-    const getTip = (status, url) => {
-        if (status === "error" && url.includes("cdn")) return "🔁 Check CDN availability or add a local fallback.";
-        if (status === "CORS Blocked") return "🔒 CORS blocked – use a proxy or check headers.";
-        if (status === "broken") return "🚫 Broken asset – check path, filename, or server config.";
-        if (status === "slow") return "🐢 Slow load – consider compression or CDN optimization.";
-        return "ℹ️ Review manually.";
-    };
 
     const shouldIgnore = (url) =>
         !url || url.startsWith("data:") || ignorePatterns.some(p => url.includes(p));
+
+    const getTip = (status, url) => {
+        if (status === "error" && url.includes("cdn")) return "🔁 Check CDN availability or add a local fallback.";
+        if (status === "CORS Blocked") return "🔒 CORS blocked – use a proxy or local asset instead.";
+        if (status === "broken") return "🚫 Broken asset – check path or server response.";
+        if (status === "slow") return "🐢 Slow load – optimize with compression or a better CDN.";
+        return "ℹ️ Review manually.";
+    };
 
     const fetchHead = async (url) => {
         if (shouldIgnore(url)) return { url, status: "skipped" };
@@ -64,6 +59,7 @@
 
         try {
             const res = await fetch(url, { method: "HEAD", cache: "no-store" });
+
             const duration = performance.now() - t0;
             result.details.duration = `${duration.toFixed(1)}ms`;
 
@@ -74,8 +70,19 @@
                 result.status = "slow";
             }
         } catch (err) {
-            result.status = "error";
-            result.details.error = err.message.includes("CORS") ? "CORS Blocked" : err.message;
+            if (fallbackToGet) {
+                try {
+                    const getRes = await fetch(url, { method: "GET", mode: "no-cors", cache: "no-store" });
+                    result.status = "CORS Blocked";
+                    result.details.fallback = "GET fallback triggered";
+                } catch (fallbackErr) {
+                    result.status = "error";
+                    result.details.error = fallbackErr.message;
+                }
+            } else {
+                result.status = "error";
+                result.details.error = err.message;
+            }
         }
 
         return result;
@@ -83,36 +90,31 @@
 
     const throttle = (tasks, limit) => {
         const results = [];
-        let index = 0;
+        let i = 0;
 
         return new Promise((resolve) => {
             const next = () => {
-                if (index >= tasks.length) {
-                    if (results.length === tasks.length) resolve(results);
-                    return;
-                }
-                const current = tasks[index++];
-                current().then((res) => {
+                if (i >= tasks.length) return resolve(results);
+                tasks[i++]().then(res => {
                     results.push(res);
                     next();
                 });
             };
-            for (let i = 0; i < limit; i++) next();
+            for (let j = 0; j < limit; j++) next();
         });
     };
 
-    const assets = Object.entries(selectors)
-        .flatMap(([type, selector]) =>
-            [...document.querySelectorAll(selector)].map((el) => ({
-                el,
-                type,
-                url: getUrl(el)
-            }))
-        );
+    const startTime = performance.now();
+    const diagnostics = {};
+    const assets = Object.entries(selectors).flatMap(([type, selector]) =>
+        [...document.querySelectorAll(selector)].map(el => ({
+            el, type, url: getUrl(el)
+        }))
+    );
 
-    console.groupCollapsed(`%c[Asset Validator v${version}] Scanning ${assets.length} assets...`, styles.info);
+    console.groupCollapsed(`%c[Asset Validator v${version}] Validating ${assets.length} assets...`, styles.info);
 
-    const tasks = assets.map((asset) => () => fetchHead(asset.url));
+    const tasks = assets.map(asset => () => fetchHead(asset.url));
     const results = await throttle(tasks, CONCURRENCY_LIMIT);
 
     results.forEach((res, i) => {
@@ -122,15 +124,15 @@
 
         if (status !== "ok" && status !== "skipped") {
             diagnostics[type].push({ url, status, details });
-            el.style.outline = "2px dashed red"; // Visual feedback
+            el.style.outline = "2px dashed red";
         }
     });
 
+    // Print diagnostics
     Object.entries(diagnostics).forEach(([type, issues]) => {
         console.groupCollapsed(`%c[${type.toUpperCase()} Issues] (${issues.length})`, styles.warn);
         issues.forEach(({ url, status, details }) => {
-            const tip = getTip(status, url);
-            console.warn(`%c[${status.toUpperCase()}]`, styles.warn, url, details, tip);
+            console.warn(`%c[${status.toUpperCase()}]`, styles.warn, url, details, getTip(status, url));
         });
         console.groupEnd();
     });
@@ -139,17 +141,17 @@
         console.log("%c[✓ All assets validated successfully]", styles.success);
     }
 
-    // === Script Load Debugger ===
+    // Print script load order
     const scripts = Array.from(document.scripts);
     console.groupCollapsed("%c[Script Load Order]", styles.info);
-    scripts.forEach((script, i) => {
-        const label = script.src
-            ? `External: ${script.src}`
-            : `Inline: ${script.textContent.trim().slice(0, 80)}...`;
+    scripts.forEach((s, i) => {
+        const label = s.src
+            ? `External: ${s.src}`
+            : `Inline: ${s.textContent.trim().slice(0, 80)}...`;
         console.log(`%c[${i + 1}] ${label}`, styles.success);
     });
     console.groupEnd();
 
-    const duration = performance.now() - startTime;
-    console.info(`%c[Validation Completed in ${duration.toFixed(1)}ms]`, styles.info);
+    const totalTime = performance.now() - startTime;
+    console.info(`%c[Validation completed in ${totalTime.toFixed(1)}ms]`, styles.info);
 })();
