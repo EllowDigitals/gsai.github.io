@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
-    // === Elements & Setup ===
+    // === Elements ===
     const desktopLangBtn = document.getElementById("language-switcher");
     const mobileLangBtn = document.getElementById("language-switcher-mobile");
     const langDropdown = document.getElementById("language-dropdown");
@@ -24,12 +24,12 @@ document.addEventListener("DOMContentLoaded", () => {
     });
     document.body.appendChild(loadingIndicator);
 
-    const showLoading = () => (loadingIndicator.style.display = "block");
+    const showLoading = () => loadingIndicator.style.display = "block";
     const hideLoading = () => setTimeout(() => {
         loadingIndicator.style.display = "none";
     }, 2000);
 
-    // === Google Translate Loader ===
+    // === Load Google Translate Script ===
     const loadGoogleTranslateScript = (cbName = "googleTranslateElementInit") => {
         return new Promise((resolve, reject) => {
             if (window.google?.translate?.TranslateElement) return resolve();
@@ -46,7 +46,7 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     };
 
-    // === Required Global Function ===
+    // === Global Callback for Google Translate ===
     window.googleTranslateElementInit = () => {
         new google.translate.TranslateElement({
             pageLanguage: 'en',
@@ -56,7 +56,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }, 'google_translate_element');
     };
 
-    // === Utility: Wait for Google Translate to render selector ===
+    // === Utility: Wait for Combo Dropdown ===
     const waitForGoogleTranslate = (timeout = 20000) =>
         new Promise((resolve, reject) => {
             const start = Date.now();
@@ -79,16 +79,18 @@ document.addEventListener("DOMContentLoaded", () => {
 
         if (window.innerWidth > 768) {
             const { bottom, left } = btn.getBoundingClientRect();
-            langDropdown.style.top = `${bottom + window.scrollY + 8}px`;
-            langDropdown.style.left = `${left}px`;
-            langDropdown.style.transform = "none";
+            Object.assign(langDropdown.style, {
+                top: `${bottom + window.scrollY + 8}px`,
+                left: `${left}px`,
+                transform: "none"
+            });
         } else {
             Object.assign(langDropdown.style, {
                 position: "fixed",
                 top: "auto",
                 bottom: "80px",
                 left: "50%",
-                transform: "translateX(-50%)",
+                transform: "translateX(-50%)"
             });
         }
     };
@@ -111,8 +113,8 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     document.addEventListener("click", (e) => {
-        const insideClick = langDropdown.contains(e.target) || langButtons.some(btn => btn.contains(e.target));
-        if (!insideClick) hideDropdown();
+        const isInside = langDropdown.contains(e.target) || langButtons.some(btn => btn.contains(e.target));
+        if (!isInside) hideDropdown();
     });
 
     document.addEventListener("keydown", (e) => {
@@ -123,8 +125,8 @@ document.addEventListener("DOMContentLoaded", () => {
     langDropdown.addEventListener("click", async (e) => {
         const langItem = e.target.closest("[data-lang]");
         if (!langItem) return;
-        const langCode = langItem.dataset.lang;
 
+        const langCode = langItem.dataset.lang;
         localStorage.setItem("preferredLang", langCode);
         hideDropdown();
         showLoading();
@@ -147,11 +149,10 @@ document.addEventListener("DOMContentLoaded", () => {
             select.dispatchEvent(new Event("change"));
         } catch (err) {
             console.warn("Translate element not found:", err);
-            return Promise.resolve(); // prevent app crash
         }
     };
 
-    // === Language Detection & Initial Setup ===
+    // === Initial Language Detection ===
     const detectAndApplyLanguage = async () => {
         let lang = localStorage.getItem("preferredLang") || "en";
 
@@ -161,15 +162,8 @@ document.addEventListener("DOMContentLoaded", () => {
                 const data = await res.json();
                 const code = data.country_code || "IN";
                 const map = {
-                    IN: "hi",
-                    FR: "fr",
-                    DE: "de",
-                    ES: "es",
-                    IT: "it",
-                    CN: "zh-CN",
-                    JP: "ja",
-                    RU: "ru",
-                    BR: "pt"
+                    IN: "hi", FR: "fr", DE: "de", ES: "es",
+                    IT: "it", CN: "zh-CN", JP: "ja", RU: "ru", BR: "pt"
                 };
                 lang = map[code] || "en";
                 localStorage.setItem("preferredLang", lang);
@@ -188,6 +182,6 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     };
 
-    // === Initialize Translation ===
+    // === Run Detection ===
     detectAndApplyLanguage();
 });
