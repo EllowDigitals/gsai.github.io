@@ -1,208 +1,423 @@
+// ==========================
+// Ghatak Web Scripts – Core Bundle
+// Version: ghatak-web-scripts.v4.5
+// ==========================
+
 "use strict";
 
-// Utility Functions
+// 💡 Utility Shortcuts
 const $ = sel => document.querySelector(sel);
 const $$ = sel => document.querySelectorAll(sel);
 const qs = (sel, parent = document) => parent.querySelector(sel);
 const debounce = (fn, delay = 300) => {
-    let t; return (...a) => { clearTimeout(t); t = setTimeout(() => fn.apply(this, a), delay); };
+    let t;
+    return (...a) => {
+        clearTimeout(t);
+        t = setTimeout(() => fn.apply(this, a), delay);
+    };
 };
 
-// Init on DOM ready
-addEventListener("DOMContentLoaded", () => {
-    fadeInPage();
-    initHeroSlider();
-    initMobileNav();
-    enableSmoothScroll();
-    initScrollReveal();
-    initEnrollForm();
-    initLogoSliderHoverPause();
-    updateFooterYear();
-    checkLazyLoadSupport();
-    ensureMetaDescription();
-    monitorConnectionStatus();
+// 🚀 Init All on DOM Ready
+document.addEventListener("DOMContentLoaded", () => {
+    // 📢 Core Script Log First
+    console.groupCollapsed("%c🚀 Ghatak Web Scripts Loaded", "color:#fff; background:#2ecc71; padding:4px 10px; border-radius:6px;");
+    console.log("%cVersion: v4.5", "color:#222; background:#f39c12; padding:2px 6px; border-radius:4px;");
+    console.log("%cLast Updated: 2025-04-11", "color:#999; font-size:12px;");
+    console.groupEnd();
+
+    // 📦 Core Initializations
+    fadeInPage();                     // 🌅 Page Fade-In Loader (v2.0)
+    initHeroSlider();                // 🖼️ Hero Image Slider (v2.1)
+    initMobileNav();                 // 📱 Mobile Navigation (v2.0)
+    enableSmoothScroll();            // 🧭 Smooth Scrolling (v2.0)
+    initScrollReveal();              // ✨ Scroll Reveal (v2.0)
+    initEnrollForm();                // 📝 Enroll Form UX (v3.2)
+    initLogoSliderHoverPause();      // 🎞️ Logo Carousel Pause (v2.0)
+    updateFooterYear();              // 📆 Footer Year Auto (v2.0)
+    checkLazyLoadSupport();          // 💤 Lazy Loading Check (v2.1)
+    ensureMetaDescription();         // 🧠 Meta Tag Fallback
+    monitorConnectionStatus();       // 🔌 Connection Monitor (v3.8)
 });
 
-// Fade-In Effect
-function fadeInPage() {
-    Object.assign(document.body.style, {
-        opacity: "0",
-        transition: "opacity 0.8s ease-in-out"
+
+// Fade-In Effect v2.0
+function fadeInPage({ duration = 800, easing = "ease-in-out", debug = false } = {}) {
+    const style = document.body.style;
+
+    // Prevent flicker if script runs after paint
+    style.opacity = "0";
+    style.transition = `opacity ${duration}ms ${easing}`;
+
+    // Trigger transition in next frame
+    requestAnimationFrame(() => {
+        style.opacity = "1";
+        if (debug) console.info(`[FadeInPage] Applied fade-in: ${duration}ms ${easing}`);
     });
-    requestAnimationFrame(() => document.body.style.opacity = "1");
+
+    // Optional: clean up inline styles after transition
+    document.body.addEventListener("transitionend", () => {
+        style.transition = "";
+        if (debug) console.info("[FadeInPage] Transition complete.");
+    }, { once: true });
 }
 
-// Hero Slider v2.0
-function initHeroSlider() {
-    const container = $("#slider"), buttons = $("#slider-buttons"),
-        imgs = ["slider.webp", "slider1.webp", "slider2.webp", "slider3.webp", "slider4.webp", "slider5.webp", "slider6.webp"].map(img => `assets/images/${img}`);
-    if (!container || !buttons) return;
-    let current = 0, paused = false, timer;
-    const slides = [], navs = [];
+// Hero Slider v3.0
+function initHeroSlider({
+    containerSelector = "#slider",
+    navButtonsSelector = "#slider-buttons",
+    imageList = [
+        "slider.webp", "slider1.webp", "slider2.webp",
+        "slider3.webp", "slider4.webp", "slider5.webp", "slider6.webp"
+    ],
+    imagePath = "assets/images/",
+    fallbackImage = "default.jpg",
+    interval = 5000,
+    transition = "opacity 1s ease-in-out",
+    debug = false
+} = {}) {
+    const container = document.querySelector(containerSelector);
+    const buttons = document.querySelector(navButtonsSelector);
+    if (!container || !buttons) {
+        if (debug) console.warn("[HeroSlider] Container or buttons not found.");
+        return;
+    }
 
-    const show = i => {
-        slides.forEach((s, idx) => s.style.opacity = idx === i ? "1" : "0");
-        navs.forEach((b, idx) => b.classList.toggle("active", idx === i));
+    const slides = [], navs = [];
+    let current = 0, paused = false, timer;
+
+    const preloadImages = (sources) => Promise.all(sources.map(src => new Promise(resolve => {
+        const img = new Image();
+        img.src = src;
+        img.onload = () => resolve(src);
+        img.onerror = () => {
+            if (debug) console.warn(`[HeroSlider] Failed to load: ${src}, using fallback.`);
+            resolve(`${imagePath}${fallbackImage}`);
+        };
+    })));
+
+    const showSlide = (i) => {
+        slides.forEach((slide, idx) => slide.style.opacity = idx === i ? "1" : "0");
+        navs.forEach((btn, idx) => btn.classList.toggle("active", idx === i));
         current = i;
     };
 
-    Promise.all(imgs.map(src => new Promise(res => {
-        const img = new Image(); img.src = src;
-        img.onload = () => res(src);
-        img.onerror = () => res("assets/images/default.jpg");
-    }))).then(loaded => {
-        loaded.forEach((src, i) => {
-            const d = document.createElement("div");
-            d.className = "slide";
-            Object.assign(d.style, {
-                backgroundImage: `url(${src})`,
-                opacity: i ? "0" : "1",
-                transition: "opacity 1s ease-in-out"
-            });
-            d.setAttribute("role", "img");
-            d.setAttribute("aria-label", `Slide ${i + 1}`);
-            container.appendChild(d);
-            slides.push(d);
+    const start = () => timer = setInterval(() => !paused && showSlide((current + 1) % slides.length), interval);
+    const restart = () => { clearInterval(timer); start(); };
 
-            const b = document.createElement("button");
-            b.className = i ? "" : "active";
-            b.setAttribute("aria-label", `Go to slide ${i + 1}`);
-            b.onclick = () => { show(i); restart(); };
-            buttons.appendChild(b);
-            navs.push(b);
+    const setupSlide = (src, i) => {
+        const slide = document.createElement("div");
+        slide.className = "slide";
+        Object.assign(slide.style, {
+            backgroundImage: `url(${src})`,
+            opacity: i === 0 ? "1" : "0",
+            transition
         });
+        slide.setAttribute("role", "img");
+        slide.setAttribute("aria-label", `Slide ${i + 1}`);
+        container.appendChild(slide);
+        slides.push(slide);
+
+        const btn = document.createElement("button");
+        btn.className = i === 0 ? "active" : "";
+        btn.setAttribute("aria-label", `Go to slide ${i + 1}`);
+        btn.onclick = () => {
+            showSlide(i);
+            restart();
+        };
+        buttons.appendChild(btn);
+        navs.push(btn);
+    };
+
+    const handleKeyboard = (e) => {
+        if (["ArrowLeft", "ArrowRight"].includes(e.key)) {
+            const dir = e.key === "ArrowLeft" ? -1 : 1;
+            showSlide((current + dir + slides.length) % slides.length);
+            restart();
+        }
+    };
+
+    const handleSwipe = () => {
+        let startX = 0;
+        container.addEventListener("touchstart", e => startX = e.touches[0].clientX);
+        container.addEventListener("touchend", e => {
+            const dx = e.changedTouches[0].clientX - startX;
+            if (Math.abs(dx) > 50) {
+                showSlide((current + (dx > 0 ? -1 : 1) + slides.length) % slides.length);
+                restart();
+            }
+        });
+    };
+
+    // Load and render all slides
+    const fullPaths = imageList.map(img => `${imagePath}${img}`);
+    preloadImages(fullPaths).then(loadedImages => {
+        loadedImages.forEach((src, i) => setupSlide(src, i));
         start();
     });
 
-    const start = () => timer = setInterval(() => !paused && show((current + 1) % slides.length), 5000);
-    const restart = () => { clearInterval(timer); start(); };
-    container.onmouseenter = () => paused = true;
-    container.onmouseleave = () => paused = false;
+    // Pause/resume on hover
+    container.addEventListener("mouseenter", () => paused = true);
+    container.addEventListener("mouseleave", () => paused = false);
 
-    document.onkeydown = e => {
-        if (e.key === "ArrowLeft" || e.key === "ArrowRight") {
-            const dir = e.key === "ArrowLeft" ? -1 : 1;
-            show((current + dir + slides.length) % slides.length);
-            restart();
-        }
-    };
+    // Enable keyboard nav and swipe support
+    document.addEventListener("keydown", handleKeyboard);
+    handleSwipe();
 
-    let x = 0;
-    container.ontouchstart = e => x = e.touches[0].clientX;
-    container.ontouchend = e => {
-        const dx = e.changedTouches[0].clientX - x;
-        if (Math.abs(dx) > 50) {
-            show((current + (dx > 0 ? -1 : 1) + slides.length) % slides.length);
-            restart();
-        }
-    };
+    if (debug) console.info("[HeroSlider] Initialized.");
 }
 
-// Mobile Navigation
-function initMobileNav() {
-    const toggle = $(".menu-toggle"), nav = $(".mobile-nav");
-    if (!toggle || !nav) return;
-    const toggleNav = () => nav.classList.toggle("active");
+// Mobile Navigation v2.0
+function initMobileNav({
+    toggleSelector = ".menu-toggle",
+    navSelector = ".mobile-nav",
+    linkSelector = ".mobile-nav .nav-link",
+    activeClass = "active",
+    debug = false
+} = {}) {
+    const toggleBtn = document.querySelector(toggleSelector);
+    const nav = document.querySelector(navSelector);
 
-    toggle.onclick = toggleNav;
-    toggle.onkeydown = e => ["Enter", " "].includes(e.key) && (e.preventDefault(), toggleNav());
+    if (!toggleBtn || !nav) {
+        if (debug) console.warn("[MobileNav] Toggle or navigation element not found.");
+        return;
+    }
 
-    document.onclick = e => !nav.contains(e.target) && !toggle.contains(e.target) && nav.classList.remove("active");
-    $$(".mobile-nav .nav-link").forEach(l => l.onclick = () => nav.classList.remove("active"));
-}
+    const toggleNav = () => nav.classList.toggle(activeClass);
+    const closeNav = () => nav.classList.remove(activeClass);
 
-// Smooth Scroll
-function enableSmoothScroll() {
-    $$('a[href^="#"]:not([href="#"])').forEach(link => link.onclick = e => {
-        const id = link.getAttribute("href").slice(1), el = document.getElementById(id);
-        if (!el) return;
-        e.preventDefault();
-        window.scrollTo({ top: el.getBoundingClientRect().top + scrollY - 80, behavior: "smooth" });
-        el.setAttribute("tabindex", "-1"); el.focus({ preventScroll: true });
+    // Click and keyboard accessibility
+    toggleBtn.addEventListener("click", toggleNav);
+    toggleBtn.addEventListener("keydown", (e) => {
+        if (["Enter", " "].includes(e.key)) {
+            e.preventDefault();
+            toggleNav();
+        }
     });
+
+    // Close nav when clicking outside
+    document.addEventListener("click", (e) => {
+        if (!nav.contains(e.target) && !toggleBtn.contains(e.target)) {
+            closeNav();
+        }
+    });
+
+    // Close nav on link click
+    document.querySelectorAll(linkSelector).forEach(link =>
+        link.addEventListener("click", closeNav)
+    );
+
+    if (debug) console.info("[MobileNav] Initialized.");
 }
 
-// Scroll Reveal
-function initScrollReveal() {
-    const items = document.querySelectorAll(".fadeInBox");
-    if (!items.length || !window.IntersectionObserver) return;
-    const io = new IntersectionObserver((entries, obs) => {
-        entries.forEach(e => e.isIntersecting && (e.target.classList.add("in-view"), obs.unobserve(e.target)));
-    }, { threshold: 0.15, rootMargin: "0px 0px -10% 0px" });
-    items.forEach(item => io.observe(item));
+// Smooth Scroll v2.0
+function enableSmoothScroll({
+    offset = 80,
+    selector = 'a[href^="#"]:not([href="#"])',
+    debug = false
+} = {}) {
+    const links = document.querySelectorAll(selector);
+
+    if (!links.length) {
+        if (debug) console.warn("[SmoothScroll] No anchor links found.");
+        return;
+    }
+
+    links.forEach(link => {
+        link.addEventListener("click", e => {
+            const targetId = link.getAttribute("href").slice(1);
+            const targetEl = document.getElementById(targetId);
+
+            if (!targetEl) {
+                if (debug) console.warn(`[SmoothScroll] Target element not found: #${targetId}`);
+                return;
+            }
+
+            e.preventDefault();
+
+            const targetOffset = targetEl.getBoundingClientRect().top + window.scrollY - offset;
+
+            window.scrollTo({ top: targetOffset, behavior: "smooth" });
+
+            // Accessibility improvement: make target focusable and focus it
+            targetEl.setAttribute("tabindex", "-1");
+            targetEl.focus({ preventScroll: true });
+
+            if (debug) console.info(`[SmoothScroll] Scrolled to: #${targetId}`);
+        });
+    });
+
+    if (debug) console.info(`[SmoothScroll] Bound ${links.length} anchor link(s).`);
 }
 
-// Enroll Form v3.1
+// Scroll Reveal v2.0
+function initScrollReveal({
+    selector = ".fadeInBox",
+    threshold = 0.15,
+    rootMargin = "0px 0px -10% 0px",
+    inViewClass = "in-view",
+    debug = false
+} = {}) {
+    const elements = document.querySelectorAll(selector);
+
+    if (!elements.length) {
+        if (debug) console.warn("[ScrollReveal] No elements found for selector:", selector);
+        return;
+    }
+
+    if (!window.IntersectionObserver) {
+        console.warn("[ScrollReveal] IntersectionObserver not supported in this browser.");
+        return;
+    }
+
+    const observer = new IntersectionObserver((entries, obs) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add(inViewClass);
+                obs.unobserve(entry.target);
+                if (debug) console.info("[ScrollReveal] Revealed:", entry.target);
+            }
+        });
+    }, { threshold, rootMargin });
+
+    elements.forEach(el => observer.observe(el));
+
+    if (debug) console.info(`[ScrollReveal] Initialized on ${elements.length} element(s).`);
+}
+
+// 📝 Enroll Form Validation & UX
+// Version: 3.2
 function initEnrollForm() {
-    const form = $(".enroll-form"), btn = $("#enroll-button");
-    btn?.addEventListener("click", () => form?.classList.toggle("active"));
+    const form = document.querySelector(".enroll-form");
+    if (!form) return console.warn("[EnrollForm] Form element not found.");
 
-    form?.addEventListener("submit", e => {
-        const phone = $("#enroll-phone"), email = $("#enroll-email"),
-            digits = phone.value.replace(/\D/g, ""),
-            validPhone = /^\+?\d{1,4}?[-.\s]?\(?\d{2,4}\)?[-.\s]?\d{3,4}[-.\s]?\d{3,4}$/.test(phone.value),
-            validEmail = /^[\w.+-]+@gmail\.com$/.test(email.value);
+    const phoneInput = form.querySelector("#enroll-phone");
+    const emailInput = form.querySelector("#enroll-email");
+    const submitBtn = form.querySelector("button.btn");
 
-        [phone, email].forEach(f => (f.classList.remove("input-error", "shake"), f.nextElementSibling?.remove?.()));
-        let err = false;
+    if (!phoneInput || !emailInput || !submitBtn) {
+        console.error("[EnrollForm] Required fields missing in DOM.");
+        return;
+    }
 
-        if (!validPhone || digits.length < 10 || digits.length > 14) showError(phone, "Please enter a valid phone number (10–14 digits)."), err = true;
-        if (!validEmail) showError(email, "Please enter a valid Gmail address."), err = true;
+    form.addEventListener("submit", (e) => {
+        const phoneDigits = phoneInput.value.replace(/\D/g, "");
+        const isValidPhone = /^\+?\d{1,4}?[-.\s]?\(?\d{2,4}\)?[-.\s]?\d{3,4}[-.\s]?\d{3,4}$/.test(phoneInput.value) &&
+            phoneDigits.length >= 10 && phoneDigits.length <= 14;
+        const isValidEmail = /^[\w.+-]+@gmail\.com$/.test(emailInput.value);
 
-        if (err) return e.preventDefault();
-        const submitBtn = form.querySelector("button.btn");
+        // Reset errors
+        [phoneInput, emailInput].forEach(field => {
+            field.classList.remove("input-error", "shake");
+            field.nextElementSibling?.classList.contains("form-error") && field.nextElementSibling.remove();
+        });
+
+        let hasError = false;
+
+        if (!isValidPhone) {
+            showError(phoneInput, "Please enter a valid phone number (10–14 digits).");
+            hasError = true;
+        }
+
+        if (!isValidEmail) {
+            showError(emailInput, "Please enter a valid Gmail address.");
+            hasError = true;
+        }
+
+        if (hasError) {
+            e.preventDefault();
+            return;
+        }
+
+        // UX feedback
         submitBtn.disabled = true;
         submitBtn.textContent = "Submitting...";
     });
 
-    function showError(f, m) {
-        f.classList.add("input-error", "shake");
-        const e = document.createElement("div");
-        e.className = "form-error"; e.textContent = m;
-        f.insertAdjacentElement("afterend", e);
-        setTimeout(() => f.classList.remove("shake"), 500);
+    function showError(field, message) {
+        field.classList.add("input-error", "shake");
+        const errorMsg = document.createElement("div");
+        errorMsg.className = "form-error";
+        errorMsg.textContent = message;
+        field.insertAdjacentElement("afterend", errorMsg);
+        setTimeout(() => field.classList.remove("shake"), 500);
     }
 }
 
-// Logo Slider Pause
-function initLogoSliderHoverPause({ wrapperSelector = ".slider-wrapper", trackSelector = ".slider-track", debug = false } = {}) {
-    const wrapper = $(wrapperSelector), track = $(trackSelector);
-    if (!wrapper || !track) return debug && console.warn('[LogoSlider] Elements missing');
-    Object.assign(wrapper, { tabIndex: 0, ariaLabel: 'Logo carousel. Hover or focus to pause animation.' });
+// Logo Slider Pause v2.0
+function initLogoSliderHoverPause({
+    wrapperSelector = ".slider-wrapper",
+    trackSelector = ".slider-track",
+    debug = false
+} = {}) {
+    const wrapper = document.querySelector(wrapperSelector);
+    const track = document.querySelector(trackSelector);
 
-    const pause = () => (track.style.animationPlayState = 'paused', debug && console.log('[LogoSlider] Paused'));
-    const resume = () => (track.style.animationPlayState = 'running', debug && console.log('[LogoSlider] Resumed'));
+    if (!wrapper || !track) {
+        if (debug) console.warn(`[LogoSlider] Missing elements: ${!wrapper ? 'wrapper' : ''} ${!track ? 'track' : ''}`);
+        return;
+    }
 
-    wrapper.onmouseenter = pause;
-    wrapper.onmouseleave = resume;
-    wrapper.onfocusin = pause;
-    wrapper.onfocusout = resume;
+    wrapper.tabIndex = 0;
+    wrapper.setAttribute("aria-label", "Logo carousel. Hover or focus to pause animation.");
+
+    const pause = () => {
+        track.style.animationPlayState = "paused";
+        if (debug) console.log("[LogoSlider] Animation paused.");
+    };
+
+    const resume = () => {
+        track.style.animationPlayState = "running";
+        if (debug) console.log("[LogoSlider] Animation resumed.");
+    };
+
+    wrapper.addEventListener("mouseenter", pause);
+    wrapper.addEventListener("mouseleave", resume);
+    wrapper.addEventListener("focusin", pause);
+    wrapper.addEventListener("focusout", resume);
+
+    if (debug) console.info("[LogoSlider] Hover/focus pause initialized.");
 }
 
-// Footer Year Auto
-function updateFooterYear({ selector = ".current-year", format = 'numeric', debug = false } = {}) {
-    const el = $(selector);
-    if (!el) return debug && console.warn('[FooterYear] Element not found');
-    const year = new Intl.DateTimeFormat('en', { year: format }).format(new Date());
-    el.textContent = year;
-    debug && console.info(`[FooterYear] Updated to ${year}`);
+// Footer Year Auto v2.0
+function updateFooterYear({ selector = ".current-year", format = "numeric", debug = false } = {}) {
+    const element = document.querySelector(selector);
+
+    if (!element) {
+        if (debug) console.warn(`[FooterYear] No element found for selector: '${selector}'`);
+        return;
+    }
+
+    try {
+        const year = new Intl.DateTimeFormat("en", { year: format }).format(new Date());
+        element.textContent = year;
+        if (debug) console.info(`[FooterYear] Year updated to: ${year}`);
+    } catch (error) {
+        console.error("[FooterYear] Failed to format year:", error);
+    }
 }
 
-// Lazy Loading Check
+// Lazy Loading Check v2.0
 function checkLazyLoadSupport({ debug = false, polyfillUrl = null } = {}) {
-    const supported = 'loading' in HTMLImageElement.prototype;
-    const lazyImgs = $$('img[loading="lazy"]');
+    const isSupported = 'loading' in HTMLImageElement.prototype;
+    const lazyImages = document.querySelectorAll('img[loading="lazy"]');
 
-    if (supported) {
-        debug && console.info(`[LazyLoad] Native supported. (${lazyImgs.length} images)`);
+    if (isSupported) {
+        if (debug) {
+            console.info(`[LazyLoad] Native lazy-loading is supported. (${lazyImages.length} image${lazyImages.length !== 1 ? 's' : ''})`);
+        }
     } else {
-        console.warn('[LazyLoad] Not supported.');
+        console.warn('[LazyLoad] Native lazy-loading is not supported.');
+
         if (polyfillUrl) {
-            const s = document.createElement('script');
-            s.src = polyfillUrl; s.async = true;
-            s.onload = () => console.info('[LazyLoad] Polyfill loaded.');
-            document.head.appendChild(s);
-        } else debug && console.info('[LazyLoad] Polyfill suggested.');
+            const script = document.createElement('script');
+            script.src = polyfillUrl;
+            script.async = true;
+            script.onload = () => console.info('[LazyLoad] Polyfill loaded successfully.');
+            script.onerror = () => console.error('[LazyLoad] Failed to load polyfill.');
+            document.head.appendChild(script);
+        } else if (debug) {
+            console.info('[LazyLoad] Consider providing a polyfill URL to enable compatibility.');
+        }
     }
 }
 
@@ -216,69 +431,101 @@ function ensureMetaDescription() {
     }
 }
 
-// Connection Monitor v3.5
-function monitorConnectionStatus({ onOnline = () => { }, onOffline = () => { }, enableBatteryCheck = true } = {}) {
+// Ghatak Connection Monitor v3.8 (Enhanced, Optimized & Theme-Aware)
+function monitorConnectionStatus({
+    onOnline = () => { },
+    onOffline = () => { },
+    enableBatteryCheck = true
+} = {}) {
     const STATUS_KEY = "ghatak-connection-status";
+
     const banner = Object.assign(document.createElement("div"), {
         className: "ghatak-connection-banner",
         role: "status",
         ariaLive: "polite",
         innerHTML: '<span id="conn-text"></span>'
     });
-    const dot = Object.assign(document.createElement("div"), {
-        style: "position:fixed;bottom:16px;right:16px;width:14px;height:14px;border-radius:50%;z-index:9999;background:#27ae60;transition:background-color 0.3s ease;box-shadow:0 0 10px rgba(0,0,0,0.3)"
-    });
 
-    Object.assign(banner.style, {
-        position: "fixed", bottom: "16px", left: "50%", transform: "translateX(-50%)",
-        padding: "10px 20px", borderRadius: "10px", color: "#fff", fontWeight: "600",
-        zIndex: "9999", display: "none", opacity: "0", pointerEvents: "none",
-        boxShadow: "0 4px 16px rgba(0,0,0,0.3)", fontSize: "15px", transition: "all 0.4s ease"
+    const dot = Object.assign(document.createElement("div"), {
+        className: "ghatak-connection-dot"
     });
 
     document.body.append(banner, dot);
 
-    const updateUI = isOnline => {
-        const msg = isOnline ? "✅ Back online!" : "🔌 You are offline.",
-            color = isOnline ? "#27ae60" : "#e74c3c";
-        dot.style.backgroundColor = color;
-        banner.style.backgroundColor = color;
-        banner.querySelector("#conn-text").textContent = msg;
-        banner.style.display = "block";
-        banner.style.opacity = "1";
+    const updateUI = (isOnline) => {
+        const msg = isOnline
+            ? "✅ Back online! Your connection is stable."
+            : "🔌 You are offline. Some features may not work.";
+        const icon = isOnline ? "🌐" : "⚠️";
+
+        banner.querySelector("#conn-text").innerHTML = `${icon} ${msg}`;
+        banner.classList.remove("conn-hide");
+        banner.classList.toggle("conn-online", isOnline);
+        banner.classList.toggle("conn-offline", !isOnline);
+
+        dot.classList.toggle("conn-online", isOnline);
+        dot.classList.toggle("conn-offline", !isOnline);
+
         clearTimeout(banner._timeout);
         banner._timeout = setTimeout(() => {
-            banner.style.opacity = "0";
-            setTimeout(() => (banner.style.display = "none"), 400);
+            banner.classList.add("conn-hide");
         }, 5000);
+
+        console.info(`[ConnectionStatus] ${isOnline ? "Online" : "Offline"} at ${new Date().toLocaleTimeString()}`);
+        (isOnline ? onOnline : onOffline)();
     };
 
     const debouncedUpdate = debounce(() => {
-        const online = navigator.onLine;
+        const isOnline = navigator.onLine;
         const prev = localStorage.getItem(STATUS_KEY);
-        if (String(online) !== prev) {
-            localStorage.setItem(STATUS_KEY, online);
-            updateUI(online);
-            (online ? onOnline : onOffline)();
+        if (String(isOnline) !== prev) {
+            localStorage.setItem(STATUS_KEY, isOnline);
+            updateUI(isOnline);
         }
     }, 250);
 
     window.addEventListener("online", debouncedUpdate);
     window.addEventListener("offline", debouncedUpdate);
-
-    if (enableBatteryCheck && navigator.getBattery) {
-        navigator.getBattery().then(bat => {
-            if (bat.level < 0.15 && !bat.charging) {
-                console.warn("⚠️ Low battery mode detected.");
-                banner.style.fontSize = "13px";
-                banner.style.padding = "8px 16px";
-            }
-        });
-    }
-
     document.addEventListener("visibilitychange", () => {
         if (!document.hidden) debouncedUpdate();
     });
 
+    if (enableBatteryCheck && navigator.getBattery) {
+        navigator.getBattery().then((battery) => {
+            const handleBatteryStatus = () => {
+                if (battery.level < 0.15 && !battery.charging) {
+                    console.warn("⚠️ Low battery mode detected.");
+                    banner.querySelector("#conn-text").textContent =
+                        "🔋 Low battery mode. Please charge your device.";
+                    banner.classList.remove("conn-hide");
+                    banner.classList.add("conn-low-battery");
+
+                    dot.classList.remove("conn-online", "conn-offline");
+                    dot.classList.add("conn-low-battery");
+
+                    clearTimeout(banner._timeout);
+                    banner._timeout = setTimeout(() => {
+                        banner.classList.add("conn-hide");
+                        banner.classList.remove("conn-low-battery");
+                        dot.classList.remove("conn-low-battery");
+                    }, 5000);
+                }
+            };
+
+            battery.addEventListener("levelchange", handleBatteryStatus);
+            battery.addEventListener("chargingchange", handleBatteryStatus);
+            handleBatteryStatus(); // Initial
+        }).catch(console.error);
+    }
+
     debouncedUpdate();
+}
+
+// Utility: Simple debounce
+function debounce(func, wait) {
+    let timeout;
+    return (...args) => {
+        clearTimeout(timeout);
+        timeout = setTimeout(() => func.apply(this, args), wait);
+    };
 }
