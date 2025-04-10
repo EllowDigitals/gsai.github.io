@@ -45,7 +45,7 @@
 
     <!-- Alternate Language -->
     <link rel="alternate" hreflang="en" href="https://ghatakgsai.netlify.app/" />
-    <link rel="license" href="https://creativecommons.org/licenses/by-nc/4.0/" />
+    <link rel="license" href="/license.txt" type="text/plain">
 
     <!-- Contact Info -->
     <meta name="email" content="ghatakgsai@gmail.com" />
@@ -773,8 +773,8 @@
             <div class="container legal-container">
                 <h2 id="legal-heading">Privacy Policy & Terms of Use</h2>
                 <p class="section-intro">
-                    Learn how we collect, use, and protect your data. Review our privacy practices, user
-                    responsibilities, and open-source license.
+                    Learn how we collect, use, and protect your data. Review our privacy practices and user
+                    responsibilities.
                 </p>
 
                 <div class="legal-links">
@@ -787,16 +787,9 @@
                         <i class="fas fa-file-contract" aria-hidden="true"></i>
                         <span>Terms & Conditions</span>
                     </a>
-
-                    <a href="/license.txt" target="_blank" rel="noopener" class="legal-btn"
-                        title="MIT License for website codebase">
-                        <i class="fas fa-code-branch" aria-hidden="true"></i>
-                        <span>MIT License</span>
-                    </a>
                 </div>
             </div>
         </section>
-
 
     </main>
 
@@ -925,12 +918,11 @@
                 <strong>Ghatak Sports Academy India™</strong>. All rights reserved.
             </p>
             <p>
-                Website content is licensed under
-                <a href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank" rel="license noopener">
-                    CC BY-NC 4.0
-                </a>.
+                All content on this website is the property of <strong>Ghatak Sports Academy India™</strong> and may not
+                be copied, reproduced, or distributed without prior written permission.
             </p>
         </div>
+
 
     </footer>
 
@@ -1000,17 +992,16 @@
     <!-- ✅ Error Handling Init (version-aware) -->
     <script>
         window.addEventListener("DOMContentLoaded", () => {
-            if (typeof initErrorHandlingV7 === "function") {
-                initErrorHandlingV7({
-                    useSentry: true,
-                    sentryDSN: "YOUR_SENTRY_DSN",
+            if (typeof GhatakErrorShield === "function") {
+                GhatakErrorShield({
                     validateAssets: true
                 });
             } else {
-                console.warn("Error handling v7 not available.");
+                console.warn("Error handling v10 not available.");
             }
         });
     </script>
+
 
 </body>
 

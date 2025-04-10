@@ -34,7 +34,7 @@ document.addEventListener("DOMContentLoaded", () => {
         return new Promise((resolve, reject) => {
             if (window.google?.translate?.TranslateElement) return resolve();
 
-            const existing = document.querySelector(`script[src*="translate_a/element.js"]`);
+            const existing = document.querySelector('script[src*="translate_a/element.js"]');
             if (existing) return resolve();
 
             const script = document.createElement("script");
@@ -46,33 +46,53 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     };
 
-    // === Global Callback for Google Translate ===
+    // === Google Translate Callback ===
     window.googleTranslateElementInit = () => {
         new google.translate.TranslateElement({
             pageLanguage: 'en',
             autoDisplay: false,
-            includedLanguages: 'en,hi',
+            includedLanguages: 'en,hi,fr,de,es,it,zh-CN,ja,ru,pt',
             layout: google.translate.TranslateElement.InlineLayout.SIMPLE
         }, 'google_translate_element');
     };
 
-    // === Utility: Wait for Combo Dropdown ===
+    // === Wait for the Google Translate dropdown to render
     const waitForGoogleTranslate = (timeout = 20000) =>
         new Promise((resolve, reject) => {
             const start = Date.now();
             const interval = setInterval(() => {
-                const gtSelect = document.querySelector("select.goog-te-combo");
-                if (gtSelect) {
+                const select = document.querySelector("select.goog-te-combo");
+                if (select) {
                     clearInterval(interval);
-                    resolve(gtSelect);
+                    resolve(select);
                 } else if (Date.now() - start > timeout) {
                     clearInterval(interval);
-                    reject(new Error("Timeout waiting for Google Translate."));
+                    reject(new Error("Timeout waiting for Google Translate dropdown."));
                 }
             }, 100);
         });
 
-    // === Dropdown Logic ===
+    // === Apply Translation Logic ===
+    const applyTranslation = async (langCode) => {
+        try {
+            await loadGoogleTranslateScript();
+            const select = await waitForGoogleTranslate();
+
+            if (select && [...select.options].some(opt => opt.value === langCode)) {
+                select.value = langCode;
+                // Slight delay for change event
+                setTimeout(() => {
+                    select.dispatchEvent(new Event("change"));
+                }, 100);
+            } else {
+                console.warn("Language not found in options:", langCode);
+            }
+        } catch (err) {
+            console.error("Error applying translation:", err);
+        }
+    };
+
+    // === Dropdown Toggle Logic ===
     const showDropdown = (btn) => {
         langDropdown.classList.remove("hidden");
         langDropdown.classList.add("show");
@@ -121,7 +141,7 @@ document.addEventListener("DOMContentLoaded", () => {
         if (e.key === "Escape") hideDropdown();
     });
 
-    // === Language Selection Logic ===
+    // === Manual Language Switch ===
     langDropdown.addEventListener("click", async (e) => {
         const langItem = e.target.closest("[data-lang]");
         if (!langItem) return;
@@ -132,27 +152,16 @@ document.addEventListener("DOMContentLoaded", () => {
         showLoading();
 
         try {
-            await loadGoogleTranslateScript();
             await applyTranslation(langCode);
-            setTimeout(() => window.location.reload(), 500);
         } catch (err) {
-            console.error("Translation failed:", err);
-            alert("Could not switch language. Try again.");
+            console.error("Manual translation failed:", err);
+            alert("Could not switch language. Please try again.");
+        } finally {
             hideLoading();
         }
     });
 
-    const applyTranslation = async (langCode) => {
-        try {
-            const select = await waitForGoogleTranslate();
-            select.value = langCode;
-            select.dispatchEvent(new Event("change"));
-        } catch (err) {
-            console.warn("Translate element not found:", err);
-        }
-    };
-
-    // === Initial Language Detection ===
+    // === Initial Detection & Apply ===
     const detectAndApplyLanguage = async () => {
         let lang = localStorage.getItem("preferredLang") || "en";
 
@@ -168,20 +177,21 @@ document.addEventListener("DOMContentLoaded", () => {
                 lang = map[code] || "en";
                 localStorage.setItem("preferredLang", lang);
             } catch (err) {
-                console.warn("Geo-detection failed. Defaulting to English.");
+                console.warn("Geo-detection failed, using English.");
             }
         }
 
         if (lang !== "en") {
             try {
-                await loadGoogleTranslateScript();
+                showLoading();
                 await applyTranslation(lang);
             } catch (err) {
                 console.warn("Initial language translation failed:", err);
+            } finally {
+                hideLoading();
             }
         }
     };
 
-    // === Run Detection ===
     detectAndApplyLanguage();
 });

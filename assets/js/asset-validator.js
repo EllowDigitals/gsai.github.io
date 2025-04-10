@@ -1,17 +1,20 @@
-/* ================================================================
-   Asset Validator v4.1.1 – Optimized + AI-Powered Suggestions
-   ================================================================
-   Enhancements:
-   ✓ Smart filtering for external/CORS-heavy assets
-   ✓ Cleaner diagnostics grouping and summaries
-   ✓ AI tips per issue for dev productivity
-   ✓ Fallback to GET if HEAD fails due to CORS (configurable)
+/* =============================================================
+   Asset Validator v4.3 – AI-Enhanced + Retry + Visual Alerts + DOM Snapshot
+   =============================================================
+   Features:
+   ✓ Visual popup alerts for failed assets
+   ✓ Automatic retry logic for transient issues
+   ✓ Grouping diagnostics by domain/CDN
+   ✓ Smart filtering for CORS/external assets
+   ✓ Fallback to GET if HEAD fails (configurable)
+   ✓ DOM snapshot logging for failed assets
 ================================================================ */
 
-(async function runAssetValidatorV4_1_1() {
-    const version = "4.1.1";
+(async function runAssetValidatorV4_3() {
+    const version = "4.3";
     const CONCURRENCY_LIMIT = 5;
-    const fallbackToGet = true; // Optional: fallback if HEAD fails
+    const fallbackToGet = true;
+    const RETRY_LIMIT = 2;
 
     const styles = {
         log: "color:#fff;background:#333;padding:2px 6px;border-radius:4px;font-weight:bold;",
@@ -51,6 +54,27 @@
         return "ℹ️ Review manually.";
     };
 
+    const showPopup = (message, color = "#e74c3c") => {
+        const popup = document.createElement("div");
+        Object.assign(popup.style, {
+            position: "fixed", bottom: "20px", right: "20px",
+            background: color, color: "#fff", padding: "10px 14px",
+            borderRadius: "8px", fontSize: "14px", fontWeight: "bold",
+            zIndex: "9999", boxShadow: "0 2px 8px rgba(0,0,0,0.2)",
+            fontFamily: "sans-serif"
+        });
+        popup.textContent = message;
+        document.body.appendChild(popup);
+        setTimeout(() => popup.remove(), 6000);
+    };
+
+    const captureDomSnapshot = (el) => {
+        const wrapper = document.createElement("div");
+        const clone = el.cloneNode(true);
+        wrapper.appendChild(clone);
+        return wrapper.innerHTML;
+    };
+
     const fetchHead = async (url) => {
         if (shouldIgnore(url)) return { url, status: "skipped" };
 
@@ -59,7 +83,6 @@
 
         try {
             const res = await fetch(url, { method: "HEAD", cache: "no-store" });
-
             const duration = performance.now() - t0;
             result.details.duration = `${duration.toFixed(1)}ms`;
 
@@ -72,7 +95,7 @@
         } catch (err) {
             if (fallbackToGet) {
                 try {
-                    const getRes = await fetch(url, { method: "GET", mode: "no-cors", cache: "no-store" });
+                    await fetch(url, { method: "GET", mode: "no-cors", cache: "no-store" });
                     result.status = "CORS Blocked";
                     result.details.fallback = "GET fallback triggered";
                 } catch (fallbackErr) {
@@ -86,6 +109,14 @@
         }
 
         return result;
+    };
+
+    const fetchWithRetry = async (url, retries = RETRY_LIMIT) => {
+        for (let i = 0; i <= retries; i++) {
+            const result = await fetchHead(url);
+            if (result.status === "ok" || result.status === "skipped") return result;
+        }
+        return await fetchHead(url);
     };
 
     const throttle = (tasks, limit) => {
@@ -104,17 +135,25 @@
         });
     };
 
+    const groupByDomain = (errors) => {
+        const grouped = {};
+        errors.forEach(({ url, status, details }) => {
+            const domain = new URL(url).hostname;
+            if (!grouped[domain]) grouped[domain] = [];
+            grouped[domain].push({ url, status, details });
+        });
+        return grouped;
+    };
+
     const startTime = performance.now();
     const diagnostics = {};
     const assets = Object.entries(selectors).flatMap(([type, selector]) =>
-        [...document.querySelectorAll(selector)].map(el => ({
-            el, type, url: getUrl(el)
-        }))
+        [...document.querySelectorAll(selector)].map(el => ({ el, type, url: getUrl(el) }))
     );
 
     console.groupCollapsed(`%c[Asset Validator v${version}] Validating ${assets.length} assets...`, styles.info);
 
-    const tasks = assets.map(asset => () => fetchHead(asset.url));
+    const tasks = assets.map(asset => () => fetchWithRetry(asset.url));
     const results = await throttle(tasks, CONCURRENCY_LIMIT);
 
     results.forEach((res, i) => {
@@ -123,31 +162,40 @@
         if (!diagnostics[type]) diagnostics[type] = [];
 
         if (status !== "ok" && status !== "skipped") {
-            diagnostics[type].push({ url, status, details });
+            diagnostics[type].push({
+                url, status, details,
+                domSnapshot: captureDomSnapshot(el)
+            });
             el.style.outline = "2px dashed red";
         }
     });
 
-    // Print diagnostics
     Object.entries(diagnostics).forEach(([type, issues]) => {
-        console.groupCollapsed(`%c[${type.toUpperCase()} Issues] (${issues.length})`, styles.warn);
-        issues.forEach(({ url, status, details }) => {
-            console.warn(`%c[${status.toUpperCase()}]`, styles.warn, url, details, getTip(status, url));
+        const byDomain = groupByDomain(issues);
+        console.groupCollapsed(`%c[${type.toUpperCase()} Issues by Domain]`, styles.warn);
+        Object.entries(byDomain).forEach(([domain, items]) => {
+            console.groupCollapsed(`%c${domain} (${items.length})`, styles.error);
+            items.forEach(({ url, status, details, domSnapshot }) => {
+                console.warn(`%c[${status.toUpperCase()}]`, styles.warn, url, details, getTip(status, url));
+                console.log("DOM Snapshot:", domSnapshot);
+            });
+            console.groupEnd();
         });
         console.groupEnd();
     });
 
-    if (!Object.keys(diagnostics).length) {
+    if (Object.keys(diagnostics).length === 0) {
         console.log("%c[✓ All assets validated successfully]", styles.success);
+    } else {
+        // showPopup("⚠️ Asset validation failed – check console for details.");
+        console.error("%c[⚠️ Asset validation failed", styles.error);
+        
     }
 
-    // Print script load order
     const scripts = Array.from(document.scripts);
     console.groupCollapsed("%c[Script Load Order]", styles.info);
     scripts.forEach((s, i) => {
-        const label = s.src
-            ? `External: ${s.src}`
-            : `Inline: ${s.textContent.trim().slice(0, 80)}...`;
+        const label = s.src ? `External: ${s.src}` : `Inline: ${s.textContent.trim().slice(0, 80)}...`;
         console.log(`%c[${i + 1}] ${label}`, styles.success);
     });
     console.groupEnd();

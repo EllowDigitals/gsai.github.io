@@ -1,112 +1,76 @@
 /* ===========================================================
-   Error Handling v9.0 - Ghatak AI Error Shield
-   + AI Suggestions
-   + DOM Snapshot
-   + Geo Metadata
-   + Performance Metrics
-   + IndexedDB/LocalStorage Offline Retry
-   + Script Profiler + Asset Validator
-   + DevTools UI + Network Tracker
-   + Stack Fingerprinting + Deduplication
+   Ghatak AI Error Shield v10.0
+   Features: AI Suggestions + DOM Snapshot + Geo Metadata
+   + Performance + Offline Logging + Asset Validation
+   + DevTools UI + Fingerprint Deduplication + Localization
    =========================================================== */
-(function initErrorHandlingV90(config = {}) {
+
+(function GhatakErrorShield(config = {}) {
     const cfg = {
         logToServer: true,
-        useSentry: false,
-        sentryDSN: "",
-        endpoint: "/log-error",
-        localLogKey: "ghatak-error-log",
-        errorRateLimit: 5,
-        rateLimitWindow: 60000,
-        enableOfflineLog: true,
-        showUIBanner: true,
-        validateAssets: true,
-        backupViaFormSubmit: true,
+        serverEndpoint: "/log-error",
         formSubmitEndpoint: "https://formsubmit.co/ajax/ellowdigitals@gmail.com",
+        showBanner: true,
+        maxOfflineLogs: 50,
+        rateLimit: 5,
+        rateWindow: 60000,
+        validateAssets: true,
         ...config
     };
 
     const styles = {
         log: "color:#fff;background:#e74c3c;padding:2px 6px;border-radius:4px;font-weight:bold;",
-        info: "color:#2980b9;font-weight:bold;",
-        warn: "color:#d35400;font-weight:bold;",
-        success: "color:#27ae60;font-weight:bold;"
+        info: "color:#3498db;font-weight:bold;",
+        warn: "color:#f39c12;font-weight:bold;",
+        success: "color:#2ecc71;font-weight:bold;"
     };
 
-    const sessionId = `${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
-    const rateMap = new Map();
-    const offlineStorageKey = "ghatak-error-buffer";
-    let banner;
+    const state = {
+        sessionId: `${Date.now()}-${Math.random().toString(36).slice(2, 8)}`,
+        recentErrors: new Map(),
+        offlineKey: "ghatak_offline_errors"
+    };
 
     const showBanner = (msg, color = "#e74c3c") => {
-        if (!cfg.showUIBanner) return;
-        if (!banner) {
-            banner = document.createElement("div");
-            Object.assign(banner.style, {
-                position: "fixed", bottom: "20px", left: "50%", transform: "translateX(-50%)",
-                backgroundColor: color, color: "#fff", padding: "12px 20px", borderRadius: "10px",
-                fontWeight: "600", fontSize: "14px", boxShadow: "0 8px 24px rgba(0,0,0,0.2)",
-                zIndex: "9999", maxWidth: "90%", textAlign: "center", display: "none"
-            });
-            document.body.appendChild(banner);
-        }
+        if (!cfg.showBanner) return;
+        const banner = document.createElement("div");
         banner.textContent = msg;
-        banner.style.display = "block";
-        banner.style.opacity = "1";
-        clearTimeout(banner.timer);
-        banner.timer = setTimeout(() => {
-            banner.style.opacity = "0";
-            setTimeout(() => (banner.style.display = "none"), 300);
-        }, 6000);
+        Object.assign(banner.style, {
+            position: "fixed", bottom: "20px", left: "50%", transform: "translateX(-50%)",
+            backgroundColor: color, color: "#fff", padding: "10px 18px", borderRadius: "8px",
+            fontWeight: "bold", fontSize: "14px", zIndex: "9999", fontFamily: "sans-serif"
+        });
+        document.body.appendChild(banner);
+        setTimeout(() => banner.remove(), 5000);
     };
 
-    const fingerprintStack = (stack) =>
-        btoa(unescape(encodeURIComponent(stack.split("\n").slice(0, 3).join("")))).slice(0, 32);
-
-    const isRateLimited = (msg) => {
-        const key = fingerprintStack(msg);
-        const now = Date.now();
-        const entry = rateMap.get(key) || { count: 0, last: now };
-        if (now - entry.last > cfg.rateLimitWindow) {
-            rateMap.set(key, { count: 1, last: now });
-            return false;
-        }
-        entry.count++;
-        entry.last = now;
-        rateMap.set(key, entry);
-        return entry.count > cfg.errorRateLimit;
+    const getSuggestion = (msg) => {
+        if (/undefined/.test(msg)) return "Ensure the variable is defined.";
+        if (/CORS/.test(msg)) return "Check server CORS settings.";
+        if (/timeout|network/i.test(msg)) return "Check internet or API status.";
+        if (/not a function/.test(msg)) return "Check if the method exists.";
+        return "No auto-fix suggestion available.";
     };
 
-    const aiSuggestFix = (msg) => {
-        if (/undefined/.test(msg)) return "Check if the variable is declared and initialized.";
-        if (/CORS/.test(msg)) return "Check server CORS configuration and allowed origins.";
-        if (/timeout/.test(msg)) return "Network timeout. Ensure API/server is responsive.";
-        if (/not a function/.test(msg)) return "Verify if the method exists and is callable.";
-        if (/failed to fetch/i.test(msg)) return "Ensure the endpoint exists and is accessible.";
-        return "Suggestion unavailable. Further debugging needed.";
-    };
-
-    const getDomSnapshot = () => ({
+    const domSnapshot = () => ({
         active: document.activeElement?.outerHTML,
         inputs: Array.from(document.querySelectorAll("input, textarea")).map(el => ({
             name: el.name || el.id,
-            value: el.value?.slice(0, 100)
+            value: /email|pass|phone/i.test(el.name) ? "****" : el.value?.slice(0, 100)
         })).filter(i => i.value),
         scrollY: window.scrollY
     });
 
-    const getGeo = () => new Promise(resolve => {
+    const geoMetadata = () => new Promise(resolve => {
         try {
             navigator.geolocation.getCurrentPosition(
                 pos => resolve({ lat: pos.coords.latitude, lng: pos.coords.longitude }),
-                () => resolve(null), { timeout: 3000 }
+                () => resolve(null), { timeout: 2000 }
             );
-        } catch {
-            resolve(null);
-        }
+        } catch { resolve(null); }
     });
 
-    const getPerformance = () => {
+    const performanceMetrics = () => {
         const t = performance.timing;
         return {
             domLoad: t.domContentLoadedEventEnd - t.navigationStart,
@@ -114,59 +78,44 @@
         };
     };
 
-    const saveOffline = (entry) => {
-        if (!cfg.enableOfflineLog) return;
-        if (window.indexedDB) {
-            const req = indexedDB.open("ghatakErrorLogs", 1);
-            req.onupgradeneeded = () => {
-                if (!req.result.objectStoreNames.contains("logs")) {
-                    req.result.createObjectStore("logs", { autoIncrement: true });
-                }
-            };
-            req.onsuccess = () => {
-                const db = req.result;
-                if (!db.objectStoreNames.contains("logs")) return;
-                db.transaction("logs", "readwrite").objectStore("logs").add(entry);
-            };
-        } else {
-            const buffer = JSON.parse(localStorage.getItem(offlineStorageKey) || "[]");
-            buffer.push(entry);
-            localStorage.setItem(offlineStorageKey, JSON.stringify(buffer.slice(-cfg.errorRateLimit)));
+    const fingerprint = (msg) => btoa(unescape(encodeURIComponent(msg))).slice(0, 50);
+
+    const isRateLimited = (msg) => {
+        const key = fingerprint(msg);
+        const now = Date.now();
+        const entry = state.recentErrors.get(key) || { count: 0, last: 0 };
+
+        if (now - entry.last > cfg.rateWindow) {
+            state.recentErrors.set(key, { count: 1, last: now });
+            return false;
         }
+
+        entry.count++;
+        entry.last = now;
+        state.recentErrors.set(key, entry);
+        return entry.count > cfg.rateLimit;
+    };
+
+    const saveOffline = (entry) => {
+        const logs = JSON.parse(localStorage.getItem(state.offlineKey) || "[]");
+        logs.push(entry);
+        localStorage.setItem(state.offlineKey, JSON.stringify(logs.slice(-cfg.maxOfflineLogs)));
     };
 
     const flushOffline = () => {
         if (!navigator.onLine || !cfg.logToServer) return;
-        if (window.indexedDB) {
-            const req = indexedDB.open("ghatakErrorLogs", 1);
-            req.onsuccess = () => {
-                const db = req.result;
-                if (!db.objectStoreNames.contains("logs")) return;
-                const store = db.transaction("logs", "readwrite").objectStore("logs");
-                const all = store.getAll();
-                all.onsuccess = () => {
-                    if (!all.result.length) return;
-                    fetch(cfg.endpoint, {
-                        method: "POST",
-                        headers: { "Content-Type": "application/json" },
-                        body: JSON.stringify({ batch: all.result })
-                    }).then(() => store.clear());
-                };
-            };
-        } else {
-            const buffer = JSON.parse(localStorage.getItem(offlineStorageKey) || "[]");
-            if (buffer.length) {
-                fetch(cfg.endpoint, {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ batch: buffer })
-                }).then(() => localStorage.removeItem(offlineStorageKey));
-            }
-        }
+        const logs = JSON.parse(localStorage.getItem(state.offlineKey) || "[]");
+        if (!logs.length) return;
+        fetch(cfg.serverEndpoint, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ batch: logs })
+        }).then(() => localStorage.removeItem(state.offlineKey));
     };
 
-    const submitBackupForm = (entry) => {
-        if (!cfg.backupViaFormSubmit) return;
+    const submitFormBackup = (entry) => {
+        if (!cfg.formSubmitEndpoint) return;
+
         fetch(cfg.formSubmitEndpoint, {
             method: "POST",
             headers: {
@@ -174,104 +123,107 @@
                 "Accept": "application/json"
             },
             body: JSON.stringify({
-                name: "Auto Error Report",
+                name: "Ghatak Error Log",
+                email: "report@ghatak.ai",
                 message: JSON.stringify(entry, null, 2)
             })
-        }).then(res => {
-            if (!res.ok) throw new Error("Backup form submission failed");
+        }).then(response => {
+            if (response.ok) {
+                console.log("[Ghatak] Error report submitted via form.");
+            } else {
+                console.warn("[Ghatak] Form submit failed:", response.status, response.statusText);
+            }
         }).catch(err => {
-            console.warn("Backup formsubmit error:", err);
+            console.warn("[Ghatak] Form submit error:", err);
         });
     };
 
     const logError = async (type, data) => {
-        const message = data.message || data.reason || "Unknown error";
-        if (isRateLimited(message)) return;
+        const msg = data.message || data.reason || "Unknown error";
+        if (isRateLimited(msg)) return;
 
-        const stack = data.error?.stack || data.reason?.stack || message;
-        const geo = await getGeo();
+        const stack = data.stack || data.error?.stack || msg;
+        const geo = await geoMetadata();
 
         const entry = {
-            type, sessionId, message,
+            type,
+            sessionId: state.sessionId,
+            message: msg,
             stack: stack?.split("\n").slice(0, 5).join("\n"),
-            fingerprint: fingerprintStack(stack),
-            suggestion: aiSuggestFix(message),
+            fingerprint: fingerprint(stack),
+            suggestion: getSuggestion(msg),
             timestamp: new Date().toISOString(),
             url: location.href,
             userAgent: navigator.userAgent,
             language: navigator.language,
             platform: navigator.platform,
-            performance: getPerformance(),
-            dom: getDomSnapshot(),
+            performance: performanceMetrics(),
+            dom: domSnapshot(),
             geo
         };
 
-        console.error(`%c[${type}]`, styles.log, message);
-        if (cfg.useSentry && window.Sentry) Sentry.captureException(data.error || data.reason);
+        console.error(`%c[Ghatak Error: ${type}]`, styles.log, msg);
+        console.groupCollapsed("%c[Detailed Report]", styles.warn);
+        console.log(entry);
+        console.groupEnd();
+
         if (cfg.logToServer && navigator.onLine) {
-            fetch(cfg.endpoint, {
+            fetch(cfg.serverEndpoint, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(entry)
             });
         }
 
-        submitBackupForm(entry);
+        submitFormBackup(entry);
         saveOffline(entry);
-        showBanner("⚠️ Error captured and logged.", "#e74c3c");
-
-        console.groupCollapsed("%c[Error Log]", styles.warn);
-        console.log(entry);
-        console.groupEnd();
+        showBanner("⚠️ Error captured and logged.");
     };
 
     const validateAssets = async () => {
-        const assets = [...document.querySelectorAll("script[src], link[rel='stylesheet'], img[src], link[rel='preload']")];
+        const assets = [...document.querySelectorAll("script[src], link[rel='stylesheet'], img[src]")];
         const report = [];
-        const promises = assets.map(el => {
+
+        await Promise.all(assets.map(el => {
             const url = el.src || el.href;
-            const tag = el.tagName;
-            return fetch(url, { method: "HEAD" }).then(res => {
-                const suggestion = !res.ok ? aiSuggestFix(res.statusText) : "OK";
-                report.push({
-                    url, tag, status: res.status,
-                    size: res.headers.get("content-length"),
-                    type: res.headers.get("content-type"),
-                    suggestion
-                });
-            }).catch(err => {
-                report.push({ url, tag, status: "FAILED", suggestion: aiSuggestFix(err.message) });
-            });
-        });
-        await Promise.all(promises);
-        console.groupCollapsed("%c[Asset Validation Report]", styles.warn);
-        report.forEach(a => console.log(`%c[${a.tag}] ${a.url}\n→ ${a.status} | ${a.suggestion}`, styles.warn));
+            return fetch(url, { method: "HEAD" })
+                .then(res => report.push({ url, status: res.status, type: el.tagName }))
+                .catch(() => report.push({ url, status: "FAILED", type: el.tagName }));
+        }));
+
+        console.groupCollapsed("%c[Asset Validation]", styles.info);
+        report.forEach(a =>
+            console.log(`%c[${a.type}] ${a.url} → ${a.status}`, styles.warn)
+        );
         console.groupEnd();
     };
 
-    // Event Listeners
-    window.addEventListener("error", e => logError("error", e));
-    window.addEventListener("unhandledrejection", e => logError("unhandledrejection", { reason: e.reason }));
+    // Setup Listeners
+    window.addEventListener("error", e => logError("runtime", e));
+    window.addEventListener("unhandledrejection", e => logError("promise", {
+        message: e.reason?.message || e.reason,
+        stack: e.reason?.stack
+    }));
     window.addEventListener("online", flushOffline);
     flushOffline();
 
-    // Script Info
-    console.groupCollapsed("%c[Script Load Order]", styles.info);
-    [...document.scripts].forEach((s, i) => {
-        const src = s.src || s.textContent.slice(0, 40);
-        console.log(`%c[${i + 1}] ${src}`, styles.success);
-    });
-    console.groupEnd();
-
     if (cfg.validateAssets) validateAssets();
-    showBanner("✅ ErrorHandler v9.0 Active", "#27ae60");
-    console.log("%c[ErrorHandler v9.0] Initialized", styles.success);
 
-    // Dev Mode Shortcuts
+    // Dev Interface
     window.ghatakDev = {
-        errorTest: () => { throw new Error("Test Error Triggered") },
-        rejectTest: () => Promise.reject("Test Rejection Triggered"),
+        throwError: () => { throw new Error("Test error from ghatakDev") },
+        rejectPromise: () => Promise.reject("Test rejection from ghatakDev"),
         flushOffline,
-        validateAssets
+        validateAssets,
+        exportLogs: () => {
+            const data = localStorage.getItem(state.offlineKey);
+            const blob = new Blob([data], { type: "application/json" });
+            const a = document.createElement("a");
+            a.href = URL.createObjectURL(blob);
+            a.download = `ghatak-log-${Date.now()}.json`;
+            a.click();
+        }
     };
+
+    console.log("%c[Ghatak AI Error Shield v10.0] Active", styles.success);
 })();
