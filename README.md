@@ -12,13 +12,13 @@
 
 ## 📦 Repository Insights
 
-| **Metric**         | **Status**                                                                                     |
-|--------------------|-----------------------------------------------------------------------------------------------|
-| 🕒 Last Commit      | [![GitHub last commit](https://img.shields.io/github/last-commit/EllowDigitals/gsai.github.io?logo=github)](https://github.com/EllowDigitals/gsai.github.io/commits/main) |
-| 🐛 Open Issues      | [![GitHub issues](https://img.shields.io/github/issues/EllowDigitals/gsai.github.io?logo=github)](https://github.com/EllowDigitals/gsai.github.io/issues) |
-| 🔄 Pull Requests    | [![GitHub pull requests](https://img.shields.io/github/issues-pr/EllowDigitals/gsai.github.io?logo=github)](https://github.com/EllowDigitals/gsai.github.io/pulls) |
-| 🍴 Forks            | [![GitHub forks](https://img.shields.io/github/forks/EllowDigitals/gsai.github.io?style=social&logo=github)](https://github.com/EllowDigitals/gsai.github.io/network/members) |
-| ⭐ Stars            | [![GitHub stars](https://img.shields.io/github/stars/EllowDigitals/gsai.github.io?style=social&logo=github)](https://github.com/EllowDigitals/gsai.github.io/stargazers) |
+| **Metric**        | **Status**                                                                                     |
+|-------------------|-----------------------------------------------------------------------------------------------|
+| 🕒 Last Commit     | [![GitHub last commit](https://img.shields.io/github/last-commit/EllowDigitals/gsai.github.io?logo=github)](https://github.com/EllowDigitals/gsai.github.io/commits/main) |
+| 🐛 Open Issues     | [![GitHub issues](https://img.shields.io/github/issues/EllowDigitals/gsai.github.io?logo=github)](https://github.com/EllowDigitals/gsai.github.io/issues) |
+| 🔄 Pull Requests   | [![GitHub pull requests](https://img.shields.io/github/issues-pr/EllowDigitals/gsai.github.io?logo=github)](https://github.com/EllowDigitals/gsai.github.io/pulls) |
+| 🍴 Forks           | [![GitHub forks](https://img.shields.io/github/forks/EllowDigitals/gsai.github.io?style=social&logo=github)](https://github.com/EllowDigitals/gsai.github.io/network/members) |
+| ⭐ Stars           | [![GitHub stars](https://img.shields.io/github/stars/EllowDigitals/gsai.github.io?style=social&logo=github)](https://github.com/EllowDigitals/gsai.github.io/stargazers) |
 
 </div>
 
@@ -26,10 +26,10 @@
 
 ## 🥋 About Us
 
-**Ghatak Sports Academy India™ (GSAI)** is a **Government & ISO 9001:2015 certified institution** committed to empowering individuals through the art of self-defense and martial arts. 💪✨
+**Ghatak Sports Academy India™ (GSAI)** is a **Government-recognized and ISO 9001:2015 certified institution** committed to empowering individuals through martial arts and self-defense. 💪✨
 
-We seamlessly fuse **traditional martial arts** with **modern fitness methodologies**, helping you unlock your **physical, mental, and ethical potential**. 🌟  
-At GSAI, we nurture a culture of **discipline, respect, and excellence**, guiding every student toward a journey of **confidence, strength, and integrity**. 💖
+We seamlessly blend **traditional martial arts** with **modern fitness techniques**, helping you unlock your **physical strength, mental focus, and moral discipline**. 🌟  
+At GSAI, we foster a spirit of **respect, confidence, and excellence**, guiding every student on a journey of **self-mastery and empowerment**. 💖
 
 ---
 
@@ -38,66 +38,66 @@ At GSAI, we nurture a culture of **discipline, respect, and excellence**, guidin
 ### **Mr. Nitesh Yadav**  
 
 **Founder & Director**  
-🥇 *Black Belt 1st Dan* – International/National Gold Medalist | Self-instructor  
+🥇 *Black Belt 1st Dan* – International/National Gold Medalist | Self-Instructor  
 
-> *"With decades of experience, I am dedicated to the mastery of martial arts and mentoring future champions."*  
+> *"With decades of experience, I remain dedicated to the art of martial mastery and mentoring the champions of tomorrow."*  
 > – **Mr. Nitesh Yadav**
 
 ---
 
 ## 🥊 Programs & Training
 
-Whether you're a beginner or a pro, we’ve got the right program for you:
+We offer specialized programs for all skill levels—from complete beginners to advanced athletes:
 
-- 🥋 **Karate** – Master powerful, traditional techniques.  
-- 🦵 **Taekwondo** – Learn fast, dynamic kicks and stances.  
-- 🥊 **Boxing** – Enhance fitness and striking precision.  
-- 🥋 **Kickboxing** – A blend of cardio and martial arts.  
-- 🤼 **Grappling** – Hone close-combat and ground techniques.  
-- 🥋 **MMA** – Mix striking and grappling for complete combat.  
-- 🕉️ **Kalaripayattu** – Explore ancient Indian warrior arts.  
-- 🛡️ **Self-Defense** – Practical training for real-life safety.  
-- 🏋️ **Fat Loss Programs** – Sculpt your body, build endurance.
+- 🥋 **Karate** – Master traditional strikes and self-discipline.  
+- 🦵 **Taekwondo** – Learn dynamic kicks and sparring techniques.  
+- 🥊 **Boxing** – Build stamina and striking precision.  
+- 🥋 **Kickboxing** – A powerful mix of cardio and combat skills.  
+- 🤼 **Grappling** – Close-combat and ground control tactics.  
+- 🥋 **MMA** – Comprehensive training in striking and grappling.  
+- 🕉️ **Kalaripayattu** – Rediscover India’s ancient warrior tradition.  
+- 🛡️ **Self-Defense** – Practical, real-world safety techniques.  
+- 🏋️ **Fat Loss Programs** – Burn fat, build muscle, and gain agility.
 
 ---
 
 ## ❓ Frequently Asked Questions
 
 💡 **What are the enrollment fees?**  
-Fees vary by program. Contact us for the latest details.
+Fees vary based on the program. Please contact us for current rates.
 
 🕒 **What are the class schedules?**  
-Flexible sessions are available throughout the week.
+Flexible morning and evening batches are available throughout the week.
 
 🎯 **Do you offer trial classes?**  
-Yes! Trial sessions are open for new members.
+Yes, trial sessions are open to all new joiners.
 
-👶 **Which age groups can enroll?**  
-We train all age groups – from kids to adults.
+👶 **What age groups do you train?**  
+We welcome students of all ages—from young children to adults.
 
-🏠 **Is hostel accommodation available?**  
-Yes, hostel facilities are available for outstation students and athletes.
+🏠 **Is hostel accommodation provided?**  
+Yes, we offer hostel facilities for outstation students and athletes.
 
 🏏 **Which sports do you provide training for?**  
-Apart from martial arts, we offer **Cricket** and **Kabaddi** training.
+In addition to martial arts, we also offer training in **Cricket** and **Kabaddi**.
 
 📝 **How can I register?**  
-You can register online or visit our academy in person.
+You can register online or visit our campus for in-person enrollment.
 
-💸 **Are there any discounts?**  
-Yes! We offer seasonal promotions and special discounts.
+💸 **Are any discounts available?**  
+Absolutely! We provide seasonal offers and promotional discounts.
 
 🤝 **Do you offer personal coaching?**  
-Absolutely. One-on-one sessions are available upon request.
+Yes, personalized one-on-one training sessions are available upon request.
 
-🔄 **Is there a refund policy?**  
-Refunds depend on the specific program. Please contact us for details.
+🔄 **Do you have a refund policy?**  
+Refund policies vary by program. Contact us for detailed information.
 
 ---
 
 ## 📞 Contact Us
 
-Ready to begin your martial arts journey? Let's connect!
+**Start your martial arts journey today!**
 
 📧 **Email**: [ghatakgsai@gmail.com](mailto:ghatakgsai@gmail.com)  
 📞 **Phone**: +91-639-413-5988 | +91-835-506-2424  
@@ -106,13 +106,13 @@ Ready to begin your martial arts journey? Let's connect!
 Naubasta Pulia, Takrohi Road, Amrai Gaon, Indira Nagar, Lucknow, U.P. - 226028  
 
 🏢 **Branch Location**:  
-**Fitness & Fun Arena (TCC)**, Hardasi Kheda, Deva Rd, near Baba Hospital Road, City Colony, Matiyari, Lucknow, U.P.
+**Fitness & Fun Arena (TCC)**, Hardasi Kheda, Deva Road, near Baba Hospital Road, City Colony, Matiyari, Lucknow, U.P.
 
 ---
 
 ## 🏆 Recognitions & Affiliations
 
-We are proudly recognized by:
+We are proudly recognized and affiliated with:
 
 - 🇮🇳 **Government of India**  
 - 🏅 **Ministry of Youth Affairs & Sports**  
@@ -121,7 +121,7 @@ We are proudly recognized by:
 - 🏢 **MSME Certified**  
 - ✅ **ISO 9001:2015 Certified**  
 - 🏫 **School Games Federation of India**  
-- 🏋️ **UP Olympic Association**  
+- 🏋️ **Uttar Pradesh Olympic Association**  
 - 🕉️ **UP Kalaripayattu Association**  
 - 🥋 **Taekwondo Federation**
 
@@ -129,7 +129,7 @@ We are proudly recognized by:
 
 ## 🌐 Designed & Maintained By
 
-This website is proudly designed and maintained by [**EllowDigitals**](https://www.ellowdigitals.me)
+Crafted with care by [**EllowDigitals**](https://www.ellowdigitals.me) – Empowering brands through innovation and design.
 
 ---
 

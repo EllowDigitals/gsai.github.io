@@ -29,7 +29,34 @@ document.addEventListener("DOMContentLoaded", () => {
         loadingIndicator.style.display = "none";
     }, 2000);
 
-    // === Utility: Wait for Google Translate ===
+    // === Google Translate Loader ===
+    const loadGoogleTranslateScript = (cbName = "googleTranslateElementInit") => {
+        return new Promise((resolve, reject) => {
+            if (window.google?.translate?.TranslateElement) return resolve();
+
+            const existing = document.querySelector(`script[src*="translate_a/element.js"]`);
+            if (existing) return resolve();
+
+            const script = document.createElement("script");
+            script.src = `https://translate.google.com/translate_a/element.js?cb=${cbName}`;
+            script.async = true;
+            script.onload = resolve;
+            script.onerror = () => reject(new Error("Failed to load Google Translate."));
+            document.head.appendChild(script);
+        });
+    };
+
+    // === Required Global Function ===
+    window.googleTranslateElementInit = () => {
+        new google.translate.TranslateElement({
+            pageLanguage: 'en',
+            autoDisplay: false,
+            includedLanguages: 'en,hi',
+            layout: google.translate.TranslateElement.InlineLayout.SIMPLE
+        }, 'google_translate_element');
+    };
+
+    // === Utility: Wait for Google Translate to render selector ===
     const waitForGoogleTranslate = (timeout = 20000) =>
         new Promise((resolve, reject) => {
             const start = Date.now();
@@ -103,6 +130,7 @@ document.addEventListener("DOMContentLoaded", () => {
         showLoading();
 
         try {
+            await loadGoogleTranslateScript();
             await applyTranslation(langCode);
             setTimeout(() => window.location.reload(), 500);
         } catch (err) {
@@ -112,19 +140,18 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     });
 
-    // === Apply Translation ===
     const applyTranslation = async (langCode) => {
         try {
             const select = await waitForGoogleTranslate();
             select.value = langCode;
             select.dispatchEvent(new Event("change"));
         } catch (err) {
-            console.warn("Google Translate element not found:", err);
-            return Promise.resolve(); // prevent app break
+            console.warn("Translate element not found:", err);
+            return Promise.resolve(); // prevent app crash
         }
     };
 
-    // === Language Detection ===
+    // === Language Detection & Initial Setup ===
     const detectAndApplyLanguage = async () => {
         let lang = localStorage.getItem("preferredLang") || "en";
 
@@ -152,10 +179,15 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
         if (lang !== "en") {
-            await applyTranslation(lang);
+            try {
+                await loadGoogleTranslateScript();
+                await applyTranslation(lang);
+            } catch (err) {
+                console.warn("Initial language translation failed:", err);
+            }
         }
     };
 
-    // === Init ===
+    // === Initialize Translation ===
     detectAndApplyLanguage();
 });
