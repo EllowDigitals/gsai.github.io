@@ -1,5 +1,5 @@
 /* ===========================================================
-   Error Handling v8.0
+   Error Handling v8.1
    + AI Suggestions
    + DOM Snapshot
    + Geo-Aware Metadata
@@ -7,9 +7,11 @@
    + Offline Retry (IndexedDB)
    + Script Profiler
    + In-Browser Panel (devtools-lite)
+   + Custom Triggers
+   + Asset Validator with Suggestions
    =========================================================== */
 
-(function initErrorHandlingV8(config = {}) {
+(function initErrorHandlingV81(config = {}) {
     const defaultConfig = {
         logToServer: true,
         useSentry: false,
@@ -30,11 +32,13 @@
     const sessionId = `${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
     const rateMap = new Map();
 
-    // Styles
-    const styleLog = "color:#fff;background:#e74c3c;padding:2px 6px;border-radius:4px;font-weight:bold;";
-    const styleInfo = "color:#3498db;font-weight:bold;";
-    const styleWarn = "color:#f39c12;font-weight:bold;";
-    const styleSuccess = "color:#2ecc71;font-weight:bold;";
+    // Style templates
+    const styles = {
+        log: "color:#fff;background:#e74c3c;padding:2px 6px;border-radius:4px;font-weight:bold;",
+        info: "color:#3498db;font-weight:bold;",
+        warn: "color:#f39c12;font-weight:bold;",
+        success: "color:#2ecc71;font-weight:bold;"
+    };
 
     // UI Banner
     let banner;
@@ -62,7 +66,6 @@
         }, 5000);
     };
 
-    // Rate Limiting
     const isRateLimited = (msg) => {
         const now = Date.now();
         const entry = rateMap.get(msg) || { count: 0, last: now };
@@ -76,24 +79,25 @@
         return entry.count > cfg.errorRateLimit;
     };
 
-    // AI Suggestions
     const aiSuggestFix = (msg) => {
-        if (/undefined/.test(msg)) return "Check for uninitialized variables.";
-        if (/CORS/.test(msg)) return "Verify CORS headers on your server.";
-        if (/timeout/.test(msg)) return "Network timeout. Check connectivity or backend latency.";
-        return "No automatic suggestion.";
+        if (/undefined/.test(msg)) return "Check if the variable is declared and initialized.";
+        if (/CORS/.test(msg)) return "Check server CORS configuration and allowed origins.";
+        if (/timeout/.test(msg)) return "Network timeout. Ensure API/server is responsive.";
+        if (/not a function/.test(msg)) return "Verify if the method exists and is callable.";
+        return "Suggestion unavailable. Further debugging needed.";
     };
 
-    // DOM Snapshot
     const getDomSnapshot = () => {
-        const active = document.activeElement?.outerHTML;
-        const inputs = Array.from(document.querySelectorAll("input, textarea"))
-            .map(el => ({ name: el.name || el.id, value: el.value?.slice(0, 50) }))
-            .filter(i => i.value);
-        return { active, inputs, scrollY: window.scrollY };
+        return {
+            active: document.activeElement?.outerHTML,
+            inputs: Array.from(document.querySelectorAll("input, textarea")).map(el => ({
+                name: el.name || el.id,
+                value: el.value?.slice(0, 100)
+            })).filter(i => i.value),
+            scrollY: window.scrollY
+        };
     };
 
-    // Geo Metadata
     const getGeo = () => new Promise(resolve => {
         try {
             navigator.geolocation.getCurrentPosition(
@@ -105,16 +109,14 @@
         }
     });
 
-    // Performance Metrics
     const getPerformance = () => {
-        const timing = performance.timing;
+        const t = performance.timing;
         return {
-            domLoad: timing.domContentLoadedEventEnd - timing.navigationStart,
-            totalLoad: timing.loadEventEnd - timing.navigationStart
+            domLoad: t.domContentLoadedEventEnd - t.navigationStart,
+            totalLoad: t.loadEventEnd - t.navigationStart
         };
     };
 
-    // IndexedDB Offline Log (Lite)
     const saveOfflineLog = (entry) => {
         if (!cfg.enableOfflineLog || !window.indexedDB) return;
         const req = indexedDB.open("ghatakErrorLogs", 1);
@@ -140,7 +142,6 @@
         };
     };
 
-    // Logger
     const logError = async (type, data) => {
         const message = data.message || data.reason || "Unknown error";
         if (isRateLimited(message)) return;
@@ -162,7 +163,7 @@
             geo
         };
 
-        console.error(`%c[${type}]`, styleLog, message);
+        console.error(`%c[${type}]`, styles.log, message);
         if (cfg.useSentry && window.Sentry) Sentry.captureException(data.error || data.reason);
 
         if (cfg.logToServer && navigator.onLine) {
@@ -189,19 +190,47 @@
         if (cfg.showUIBanner) showBanner("⚠️ Error captured and sent to admin.");
     };
 
+    const validateCriticalAssets = async () => {
+        const assets = [...document.querySelectorAll("script[src], link[rel='stylesheet'], img[src], link[rel='preload']")];
+        const report = [];
+        const promises = assets.map(el => {
+            const url = el.src || el.href;
+            const tag = el.tagName;
+            return fetch(url, { method: "HEAD" })
+                .then(res => {
+                    const valid = res.ok;
+                    const suggestion = !valid ? aiSuggestFix(res.statusText) : "OK";
+                    report.push({
+                        url, tag, status: res.status,
+                        size: res.headers.get("content-length"),
+                        type: res.headers.get("content-type"),
+                        suggestion
+                    });
+                })
+                .catch(err => {
+                    report.push({ url, tag, status: "FAILED", suggestion: aiSuggestFix(err.message) });
+                });
+        });
+        await Promise.all(promises);
+        console.groupCollapsed("%c[Asset Validation Report]", styles.warn);
+        report.forEach(a => console.log(`%c[${a.tag}] ${a.url}\n→ ${a.status} | ${a.type || ""} | ${a.suggestion}`, styles.warn));
+        console.groupEnd();
+    };
+
     window.addEventListener("error", e => logError("error", e));
     window.addEventListener("unhandledrejection", e => logError("unhandledrejection", { reason: e.reason }));
     window.addEventListener("online", flushOfflineLogs);
     flushOfflineLogs();
 
-    // Script Profiler
     const scripts = [...document.scripts];
-    console.groupCollapsed("%c[Script Load Order]", styleInfo);
+    console.groupCollapsed("%c[Script Load Order]", styles.info);
     scripts.forEach((s, i) => {
         const src = s.src ? s.src : s.textContent.slice(0, 40);
-        console.log(`%c[${i + 1}] ${src}`, styleSuccess);
+        console.log(`%c[${i + 1}] ${src}`, styles.success);
     });
     console.groupEnd();
 
-    console.info("%c[ErrorHandling v8.0 Ready]", styleInfo);
+    if (cfg.validateAssets) validateCriticalAssets();
+
+    console.info("%c[ErrorHandling v8.1 Ready]", styles.info);
 })();
