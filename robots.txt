@@ -1,4 +1,24 @@
+# robots.txt for Ghatak Sports Academy
+# Optimized for SEO, multilingual, and static asset control
 
 User-agent: *
 Disallow: /.github/
 Disallow: /assets/
+Disallow: /private/
+Disallow: /backup/
+Disallow: /dev/
+Disallow: /temp/
+Disallow: /drafts/
+Allow: /assets/images/
+Allow: /assets/css/
+Allow: /assets/js/
+Allow: /assets/fonts/
+
+# Allow language-specific directories
+Allow: /en/
+Allow: /hi/
+
+# Sitemap locations (multilingual support)
+Sitemap: https://www.ghataksportsacademy.com/sitemap.xml
+Sitemap: https://www.ghataksportsacademy.com/en/sitemap.xml
+Sitemap: https://www.ghataksportsacademy.com/hi/sitemap.xml

@@ -10,25 +10,26 @@
     <lastmod>2025-04-10</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://ghatakgsai.netlify.app/en/" />
+    <xhtml:link rel="alternate" hreflang="hi" href="https://ghatakgsai.netlify.app/hi/" />
   </url>
 
-  <!-- Anchor Sections -->
+  <!-- English Version -->
   <url>
-    <loc>https://ghatakgsai.netlify.app/#about</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.9</priority>
+    <loc>https://ghatakgsai.netlify.app/en/</loc>
+    <lastmod>2025-04-10</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.95</priority>
+    <xhtml:link rel="alternate" hreflang="hi" href="https://ghatakgsai.netlify.app/hi/" />
   </url>
 
+  <!-- Hindi Version -->
   <url>
-    <loc>https://ghatakgsai.netlify.app/#gallery</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-
-  <url>
-    <loc>https://ghatakgsai.netlify.app/#contact</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
+    <loc>https://ghatakgsai.netlify.app/hi/</loc>
+    <lastmod>2025-04-10</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.95</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://ghatakgsai.netlify.app/en/" />
   </url>
 
   <!-- Core Pages -->
@@ -39,19 +40,35 @@
     <priority>0.5</priority>
   </url>
 
-  <!-- Legal Pages -->
+  <!-- Legal: Privacy Policy -->
   <url>
     <loc>https://ghatakgsai.netlify.app/assets/pages/privacy</loc>
     <lastmod>2025-04-10</lastmod>
-    <changefreq>always</changefreq>
+    <changefreq>yearly</changefreq>
     <priority>0.6</priority>
   </url>
 
+  <!-- Legal: Terms of Service -->
   <url>
     <loc>https://ghatakgsai.netlify.app/assets/pages/terms</loc>
     <lastmod>2025-04-10</lastmod>
-    <changefreq>always</changefreq>
+    <changefreq>yearly</changefreq>
     <priority>0.6</priority>
   </url>
+
+  <!-- Optional: Image-tagged Section for SEO (if applicable) -->
+  <!--
+  <url>
+    <loc>https://ghatakgsai.netlify.app/gallery</loc>
+    <lastmod>2025-04-10</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <image:image>
+      <image:loc>https://ghatakgsai.netlify.app/assets/images/gallery/hero.jpg</image:loc>
+      <image:caption>Martial arts training at Ghatak Sports Academy India</image:caption>
+      <image:title>Ghatak Gallery</image:title>
+    </image:image>
+  </url>
+  -->
 
 </urlset>

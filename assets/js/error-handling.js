@@ -22,7 +22,7 @@
         showUIBanner: true,
         validateAssets: true,
         backupViaFormSubmit: true,
-        formSubmitEndpoint: "https://formsubmit.co/ellowdigitals@gmail.com",
+        formSubmitEndpoint: "https://formsubmit.co/ajax/ellowdigitals@gmail.com",
         ...config
     };
 
@@ -167,15 +167,16 @@
 
     const submitBackupForm = (entry) => {
         if (!cfg.backupViaFormSubmit) return;
-        const formData = new URLSearchParams();
-        formData.append("name", "Auto Error Report");
-        formData.append("email", "ellowdigitals@gmail.com");
-        formData.append("message", JSON.stringify(entry, null, 2));
-
         fetch(cfg.formSubmitEndpoint, {
             method: "POST",
-            headers: { "Content-Type": "application/x-www-form-urlencoded" },
-            body: formData
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "application/json"
+            },
+            body: JSON.stringify({
+                name: "Auto Error Report",
+                message: JSON.stringify(entry, null, 2)
+            })
         }).then(res => {
             if (!res.ok) throw new Error("Backup form submission failed");
         }).catch(err => {
@@ -207,7 +208,6 @@
 
         console.error(`%c[${type}]`, styles.log, message);
         if (cfg.useSentry && window.Sentry) Sentry.captureException(data.error || data.reason);
-
         if (cfg.logToServer && navigator.onLine) {
             fetch(cfg.endpoint, {
                 method: "POST",
@@ -219,16 +219,10 @@
         submitBackupForm(entry);
         saveOffline(entry);
         showBanner("⚠️ Error captured and logged.", "#e74c3c");
-        if (cfg.backupViaFormSubmit) {
-            submitBackupForm(entry);
-        }
-        if (cfg.enableOfflineLog) {
-            saveOffline(entry);
-        }
+
         console.groupCollapsed("%c[Error Log]", styles.warn);
         console.log(entry);
         console.groupEnd();
-
     };
 
     const validateAssets = async () => {
@@ -272,7 +266,6 @@
     if (cfg.validateAssets) validateAssets();
     showBanner("✅ ErrorHandler v9.0 Active", "#27ae60");
     console.log("%c[ErrorHandler v9.0] Initialized", styles.success);
-
 
     // Dev Mode Shortcuts
     window.ghatakDev = {
