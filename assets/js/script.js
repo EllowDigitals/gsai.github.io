@@ -521,11 +521,14 @@ function monitorConnectionStatus({
     debouncedUpdate();
 }
 
-// Utility: Simple debounce
-function debounce(func, wait) {
-    let timeout;
-    return (...args) => {
-        clearTimeout(timeout);
-        timeout = setTimeout(() => func.apply(this, args), wait);
-    };
-}
+(function(global) {
+    if (!global.debounce) {
+        global.debounce = (fn, delay = 300) => {
+            let t;
+            return (...a) => {
+                clearTimeout(t);
+                t = setTimeout(() => fn.apply(this, a), delay);
+            };
+        };
+    }
+})(window);

@@ -2366,6 +2366,17 @@ address {
     }
 }
 
+/* .connection-status-banner {
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+}
+
+@media (prefers-color-scheme: dark) {
+    .error-ui-banner {
+        background-color: #ff5722 !important;
+        color: #fff !important;
+    }
+} */
 
 .ghatak-connection-banner {
     position: fixed;
@@ -2382,32 +2393,27 @@ address {
     font-size: 15px;
     transition: all var(--transition-speed) ease;
     background: var(--card-bg);
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 4px 16px rgba(0,0,0,0.3);
 }
-
 .ghatak-connection-banner.conn-online,
 .ghatak-connection-banner.conn-offline,
 .ghatak-connection-banner.conn-low-battery {
     display: block;
     opacity: 1;
 }
-
 .ghatak-connection-banner.conn-hide {
     opacity: 0;
     transform: translateY(20px);
     transition: all 0.4s ease;
 }
-
 .ghatak-connection-banner.conn-online {
     background: var(--primary-color);
     color: #fff;
 }
-
 .ghatak-connection-banner.conn-offline {
     background: #e74c3c;
     color: #fff;
 }
-
 .ghatak-connection-banner.conn-low-battery {
     background: #f39c12;
     color: #fff;
@@ -2423,22 +2429,19 @@ address {
     z-index: 9999;
     background: var(--primary-color);
     transition: all 0.3s ease;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 0 10px rgba(0,0,0,0.3);
 }
-
 .ghatak-connection-dot.conn-online {
     background: #27ae60;
-    box-shadow: 0 0 10px rgba(39, 174, 96, 0.5);
+    box-shadow: 0 0 10px rgba(39,174,96,0.5);
 }
-
 .ghatak-connection-dot.conn-offline {
     background: #e74c3c;
-    box-shadow: 0 0 10px rgba(231, 76, 60, 0.5);
+    box-shadow: 0 0 10px rgba(231,76,60,0.5);
 }
-
 .ghatak-connection-dot.conn-low-battery {
     background: #f39c12;
-    box-shadow: 0 0 10px rgba(243, 156, 18, 0.5);
+    box-shadow: 0 0 10px rgba(243,156,18,0.5);
 }
 
 

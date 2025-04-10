@@ -925,39 +925,6 @@
         });
     </script>
 
-    <!-- ✅ Google Translate Inject Target
-    <div id="google_translate_element" style="display: none;"></div>
-
-    ✅ Google Translate Script Loader (Single Instance)
-    <script>
-        function loadGoogleTranslateScript(cbName = "googleTranslateElementInit") {
-            return new Promise((resolve, reject) => {
-                // Already loaded
-                if (window.google?.translate?.TranslateElement) return resolve();
-
-                // Check for existing script
-                const existingScript = document.querySelector('script[src*="translate_a/element.js"]');
-                if (existingScript) {
-                    existingScript.addEventListener("load", resolve);
-                    existingScript.addEventListener("error", () =>
-                        reject(new Error("Google Translate script failed to load."))
-                    );
-                    return;
-                }
-
-                // Inject script
-                const script = document.createElement("script");
-                script.src = `https://translate.google.com/translate_a/element.js?cb=${cbName}`;
-                script.async = true;
-                script.defer = true;
-                script.onload = resolve;
-                script.onerror = () => reject(new Error("Failed to load Google Translate."));
-                document.head.appendChild(script);
-            });
-        }
-    </script> -->
-
-
     <!-- ✅ Core Logic Scripts -->
     <script src="/assets/js/script.js" defer></script>
     <!-- <script src="/assets/js/autotranslate.js" defer></script> -->
