@@ -57,10 +57,17 @@
     const showPopup = (message, color = "#e74c3c") => {
         const popup = document.createElement("div");
         Object.assign(popup.style, {
-            position: "fixed", bottom: "20px", right: "20px",
-            background: color, color: "#fff", padding: "10px 14px",
-            borderRadius: "8px", fontSize: "14px", fontWeight: "bold",
-            zIndex: "9999", boxShadow: "0 2px 8px rgba(0,0,0,0.2)",
+            position: "fixed",
+            bottom: "20px",
+            right: "20px",
+            background: color,
+            color: "#fff",
+            padding: "10px 14px",
+            borderRadius: "8px",
+            fontSize: "14px",
+            fontWeight: "bold",
+            zIndex: "9999",
+            boxShadow: "0 2px 8px rgba(0,0,0,0.2)",
             fontFamily: "sans-serif"
         });
         popup.textContent = message;
@@ -70,8 +77,7 @@
 
     const captureDomSnapshot = (el) => {
         const wrapper = document.createElement("div");
-        const clone = el.cloneNode(true);
-        wrapper.appendChild(clone);
+        wrapper.appendChild(el.cloneNode(true));
         return wrapper.innerHTML;
     };
 
@@ -116,7 +122,7 @@
             const result = await fetchHead(url);
             if (result.status === "ok" || result.status === "skipped") return result;
         }
-        return await fetchHead(url);
+        return await fetchHead(url); // final attempt
     };
 
     const throttle = (tasks, limit) => {
@@ -126,7 +132,8 @@
         return new Promise((resolve) => {
             const next = () => {
                 if (i >= tasks.length) return resolve(results);
-                tasks[i++]().then(res => {
+                const task = tasks[i++];
+                task().then((res) => {
                     results.push(res);
                     next();
                 });
@@ -138,9 +145,13 @@
     const groupByDomain = (errors) => {
         const grouped = {};
         errors.forEach(({ url, status, details }) => {
-            const domain = new URL(url).hostname;
-            if (!grouped[domain]) grouped[domain] = [];
-            grouped[domain].push({ url, status, details });
+            try {
+                const domain = new URL(url).hostname;
+                if (!grouped[domain]) grouped[domain] = [];
+                grouped[domain].push({ url, status, details });
+            } catch {
+                // Ignore invalid URLs
+            }
         });
         return grouped;
     };
@@ -188,10 +199,10 @@
         console.log("%c[✓ All assets validated successfully]", styles.success);
     } else {
         // showPopup("⚠️ Asset validation failed – check console for details.");
-        console.error("%c[⚠️ Asset validation failed", styles.error);
-        
+        console.error("%c⚠️ Asset validation failed", styles.error);
     }
 
+    // Log script load order
     const scripts = Array.from(document.scripts);
     console.groupCollapsed("%c[Script Load Order]", styles.info);
     scripts.forEach((s, i) => {

@@ -1,4 +1,4 @@
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded", async () => {
     // === Elements ===
     const desktopLangBtn = document.getElementById("language-switcher");
     const mobileLangBtn = document.getElementById("language-switcher-mobile");
@@ -13,40 +13,43 @@ document.addEventListener("DOMContentLoaded", () => {
         position: "fixed",
         top: "1rem",
         right: "1rem",
-        background: "#333",
+        backgroundColor: "#333",
         color: "#fff",
         padding: "0.5rem 1rem",
         borderRadius: "6px",
         fontSize: "0.95rem",
         boxShadow: "0 4px 10px rgba(0,0,0,0.3)",
         zIndex: "2000",
-        display: "none",
+        display: "none"
     });
     document.body.appendChild(loadingIndicator);
 
     const showLoading = () => loadingIndicator.style.display = "block";
-    const hideLoading = () => setTimeout(() => {
-        loadingIndicator.style.display = "none";
-    }, 2000);
+    const hideLoading = () => setTimeout(() => loadingIndicator.style.display = "none", 2000);
 
-    // === Load Google Translate Script ===
-    const loadGoogleTranslateScript = (cbName = "googleTranslateElementInit") => {
+    // === Google Translate Script Loader ===
+    const loadGoogleTranslateScript = (callbackName = "googleTranslateElementInit") => {
         return new Promise((resolve, reject) => {
             if (window.google?.translate?.TranslateElement) return resolve();
 
-            const existing = document.querySelector('script[src*="translate_a/element.js"]');
-            if (existing) return resolve();
+            const existing = document.querySelector(`script[src*="translate_a/element.js"]`);
+            if (existing) {
+                existing.addEventListener("load", resolve);
+                existing.addEventListener("error", () => reject("Google Translate script failed."));
+                return;
+            }
 
             const script = document.createElement("script");
-            script.src = `https://translate.google.com/translate_a/element.js?cb=${cbName}`;
+            script.src = `https://translate.google.com/translate_a/element.js?cb=${callbackName}`;
             script.async = true;
+            script.defer = true;
             script.onload = resolve;
-            script.onerror = () => reject(new Error("Failed to load Google Translate."));
+            script.onerror = () => reject("Could not load Google Translate.");
             document.head.appendChild(script);
         });
     };
 
-    // === Google Translate Callback ===
+    // === Global Callback (Required by Google) ===
     window.googleTranslateElementInit = () => {
         new google.translate.TranslateElement({
             pageLanguage: 'en',
@@ -56,55 +59,55 @@ document.addEventListener("DOMContentLoaded", () => {
         }, 'google_translate_element');
     };
 
-    // === Wait for the Google Translate dropdown to render
-    const waitForGoogleTranslate = (timeout = 20000) =>
-        new Promise((resolve, reject) => {
+    // === Wait for Google Translate Dropdown ===
+    const waitForTranslateDropdown = (timeout = 15000) => {
+        return new Promise((resolve, reject) => {
             const start = Date.now();
             const interval = setInterval(() => {
-                const select = document.querySelector("select.goog-te-combo");
-                if (select) {
+                const dropdown = document.querySelector("select.goog-te-combo");
+                if (dropdown) {
                     clearInterval(interval);
-                    resolve(select);
+                    resolve(dropdown);
                 } else if (Date.now() - start > timeout) {
                     clearInterval(interval);
-                    reject(new Error("Timeout waiting for Google Translate dropdown."));
+                    reject("Google Translate dropdown timeout.");
                 }
             }, 100);
         });
+    };
 
-    // === Apply Translation Logic ===
+    // === Apply Translation ===
     const applyTranslation = async (langCode) => {
         try {
             await loadGoogleTranslateScript();
-            const select = await waitForGoogleTranslate();
+            const dropdown = await waitForTranslateDropdown();
+            const found = [...dropdown.options].some(opt => opt.value === langCode);
 
-            if (select && [...select.options].some(opt => opt.value === langCode)) {
-                select.value = langCode;
-                // Slight delay for change event
-                setTimeout(() => {
-                    select.dispatchEvent(new Event("change"));
-                }, 100);
+            if (found) {
+                dropdown.value = langCode;
+                dropdown.dispatchEvent(new Event("change"));
             } else {
-                console.warn("Language not found in options:", langCode);
+                console.warn("Unsupported language:", langCode);
             }
         } catch (err) {
-            console.error("Error applying translation:", err);
+            console.error("Translation error:", err);
         }
     };
 
-    // === Dropdown Toggle Logic ===
+    // === Dropdown Positioning ===
     const showDropdown = (btn) => {
         langDropdown.classList.remove("hidden");
         langDropdown.classList.add("show");
 
-        if (window.innerWidth > 768) {
-            const { bottom, left } = btn.getBoundingClientRect();
-            Object.assign(langDropdown.style, {
-                top: `${bottom + window.scrollY + 8}px`,
-                left: `${left}px`,
-                transform: "none"
-            });
-        } else {
+        const { bottom, left } = btn.getBoundingClientRect();
+        Object.assign(langDropdown.style, {
+            position: "absolute",
+            top: `${bottom + window.scrollY + 8}px`,
+            left: `${left}px`,
+            transform: "none"
+        });
+
+        if (window.innerWidth <= 768) {
             Object.assign(langDropdown.style, {
                 position: "fixed",
                 top: "auto",
@@ -124,7 +127,7 @@ document.addEventListener("DOMContentLoaded", () => {
         langDropdown.classList.contains("show") ? hideDropdown() : showDropdown(btn);
     };
 
-    // === Event Listeners ===
+    // === Button Event Listeners ===
     langButtons.forEach(btn => {
         btn.addEventListener("click", (e) => {
             e.preventDefault();
@@ -133,35 +136,35 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     document.addEventListener("click", (e) => {
-        const isInside = langDropdown.contains(e.target) || langButtons.some(btn => btn.contains(e.target));
-        if (!isInside) hideDropdown();
+        const clickedInside = langDropdown.contains(e.target) || langButtons.some(btn => btn.contains(e.target));
+        if (!clickedInside) hideDropdown();
     });
 
     document.addEventListener("keydown", (e) => {
         if (e.key === "Escape") hideDropdown();
     });
 
-    // === Manual Language Switch ===
+    // === Handle Manual Language Selection ===
     langDropdown.addEventListener("click", async (e) => {
-        const langItem = e.target.closest("[data-lang]");
-        if (!langItem) return;
+        const item = e.target.closest("[data-lang]");
+        if (!item) return;
 
-        const langCode = langItem.dataset.lang;
-        localStorage.setItem("preferredLang", langCode);
+        const lang = item.dataset.lang;
+        localStorage.setItem("preferredLang", lang);
         hideDropdown();
         showLoading();
 
         try {
-            await applyTranslation(langCode);
+            await applyTranslation(lang);
         } catch (err) {
             console.error("Manual translation failed:", err);
-            alert("Could not switch language. Please try again.");
+            alert("Could not change language. Please try again.");
         } finally {
             hideLoading();
         }
     });
 
-    // === Initial Detection & Apply ===
+    // === Geo-detect Language or Load Saved Language ===
     const detectAndApplyLanguage = async () => {
         let lang = localStorage.getItem("preferredLang") || "en";
 
@@ -169,29 +172,34 @@ document.addEventListener("DOMContentLoaded", () => {
             try {
                 const res = await fetch("https://ipapi.co/json/");
                 const data = await res.json();
-                const code = data.country_code || "IN";
                 const map = {
                     IN: "hi", FR: "fr", DE: "de", ES: "es",
                     IT: "it", CN: "zh-CN", JP: "ja", RU: "ru", BR: "pt"
                 };
-                lang = map[code] || "en";
+                lang = map[data.country_code] || "en";
                 localStorage.setItem("preferredLang", lang);
-            } catch (err) {
-                console.warn("Geo-detection failed, using English.");
+            } catch {
+                console.warn("Geo-detection failed. Defaulting to English.");
             }
         }
 
         if (lang !== "en") {
+            showLoading();
             try {
-                showLoading();
                 await applyTranslation(lang);
             } catch (err) {
-                console.warn("Initial language translation failed:", err);
+                console.warn("Auto language translation failed:", err);
             } finally {
                 hideLoading();
             }
         }
     };
 
-    detectAndApplyLanguage();
+    // === Initialize Google Translate + Language Setup ===
+    try {
+        await loadGoogleTranslateScript();
+        detectAndApplyLanguage();
+    } catch (err) {
+        console.error("Failed to initialize Google Translate:", err);
+    }
 });

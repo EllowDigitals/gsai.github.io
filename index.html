@@ -170,8 +170,8 @@
             <div class="loading-text">Loading...</div>
         </div>
     </div>
-
-    <!-- Hidden Google Translate Element -->
+    <div id="language-dropdown"></div>
+    <!-- Google Translate will inject the dropdown here -->
     <div id="google_translate_element" style="display: none;"></div>
 
     <!-- Main Content Wrapper -->
@@ -954,7 +954,10 @@
         });
     </script>
 
-    <!-- ✅ Google Translate Script Loader (single instance, dynamic loading) -->
+    <!-- ✅ Google Translate Inject Target -->
+    <div id="google_translate_element" style="display: none;"></div>
+
+    <!-- ✅ Google Translate Script Loader (Single Instance) -->
     <script>
         function loadGoogleTranslateScript(cbName = "googleTranslateElementInit") {
             return new Promise((resolve, reject) => {
@@ -978,29 +981,13 @@
         }
     </script>
 
-    <!-- ✅ Google Translate Init (defer only, no duplicates) -->
-    <script defer src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
-
     <!-- ✅ Core Logic Scripts -->
     <script src="/assets/js/script.js" defer></script>
-    <script src="/assets/js/language-autotranslate.js" defer></script>
+    <script src="/assets/js/autotranslate.js" defer></script>
 
     <!-- ✅ Footer Scripts (Async-safe tools) -->
     <script src="/assets/js/error-handling.js" defer></script>
     <script src="/assets/js/asset-validator.js" defer></script>
-
-    <!-- ✅ Error Handling Init (version-aware) -->
-    <script>
-        window.addEventListener("DOMContentLoaded", () => {
-            if (typeof GhatakErrorShield === "function") {
-                GhatakErrorShield({
-                    validateAssets: true
-                });
-            } else {
-                console.warn("Error handling v10 not available.");
-            }
-        });
-    </script>
 
 
 </body>
