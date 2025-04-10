@@ -41,8 +41,8 @@ body {
 }
 
 /* ==========================================================================
-         THEME VARIABLES
-         ========================================================================== */
+   THEME VARIABLES
+   ========================================================================== */
 :root {
     --primary-color: #ff4500;
     --primary-color-hover: #e03e00;
@@ -65,6 +65,15 @@ body {
 
     --transition-speed: 0.3s;
     --radius: 1rem;
+
+    /* Connection Monitor specific */
+    --online-color: #27ae60;
+    --offline-color: #e74c3c;
+    --battery-color: #f39c12;
+
+    /* Dark mode support fallback */
+    --dark-bg: #222222;
+    --dark-text: #f1f1f1;
 }
 
 /* Dark Mode */
@@ -72,7 +81,6 @@ body {
     :root {
         --primary-color: #ff4500;
         --primary-color-hover: #ff5722;
-        /* slightly brighter for contrast if needed */
 
         --bg-primary: #121212;
         --bg-secondary: #181818;
@@ -89,6 +97,14 @@ body {
         --footer-text: #ffffff;
 
         --nav-hover: var(--primary-color);
+
+        /* Dark theme for connection monitor */
+        --online-color: #2ecc71;
+        --offline-color: #e74c3c;
+        --battery-color: #f39c12;
+
+        --dark-bg: #121212;
+        --dark-text: #f1f1f1;
     }
 }
 
@@ -410,43 +426,64 @@ h2.section-title {
 
 
 /* ==========================================================================
-         BUTTONS
-         ========================================================================== */
+   BUTTONS - Enhanced Styling
+   ========================================================================== */
 .btn {
     display: inline-block;
-    padding: 0.75rem 1.5rem;
+    padding: 0.8rem 1.75rem;
     background: var(--primary-color);
     color: #fff;
     border: none;
     border-radius: 999px;
     font-weight: 600;
     font-size: 1rem;
+    letter-spacing: 0.5px;
     position: relative;
     overflow: hidden;
-    transition: background var(--transition-speed) ease;
+    transition:
+        background var(--transition-speed) ease,
+        transform 0.2s ease,
+        box-shadow 0.3s ease;
     cursor: pointer;
+    text-align: center;
+    white-space: nowrap;
+    text-decoration: none;
 }
 
 .btn:hover {
     background: var(--primary-color-hover);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
 }
 
-.btn::after {
+.btn:focus-visible {
+    outline: 3px solid var(--primary-color-hover);
+    outline-offset: 2px;
+}
+
+.btn::before {
     content: "";
     position: absolute;
     top: 50%;
     left: 50%;
-    width: 200%;
-    height: 200%;
+    width: 150%;
+    height: 150%;
     background: rgba(255, 255, 255, 0.2);
-    transform: translate(-50%, -50%) scale(0);
     border-radius: 50%;
-    transition: transform 0.4s ease, opacity 0.4s ease;
+    transform: translate(-50%, -50%) scale(0);
+    transition: transform 0.5s ease, opacity 0.5s ease;
+    pointer-events: none;
+    z-index: 0;
 }
 
-.btn:hover::after {
+.btn:hover::before {
     transform: translate(-50%, -50%) scale(1);
     opacity: 0;
+}
+
+.btn span {
+    position: relative;
+    z-index: 1;
 }
 
 /* ==========================================================================
@@ -2366,84 +2403,96 @@ address {
     }
 }
 
-/* .connection-status-banner {
-    opacity: 0;
-    transition: opacity 0.3s ease-in-out;
-}
-
-@media (prefers-color-scheme: dark) {
-    .error-ui-banner {
-        background-color: #ff5722 !important;
-        color: #fff !important;
-    }
-} */
+/* Ghatak Connection Monitor Styles (v3.8+) */
 
 .ghatak-connection-banner {
     position: fixed;
-    bottom: 16px;
+    bottom: 1rem;
     left: 50%;
     transform: translateX(-50%);
-    padding: 10px 20px;
-    border-radius: var(--radius);
-    color: var(--text-color);
+    padding: 0.75rem 1.25rem;
+    border-radius: var(--radius, 8px);
+    font-size: 0.95rem;
     font-weight: 600;
+    color: var(--text-color, #fff);
+    background: var(--card-bg, #333);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
     z-index: 9999;
     display: none;
     opacity: 0;
-    font-size: 15px;
-    transition: all var(--transition-speed) ease;
-    background: var(--card-bg);
-    box-shadow: 0 4px 16px rgba(0,0,0,0.3);
+    transition: all var(--transition-speed, 0.3s) ease;
 }
+
 .ghatak-connection-banner.conn-online,
 .ghatak-connection-banner.conn-offline,
 .ghatak-connection-banner.conn-low-battery {
     display: block;
     opacity: 1;
+    transform: translateX(-50%) translateY(0);
 }
+
 .ghatak-connection-banner.conn-hide {
     opacity: 0;
-    transform: translateY(20px);
+    transform: translateX(-50%) translateY(20px);
     transition: all 0.4s ease;
 }
+
+/* State-specific themes */
 .ghatak-connection-banner.conn-online {
-    background: var(--primary-color);
-    color: #fff;
-}
-.ghatak-connection-banner.conn-offline {
-    background: #e74c3c;
-    color: #fff;
-}
-.ghatak-connection-banner.conn-low-battery {
-    background: #f39c12;
+    background: var(--online-color, #27ae60);
     color: #fff;
 }
 
+.ghatak-connection-banner.conn-offline {
+    background: var(--offline-color, #e74c3c);
+    color: #fff;
+}
+
+.ghatak-connection-banner.conn-low-battery {
+    background: var(--battery-color, #f39c12);
+    color: #fff;
+}
+
+/* Status Dot */
 .ghatak-connection-dot {
     position: fixed;
-    bottom: 16px;
-    right: 16px;
+    bottom: 1rem;
+    right: 1rem;
     width: 14px;
     height: 14px;
     border-radius: 50%;
-    z-index: 9999;
-    background: var(--primary-color);
+    background: var(--primary-color, #3498db);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
     transition: all 0.3s ease;
-    box-shadow: 0 0 10px rgba(0,0,0,0.3);
-}
-.ghatak-connection-dot.conn-online {
-    background: #27ae60;
-    box-shadow: 0 0 10px rgba(39,174,96,0.5);
-}
-.ghatak-connection-dot.conn-offline {
-    background: #e74c3c;
-    box-shadow: 0 0 10px rgba(231,76,60,0.5);
-}
-.ghatak-connection-dot.conn-low-battery {
-    background: #f39c12;
-    box-shadow: 0 0 10px rgba(243,156,18,0.5);
+    z-index: 9999;
 }
 
+.ghatak-connection-dot.conn-online {
+    background: var(--online-color, #27ae60);
+    box-shadow: 0 0 10px rgba(39, 174, 96, 0.5);
+}
+
+.ghatak-connection-dot.conn-offline {
+    background: var(--offline-color, #e74c3c);
+    box-shadow: 0 0 10px rgba(231, 76, 60, 0.5);
+}
+
+.ghatak-connection-dot.conn-low-battery {
+    background: var(--battery-color, #f39c12);
+    box-shadow: 0 0 10px rgba(243, 156, 18, 0.5);
+}
+
+/* Optional: Dark mode adjustments */
+@media (prefers-color-scheme: dark) {
+    .ghatak-connection-banner {
+        background: var(--dark-bg, #222);
+        color: var(--dark-text, #f1f1f1);
+    }
+
+    .ghatak-connection-dot {
+        box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
+    }
+}
 
 [data-slider] [data-slide] {
     transition: opacity 0.6s ease, visibility 0.6s ease;

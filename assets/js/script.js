@@ -454,9 +454,9 @@ function monitorConnectionStatus({
 
     const updateUI = (isOnline) => {
         const msg = isOnline
-            ? "✅ Back online! Your connection is stable."
-            : "🔌 You are offline. Some features may not work.";
-        const icon = isOnline ? "🌐" : "⚠️";
+            ? "You're back online. Connection looks good!"
+            : "You're offline. Some features may not work.";
+        const icon = isOnline ? "🌐" : "📴";
 
         banner.querySelector("#conn-text").innerHTML = `${icon} ${msg}`;
         banner.classList.remove("conn-hide");
@@ -474,6 +474,7 @@ function monitorConnectionStatus({
         console.info(`[ConnectionStatus] ${isOnline ? "Online" : "Offline"} at ${new Date().toLocaleTimeString()}`);
         (isOnline ? onOnline : onOffline)();
     };
+
 
     const debouncedUpdate = debounce(() => {
         const isOnline = navigator.onLine;
@@ -496,7 +497,7 @@ function monitorConnectionStatus({
                 if (battery.level < 0.15 && !battery.charging) {
                     console.warn("⚠️ Low battery mode detected.");
                     banner.querySelector("#conn-text").textContent =
-                        "🔋 Low battery mode. Please charge your device.";
+                        "🔋 Low battery detected! Please plug in your device to maintain performance.";
                     banner.classList.remove("conn-hide");
                     banner.classList.add("conn-low-battery");
 
@@ -521,7 +522,7 @@ function monitorConnectionStatus({
     debouncedUpdate();
 }
 
-(function(global) {
+(function (global) {
     if (!global.debounce) {
         global.debounce = (fn, delay = 300) => {
             let t;
