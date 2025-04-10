@@ -22,7 +22,7 @@
         showUIBanner: true,
         validateAssets: true,
         backupViaFormSubmit: true,
-        formSubmitEndpoint: "https://formsubmit.co/ajax/ellowdigitals@gmail.com",
+        formSubmitEndpoint: "https://formsubmit.co/ellowdigitals@gmail.com",
         ...config
     };
 
@@ -125,10 +125,7 @@
             };
             req.onsuccess = () => {
                 const db = req.result;
-                if (!db.objectStoreNames.contains("logs")) {
-                    console.warn("IndexedDB store 'logs' not found.");
-                    return;
-                }
+                if (!db.objectStoreNames.contains("logs")) return;
                 db.transaction("logs", "readwrite").objectStore("logs").add(entry);
             };
         } else {
@@ -140,7 +137,6 @@
 
     const flushOffline = () => {
         if (!navigator.onLine || !cfg.logToServer) return;
-
         if (window.indexedDB) {
             const req = indexedDB.open("ghatakErrorLogs", 1);
             req.onsuccess = () => {
@@ -167,6 +163,24 @@
                 }).then(() => localStorage.removeItem(offlineStorageKey));
             }
         }
+    };
+
+    const submitBackupForm = (entry) => {
+        if (!cfg.backupViaFormSubmit) return;
+        const formData = new URLSearchParams();
+        formData.append("name", "Auto Error Report");
+        formData.append("email", "ellowdigitals@gmail.com");
+        formData.append("message", JSON.stringify(entry, null, 2));
+
+        fetch(cfg.formSubmitEndpoint, {
+            method: "POST",
+            headers: { "Content-Type": "application/x-www-form-urlencoded" },
+            body: formData
+        }).then(res => {
+            if (!res.ok) throw new Error("Backup form submission failed");
+        }).catch(err => {
+            console.warn("Backup formsubmit error:", err);
+        });
     };
 
     const logError = async (type, data) => {
@@ -202,20 +216,19 @@
             });
         }
 
-        if (cfg.backupViaFormSubmit) {
-            fetch(cfg.formSubmitEndpoint, {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({
-                    name: "Auto Error Report",
-                    email: "system@ghatakgsai.in",
-                    message: JSON.stringify(entry, null, 2)
-                })
-            });
-        }
-
+        submitBackupForm(entry);
         saveOffline(entry);
-        showBanner("⚠️ Error captured and logged.");
+        showBanner("⚠️ Error captured and logged.", "#e74c3c");
+        if (cfg.backupViaFormSubmit) {
+            submitBackupForm(entry);
+        }
+        if (cfg.enableOfflineLog) {
+            saveOffline(entry);
+        }
+        console.groupCollapsed("%c[Error Log]", styles.warn);
+        console.log(entry);
+        console.groupEnd();
+
     };
 
     const validateAssets = async () => {
@@ -242,13 +255,13 @@
         console.groupEnd();
     };
 
-    // Listeners
+    // Event Listeners
     window.addEventListener("error", e => logError("error", e));
     window.addEventListener("unhandledrejection", e => logError("unhandledrejection", { reason: e.reason }));
     window.addEventListener("online", flushOffline);
     flushOffline();
 
-    // Dev Info
+    // Script Info
     console.groupCollapsed("%c[Script Load Order]", styles.info);
     [...document.scripts].forEach((s, i) => {
         const src = s.src || s.textContent.slice(0, 40);
@@ -257,7 +270,9 @@
     console.groupEnd();
 
     if (cfg.validateAssets) validateAssets();
-    showBanner("✅ ErrorHandling v9.0 Active", "#2ecc71");
+    showBanner("✅ ErrorHandler v9.0 Active", "#27ae60");
+    console.log("%c[ErrorHandler v9.0] Initialized", styles.success);
+
 
     // Dev Mode Shortcuts
     window.ghatakDev = {
