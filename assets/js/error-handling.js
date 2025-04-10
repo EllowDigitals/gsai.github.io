@@ -1,17 +1,18 @@
 // ===========================================================
-// Ghatak AI Error Shield v11.0 (Static Edition)
-// Static-site compatible (Netlify + GitHub Pages)
-// Logs via FormSubmit | Offline logs via localStorage
+// Ghatak AI Error Shield v12.0 (Static Edition)
+// Enhanced Error Reporting for Static Sites (Netlify / GitHub Pages)
 // ===========================================================
 
 (function GhatakErrorShield(config = {}) {
     const cfg = {
         formSubmitEndpoint: "https://formsubmit.co/ellowdigitals@gmail.com",
         showBanner: true,
-        maxOfflineLogs: 50,
+        maxOfflineLogs: 100,
         rateLimit: 5,
         rateWindow: 60000,
         validateAssets: true,
+        redactInputs: true,
+        onReport: null, // Optional callback
         ...config,
     };
 
@@ -26,6 +27,8 @@
         sessionId: `${Date.now()}-${Math.random().toString(36).slice(2, 8)}`,
         recentErrors: new Map(),
         offlineKey: "ghatak_offline_errors",
+        interaction: [],
+        isOnline: navigator.onLine,
     };
 
     const showBanner = (msg, color = "#e74c3c") => {
@@ -60,12 +63,10 @@
 
     const domSnapshot = () => ({
         active: document.activeElement?.outerHTML,
-        inputs: Array.from(document.querySelectorAll("input, textarea"))
-            .map((el) => ({
-                name: el.name || el.id || "unnamed",
-                value: /email|pass|phone/i.test(el.name) ? "****" : el.value?.slice(0, 100),
-            }))
-            .filter((i) => i.value),
+        inputs: Array.from(document.querySelectorAll("input, textarea")).map((el) => ({
+            name: cfg.redactInputs ? undefined : el.name || el.id || "unnamed",
+            value: /email|pass|phone/i.test(el.name) ? "****" : el.value?.slice(0, 100),
+        })),
         scrollY: window.scrollY,
     });
 
@@ -91,7 +92,7 @@
     };
 
     const fingerprint = (msg) =>
-        btoa(unescape(encodeURIComponent(msg))).slice(0, 50);
+        btoa(unescape(encodeURIComponent(`${navigator.userAgent}:${msg}`))).slice(0, 60);
 
     const isRateLimited = (msg) => {
         const key = fingerprint(msg);
@@ -112,21 +113,18 @@
     const saveOffline = (entry) => {
         const logs = JSON.parse(localStorage.getItem(state.offlineKey) || "[]");
         logs.push(entry);
-        localStorage.setItem(
-            state.offlineKey,
-            JSON.stringify(logs.slice(-cfg.maxOfflineLogs))
-        );
+        localStorage.setItem(state.offlineKey, JSON.stringify(logs.slice(-cfg.maxOfflineLogs)));
     };
 
     const submitFormBackup = (entry) => {
         if (!cfg.formSubmitEndpoint) return;
-
         const simpleMessage = `
   Type: ${entry.type}
   Message: ${entry.message}
   URL: ${entry.url}
   Time: ${entry.timestamp}
   UserAgent: ${entry.userAgent}
+  Online: ${entry.online}
   Lang: ${entry.language}
   Suggestion: ${entry.suggestion}
   `.trim();
@@ -143,17 +141,9 @@
                 message: simpleMessage,
                 _captcha: "false",
             }),
-        })
-            .then((res) => {
-                if (res.ok) {
-                    console.log("[Ghatak] ✅ Error report submitted.");
-                } else {
-                    console.warn("[Ghatak] ⚠️ Form submit failed:", res.statusText);
-                }
-            })
-            .catch((err) => {
-                console.warn("[Ghatak] ❌ Form submit error:", err);
-            });
+        }).catch((err) => {
+            console.warn("[Ghatak] ❌ Form submit error:", err);
+        });
     };
 
     const logError = async (type, data) => {
@@ -178,6 +168,8 @@
             performance: performanceMetrics(),
             dom: domSnapshot(),
             geo,
+            interaction: state.interaction.slice(-10),
+            online: state.isOnline,
         };
 
         console.error(`%c[Ghatak Error: ${type}]`, styles.log, msg);
@@ -185,6 +177,7 @@
         console.log(entry);
         console.groupEnd();
 
+        cfg.onReport?.(entry);
         submitFormBackup(entry);
         saveOffline(entry);
         showBanner("⚠️ Error captured and logged.");
@@ -198,22 +191,45 @@
             assets.map((el) => {
                 const url = el.src || el.href;
                 return fetch(url, { method: "HEAD" })
-                    .then((res) =>
-                        report.push({ url, status: res.status, type: el.tagName })
-                    )
-                    .catch(() =>
-                        report.push({ url, status: "FAILED", type: el.tagName })
-                    );
+                    .then((res) => report.push({ url, status: res.status, type: el.tagName }))
+                    .catch(() => report.push({ url, status: "FAILED", type: el.tagName }));
             })
         );
 
         console.groupCollapsed("%c[Asset Validation]", styles.info);
-        report.forEach((a) =>
-            console.log(`%c[${a.type}] ${a.url} → ${a.status}`, styles.warn)
-        );
+        report.forEach((a) => console.log(`%c[${a.type}] ${a.url} → ${a.status}`, styles.warn));
         console.groupEnd();
     };
 
+    // Monitor user interaction for context
+    document.addEventListener("click", (e) => {
+        state.interaction.push({
+            tag: e.target.tagName,
+            class: e.target.className,
+            id: e.target.id,
+            text: e.target.textContent?.slice(0, 30),
+            timestamp: Date.now(),
+        });
+    });
+
+    // Console proxy
+    ["log", "warn", "error"].forEach((level) => {
+        const original = console[level];
+        console[level] = (...args) => {
+            state.interaction.push({
+                console: level,
+                message: args.map((a) => (typeof a === "string" ? a : JSON.stringify(a))).join(" "),
+                timestamp: Date.now(),
+            });
+            original.apply(console, args);
+        };
+    });
+
+    // Online/offline detection
+    window.addEventListener("online", () => (state.isOnline = true));
+    window.addEventListener("offline", () => (state.isOnline = false));
+
+    // Global error hooks
     window.addEventListener("error", (e) => logError("runtime", e));
     window.addEventListener("unhandledrejection", (e) =>
         logError("promise", {
@@ -239,8 +255,5 @@
         },
     };
 
-    console.log(
-        "%c[Ghatak AI Error Shield v11.0] Static Mode Active",
-        styles.success
-    );
+    console.log("%c[Ghatak AI Error Shield v12.0] Static Mode Enhanced", styles.success);
 })();

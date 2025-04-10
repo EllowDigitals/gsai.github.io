@@ -170,9 +170,6 @@
             <div class="loading-text">Loading...</div>
         </div>
     </div>
-    <div id="language-dropdown"></div>
-    <!-- Google Translate will inject the dropdown here -->
-    <div id="google_translate_element" style="display: none;"></div>
 
     <!-- Main Content Wrapper -->
     <main id="main-content" style="display: none;">
@@ -199,25 +196,6 @@
                         <li><a href="#programs" class="nav-link">Programs</a></li>
                         <li><a href="#contact-us" class="nav-link">Contact</a></li>
                         <li><a href="https://forms.gle/LTYn59kPWkQgC3VR7" class="nav-link join-link">Join Now</a></li>
-                        <li>
-                            <button id="language-switcher" class="language-btn nav-link" aria-label="Change Language">
-                                🌐 Language
-                            </button>
-                        </li>
-                    </ul>
-
-                    <!-- Language Dropdown (Desktop) -->
-                    <ul id="language-dropdown" class="language-dropdown hidden" role="menu"
-                        aria-label="Select Language">
-                        <li role="menuitem" data-lang="en">🇺🇸 English</li>
-                        <li role="menuitem" data-lang="hi">🇮🇳 Hindi</li>
-                        <li role="menuitem" data-lang="es">🇪🇸 Spanish</li>
-                        <li role="menuitem" data-lang="fr">🇫🇷 French</li>
-                        <li role="menuitem" data-lang="de">🇩🇪 German</li>
-                        <li role="menuitem" data-lang="zh-CN">🇨🇳 Chinese</li>
-                        <li role="menuitem" data-lang="ja">🇯🇵 Japanese</li>
-                        <li role="menuitem" data-lang="ru">🇷🇺 Russian</li>
-                        <li role="menuitem" data-lang="pt">🇧🇷 Portuguese</li>
                     </ul>
                 </nav>
 
@@ -237,12 +215,6 @@
                     <li><a href="#contact-us" class="nav-link">📞 Contact</a></li>
                     <li><a href="#map" class="nav-link">📍 Location</a></li>
                     <li><a href="https://forms.gle/LTYn59kPWkQgC3VR7" class="nav-link join-link">🚀 Join Now</a></li>
-                    <li>
-                        <button id="language-switcher-mobile" class="language-btn nav-link"
-                            aria-label="Change Language">
-                            🌐 Language
-                        </button>
-                    </li>
                 </ul>
             </nav>
         </header>
@@ -923,7 +895,6 @@
             </p>
         </div>
 
-
     </footer>
 
     <!-- ✅ Preloader Script -->
@@ -954,22 +925,27 @@
         });
     </script>
 
-    <!-- ✅ Google Translate Inject Target -->
+    <!-- ✅ Google Translate Inject Target
     <div id="google_translate_element" style="display: none;"></div>
 
-    <!-- ✅ Google Translate Script Loader (Single Instance) -->
+    ✅ Google Translate Script Loader (Single Instance)
     <script>
         function loadGoogleTranslateScript(cbName = "googleTranslateElementInit") {
             return new Promise((resolve, reject) => {
+                // Already loaded
                 if (window.google?.translate?.TranslateElement) return resolve();
 
-                const existingScript = document.querySelector(`script[src*="translate_a/element.js"]`);
+                // Check for existing script
+                const existingScript = document.querySelector('script[src*="translate_a/element.js"]');
                 if (existingScript) {
                     existingScript.addEventListener("load", resolve);
-                    existingScript.addEventListener("error", () => reject(new Error("Google Translate load error.")));
+                    existingScript.addEventListener("error", () =>
+                        reject(new Error("Google Translate script failed to load."))
+                    );
                     return;
                 }
 
+                // Inject script
                 const script = document.createElement("script");
                 script.src = `https://translate.google.com/translate_a/element.js?cb=${cbName}`;
                 script.async = true;
@@ -979,16 +955,16 @@
                 document.head.appendChild(script);
             });
         }
-    </script>
+    </script> -->
+
 
     <!-- ✅ Core Logic Scripts -->
     <script src="/assets/js/script.js" defer></script>
-    <script src="/assets/js/autotranslate.js" defer></script>
+    <!-- <script src="/assets/js/autotranslate.js" defer></script> -->
 
     <!-- ✅ Footer Scripts (Async-safe tools) -->
     <script src="/assets/js/error-handling.js" defer></script>
     <script src="/assets/js/asset-validator.js" defer></script>
-
 
 </body>
 
