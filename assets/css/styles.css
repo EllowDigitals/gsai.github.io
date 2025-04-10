@@ -16,7 +16,15 @@ html {
     -webkit-font-smoothing: antialiased;
 }
 
+/* Hide default Google Translate UI */
+#google_translate_element,
+.goog-te-banner-frame,
+body>.goog-te-spinner-pos {
+    display: none !important;
+}
+
 body {
+    top: 0px !important;
     font-family: "Montserrat", Arial, sans-serif;
     background: var(--bg-primary);
     color: var(--text-color);
@@ -296,100 +304,6 @@ textarea:focus,
 }
 
 /* ==========================================================================
-   PRELOADER
-   ========================================================================== */
-#preloader {
-    position: fixed;
-    inset: 0;
-    background: var(--bg-primary, #121212);
-    z-index: 9999;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-    transition: opacity 0.5s ease;
-    padding: 2rem;
-    text-align: center;
-}
-
-.animation-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 1rem;
-    max-width: 90vw;
-}
-
-.martial-arts-kick {
-    width: 100px;
-    height: 100px;
-    animation: kick 1.5s ease-in-out infinite;
-    object-fit: contain;
-    will-change: transform;
-}
-
-@keyframes kick {
-
-    0%,
-    100% {
-        transform: rotate(0deg);
-    }
-
-    30% {
-        transform: rotate(12deg);
-    }
-
-    60% {
-        transform: rotate(-18deg);
-    }
-}
-
-.loading-text {
-    color: var(--primary-color, #ff4500);
-    font-size: 1.2rem;
-    font-weight: 600;
-    animation: pulse 1.2s ease-in-out infinite;
-    letter-spacing: 0.08rem;
-    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
-}
-
-@keyframes pulse {
-
-    0%,
-    100% {
-        opacity: 0.6;
-    }
-
-    50% {
-        opacity: 1;
-    }
-}
-
-/* Responsive Design */
-@media (max-width: 768px) {
-    .martial-arts-kick {
-        width: 80px;
-        height: 80px;
-    }
-
-    .loading-text {
-        font-size: 1rem;
-    }
-}
-
-@media (max-width: 480px) {
-    .martial-arts-kick {
-        width: 60px;
-        height: 60px;
-    }
-
-    .loading-text {
-        font-size: 0.9rem;
-    }
-}
-
-
-/* ==========================================================================
          SECTION WRAPPERS
          ========================================================================== */
 section,
@@ -615,6 +529,7 @@ h2.section-title {
     flex-grow: 1;
     display: flex;
     justify-content: flex-end;
+    align-items: center;
 }
 
 .nav-list {
@@ -674,6 +589,7 @@ h2.section-title {
     background: var(--primary-color-hover, #ff6633);
 }
 
+/* Language Button */
 .language-btn {
     background: transparent;
     color: var(--text-color, #fff);
@@ -691,6 +607,54 @@ h2.section-title {
     color: #fff;
 }
 
+/* Language Dropdown Menu */
+.language-dropdown {
+    position: absolute;
+    top: calc(100% + 0.5rem);
+    right: 2rem;
+    background: #fff;
+    color: #333;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+    padding: 0.5rem 0;
+    min-width: 180px;
+    z-index: 1100;
+    list-style: none;
+    display: none;
+    flex-direction: column;
+    gap: 0.25rem;
+    opacity: 0;
+    transform: translateY(-10px);
+    transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.language-dropdown.show {
+    display: flex;
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.language-dropdown li {
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+    transition: background 0.2s, color 0.2s;
+    white-space: nowrap;
+    font-weight: 500;
+}
+
+.language-dropdown li:hover,
+.language-dropdown li:focus {
+    background: var(--primary-color, #ff4500);
+    color: #fff;
+}
+
+/* Utility */
+.hidden {
+    display: none !important;
+}
+
+/* Mobile Navigation */
 .menu-toggle {
     display: none;
     font-size: 2rem;
@@ -732,6 +696,13 @@ h2.section-title {
     text-align: center;
 }
 
+/* Google Translate Select */
+.goog-te-combo {
+    font-size: 1rem;
+    cursor: pointer;
+    max-width: 100%;
+}
+
 /* Responsive */
 @media (max-width: 1024px) {
     .main-nav {
@@ -752,6 +723,35 @@ h2.section-title {
 
     .nav-list {
         gap: 1rem;
+    }
+
+    .language-dropdown {
+        left: 2rem;
+        right: auto;
+    }
+}
+
+@media (max-width: 768px) {
+    .language-dropdown {
+        position: fixed !important;
+        top: auto !important;
+        bottom: 80px !important;
+        left: 50% !important;
+        right: auto !important;
+        transform: translateX(-50%);
+        width: 90%;
+        max-width: 320px;
+        border-radius: 12px;
+        padding: 0.75rem 0;
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+    }
+
+    .language-dropdown.show {
+        transform: translate(-50%, 0);
+    }
+
+    .language-dropdown li {
+        text-align: center;
     }
 }
 
@@ -774,10 +774,6 @@ h2.section-title {
     }
 }
 
-.goog-te-combo {
-    font-size: 1rem;
-    cursor: pointer;
-}
 
 /* ==========================================================================
       Home Section & Slider – Theme-Aware, Responsive

@@ -21,7 +21,6 @@ document.addEventListener("DOMContentLoaded", () => {
     initEnrollForm();
     initLogoSliderHoverPause();
     updateFooterYear();
-    initErrorHandling();
     checkLazyLoadSupport();
     ensureMetaDescription();
     monitorConnectionStatus();
@@ -243,7 +242,6 @@ function initEnrollForm() {
     });
 
     form?.addEventListener("submit", e => {
-        e.preventDefault();
         const phoneField = document.getElementById("enroll-phone");
         const emailField = document.getElementById("enroll-email");
         const phone = phoneField?.value.trim();
@@ -251,7 +249,7 @@ function initEnrollForm() {
         const digits = phone.replace(/\D/g, "");
 
         const phoneValid = /^\+?\d{1,4}?[-.\s]?\(?\d{2,4}\)?[-.\s]?\d{3,4}[-.\s]?\d{3,4}$/.test(phone);
-        const emailValid = /^[\w.+-]+@gmail\.com$/.test(email);
+        const emailValid = /^[\w.+-]+@gmail\.com$/.test(email); // restricts to Gmail
 
         // Remove previous error highlights
         [phoneField, emailField].forEach(field => {
@@ -271,21 +269,18 @@ function initEnrollForm() {
             hasError = true;
         }
 
-        if (hasError) return;
+        if (hasError) {
+            e.preventDefault(); // only prevent if invalid
+            return;
+        }
 
-        // Submitting state
+        // Optional UI feedback before submit
         const submitBtn = form.querySelector("button.btn");
         submitBtn.disabled = true;
-        const originalText = submitBtn.textContent;
         submitBtn.textContent = "Submitting...";
 
-        // Simulate async submission
-        setTimeout(() => {
-            form.reset();
-            showFormMessage("✅ Successfully submitted!", "success");
-            submitBtn.disabled = false;
-            submitBtn.textContent = originalText;
-        }, 1500);
+        // Allow form to submit naturally
+        // DO NOT call e.preventDefault() here
     });
 
     function showError(field, message) {
@@ -295,14 +290,6 @@ function initEnrollForm() {
         errorEl.textContent = message;
         field.insertAdjacentElement("afterend", errorEl);
         setTimeout(() => field.classList.remove("shake"), 500);
-    }
-
-    function showFormMessage(message, type = "success") {
-        const msgEl = document.createElement("div");
-        msgEl.className = `form-feedback ${type}`;
-        msgEl.textContent = message;
-        form.appendChild(msgEl);
-        setTimeout(() => msgEl.remove(), 4000);
     }
 }
 
@@ -368,183 +355,6 @@ document.addEventListener('DOMContentLoaded', () => {
     updateFooterYear({ debug: false });
 });
 
-
-
-/* ===============================
-   Error Handling v5.0
-   With UI Alerts, Sentry, Server Logging + Offline Debug Logging
-=============================== */
-function initErrorHandling({
-    onError = null,
-    onUnhandledRejection = null,
-    logToServer = false,
-    endpoint = "/log-error",
-    useSentry = false,
-    sentryDSN = "",
-    showUIBanner = true,
-    enableOfflineLog = true,
-    localLogKey = "ghatak-error-log",
-    maxLogEntries = 50
-} = {}) {
-    // ===== Sentry Setup =====
-    if (useSentry && sentryDSN && window.Sentry) {
-        Sentry.init({ dsn: sentryDSN });
-    }
-
-    const logStyle = "color:#fff;background:#e74c3c;padding:2px 6px;border-radius:4px;font-weight:bold;";
-    const warnStyle = "color:#f39c12;font-weight:bold;";
-    const infoStyle = "color:#3498db;font-weight:bold;";
-
-    // ===== UI Banner =====
-    let banner = null;
-    if (showUIBanner) {
-        banner = document.createElement("div");
-        banner.className = "error-ui-banner";
-        banner.setAttribute("role", "alert");
-        banner.setAttribute("aria-live", "assertive");
-
-        Object.assign(banner.style, {
-            position: "fixed",
-            bottom: "20px",
-            left: "50%",
-            transform: "translateX(-50%)",
-            backgroundColor: "var(--primary-color)",
-            color: "#fff",
-            padding: "12px 20px",
-            borderRadius: "10px",
-            fontWeight: "600",
-            fontSize: "14px",
-            boxShadow: "0 8px 24px rgba(0,0,0,0.2)",
-            zIndex: "9999",
-            maxWidth: "80%",
-            textAlign: "center",
-            display: "none",
-            transition: "all 0.3s ease",
-            pointerEvents: "none"
-        });
-
-        document.body.appendChild(banner);
-    }
-
-    const showBanner = (msg) => {
-        if (!banner) return;
-        banner.textContent = msg;
-        banner.style.display = "block";
-        banner.style.opacity = "1";
-
-        clearTimeout(banner.timer);
-        banner.timer = setTimeout(() => {
-            banner.style.opacity = "0";
-            setTimeout(() => banner.style.display = "none", 300);
-        }, 5000);
-    };
-
-    // ===== Offline Logging Helpers =====
-    const saveToLocalLog = (entry) => {
-        if (!enableOfflineLog) return;
-        const logs = JSON.parse(localStorage.getItem(localLogKey) || "[]");
-        logs.push(entry);
-        while (logs.length > maxLogEntries) logs.shift(); // Keep log capped
-        localStorage.setItem(localLogKey, JSON.stringify(logs));
-    };
-
-    const flushLocalLogs = async () => {
-        if (!navigator.onLine || !logToServer) return;
-        const storedLogs = JSON.parse(localStorage.getItem(localLogKey) || "[]");
-        if (!storedLogs.length) return;
-
-        try {
-            const res = await fetch(endpoint, {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ batch: storedLogs })
-            });
-
-            if (res.ok) {
-                localStorage.removeItem(localLogKey);
-                console.info("%c[Error Logs Flushed]", infoStyle);
-            }
-        } catch (e) {
-            console.warn("%c[Flush Failed]", warnStyle, e);
-        }
-    };
-
-    // ===== Core Error Logging =====
-    const handleError = (type, data) => {
-        const entry = {
-            type,
-            data,
-            timestamp: new Date().toISOString(),
-            url: window.location.href,
-            userAgent: navigator.userAgent,
-        };
-
-        console.error(`%c[${type}]`, logStyle, data.message || data.reason || data.error || data);
-
-        if (useSentry && window.Sentry) {
-            Sentry.captureException(data.error || data.reason || data.message);
-        }
-
-        saveToLocalLog(entry);
-        if (navigator.onLine && logToServer) {
-            fetch(endpoint, {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(entry)
-            }).catch(() =>
-                console.warn("%c[Logger]", warnStyle, "Error logging failed.")
-            );
-        }
-
-        if (showUIBanner) {
-            showBanner("⚠️ An error occurred. We're tracking it.");
-        }
-    };
-
-    // ===== Event Listeners =====
-    window.addEventListener("error", (e) => {
-        const data = {
-            message: e.message,
-            source: e.filename,
-            lineno: e.lineno,
-            colno: e.colno,
-            error: e.error?.stack || e.error,
-        };
-
-        handleError("error", data);
-        if (typeof onError === "function") onError(data);
-    });
-
-    window.addEventListener("unhandledrejection", (e) => {
-        const data = {
-            reason: e.reason?.stack || e.reason || "Unknown",
-        };
-
-        handleError("unhandledrejection", data);
-        if (typeof onUnhandledRejection === "function") onUnhandledRejection(data);
-    });
-
-    window.onerror = (msg, src, line, col, err) => {
-        const data = {
-            message: msg,
-            source: src,
-            lineno: line,
-            colno: col,
-            error: err?.stack || err || "Unknown",
-        };
-
-        handleError("global", data);
-        return false;
-    };
-
-    // ===== Auto-Flush When Back Online =====
-    window.addEventListener("online", flushLocalLogs);
-
-    // Initial flush
-    flushLocalLogs();
-
-    console.info("%c[ErrorHandling v5.0]", infoStyle, "Loaded with offline debug logging.");
-}
 
 /**
  * Lazy loading support detection and enhancement

@@ -89,7 +89,8 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
         integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <link rel="stylesheet" href="/assets/styles.css" />
+    <link rel="stylesheet" href="/assets/css/preloader.css" />
+    <link rel="stylesheet" href="/assets/css/styles.css" />
 
     <!-- Structured Data: Organization -->
     <script type="application/ld+json">
@@ -168,6 +169,8 @@
             <div class="loading-text">Loading...</div>
         </div>
     </div>
+    <!-- Hidden Google Translate Element -->
+    <div id="google_translate_element" style="display: none;"></div>
 
     <!-- Main Content Wrapper -->
     <main id="main-content" style="display: none;">
@@ -194,8 +197,25 @@
                         <li><a href="#programs" class="nav-link">Programs</a></li>
                         <li><a href="#contact-us" class="nav-link">Contact</a></li>
                         <li><a href="https://forms.gle/LTYn59kPWkQgC3VR7" class="nav-link join-link">Join Now</a></li>
-                        <li><button id="language-switcher" class="language-btn nav-link" aria-label="Change Language">🌐
-                                Language</button></li>
+                        <li>
+                            <button id="language-switcher" class="language-btn nav-link" aria-label="Change Language">
+                                🌐 Language
+                            </button>
+                        </li>
+                    </ul>
+
+                    <!-- Language Dropdown (Desktop) -->
+                    <ul id="language-dropdown" class="language-dropdown hidden" role="menu"
+                        aria-label="Select Language">
+                        <li role="menuitem" data-lang="en">🇺🇸 English</li>
+                        <li role="menuitem" data-lang="hi">🇮🇳 Hindi</li>
+                        <li role="menuitem" data-lang="es">🇪🇸 Spanish</li>
+                        <li role="menuitem" data-lang="fr">🇫🇷 French</li>
+                        <li role="menuitem" data-lang="de">🇩🇪 German</li>
+                        <li role="menuitem" data-lang="zh-CN">🇨🇳 Chinese</li>
+                        <li role="menuitem" data-lang="ja">🇯🇵 Japanese</li>
+                        <li role="menuitem" data-lang="ru">🇷🇺 Russian</li>
+                        <li role="menuitem" data-lang="pt">🇧🇷 Portuguese</li>
                     </ul>
                 </nav>
 
@@ -215,8 +235,12 @@
                     <li><a href="#contact-us" class="nav-link">📞 Contact</a></li>
                     <li><a href="#map" class="nav-link">📍 Location</a></li>
                     <li><a href="https://forms.gle/LTYn59kPWkQgC3VR7" class="nav-link join-link">🚀 Join Now</a></li>
-                    <li><button id="language-switcher-mobile" class="language-btn nav-link"
-                            aria-label="Change Language">🌐 Language</button></li>
+                    <li>
+                        <button id="language-switcher-mobile" class="language-btn nav-link"
+                            aria-label="Change Language">
+                            🌐 Language
+                        </button>
+                    </li>
                 </ul>
             </nav>
         </header>
@@ -628,7 +652,7 @@
         </section>
 
         <!-- Join Us / Enroll Now Section -->
-        <!-- <section id="enroll" aria-labelledby="enroll-heading">
+        <section id="enroll" aria-labelledby="enroll-heading">
             <div class="container">
                 <h2 id="enroll-heading">Join Ghatak Sports Academy – Enroll Now</h2>
                 <p class="section-intro">
@@ -675,7 +699,7 @@
                 </form>
 
             </div>
-        </section> -->
+        </section>
 
         <!-- Contact Section -->
         <section id="contact-us" class="contact-section" aria-labelledby="contact-heading">
@@ -887,6 +911,7 @@
         </div>
     </footer>
 
+    <!-- Preloader Script -->
     <script>
         document.addEventListener("DOMContentLoaded", () => {
             const preloader = document.getElementById("preloader");
@@ -907,22 +932,40 @@
             });
         });
     </script>
-    <script src="assets/script.js" defer></script><!-- Hidden Google Translate Element -->
-    <div id="google_translate_element" style="display: none;"></div>
 
-    <!-- Google Translate Script -->
-    <script type="text/javascript">
+    <!-- Google Translate -->
+    <script>
         function googleTranslateElementInit() {
             new google.translate.TranslateElement({
                 pageLanguage: 'en',
-                includedLanguages: 'en,hi', // add more like 'fr,de' if needed
-                layout: google.translate.TranslateElement.InlineLayout.SIMPLE
+                includedLanguages: 'en,hi', // Add more if needed
+                layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
+                autoDisplay: false
             }, 'google_translate_element');
         }
     </script>
-    <script src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+    <script async defer
+        src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
 
-    <script src="assets\language-autotranslate.js" defer></script>
+    <!-- Core Scripts -->
+    <script src="assets/js/script.js" defer></script>
+    <script src="assets/js/language-autotranslate.js" defer></script>
+
+    <!-- At the end of body -->
+    <script src="/assets/js/error-handling.js" defer></script>
+    <script src="/assets/js/asset-validator.js" defer></script>
+    <script>
+        window.addEventListener("DOMContentLoaded", () => {
+            if (typeof initErrorHandlingV7 === "function") {
+                initErrorHandlingV7({
+                    useSentry: true,
+                    sentryDSN: "YOUR_SENTRY_DSN",
+                    validateAssets: true
+                });
+            }
+        });
+    </script>
+
 </body>
 
 </html>
