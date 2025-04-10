@@ -1,6 +1,6 @@
 // ==========================
 // Ghatak Web Scripts – Core Bundle
-// Version: ghatak-web-scripts.v4.5
+// Version: ghatak-web-scripts.v4.6
 // ==========================
 
 "use strict";
@@ -21,7 +21,7 @@ const debounce = (fn, delay = 300) => {
 document.addEventListener("DOMContentLoaded", () => {
     // 📢 Core Script Log First
     console.groupCollapsed("%c🚀 Ghatak Web Scripts Loaded", "color:#fff; background:#2ecc71; padding:4px 10px; border-radius:6px;");
-    console.log("%cVersion: v4.5", "color:#222; background:#f39c12; padding:2px 6px; border-radius:4px;");
+    console.log("%cVersion: v4.6", "color:#222; background:#f39c12; padding:2px 6px; border-radius:4px;");
     console.log("%cLast Updated: 2025-04-11", "color:#999; font-size:12px;");
     console.groupEnd();
 
